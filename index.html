@@ -89,7 +89,7 @@ canvas{display:block}
 .card{padding:6px;display:grid;gap:3px}
 .lbl{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--muted)}
 .num{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums}
-.opname{font-weight:800;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.opname{max-width:100%;font-weight:800;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .opbox{position:relative;display:flex;justify-content:center}
 .opbox canvas{border:3px solid var(--ink);background:var(--board)}
 .optag{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%) rotate(-5deg);font-family:var(--display);font-size:16px;color:#fff;background:var(--ink);padding:2px 10px;white-space:nowrap}
@@ -190,7 +190,7 @@ canvas{display:block}
   </main>
 </div>
 
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
 <script>
 (()=>{
 const W=6,H=13,VIS=12;
@@ -949,43 +949,53 @@ function frame(now){
 }
 requestAnimationFrame(frame);
 
-// ---------- P2P fallback (GitHub Pages など claude.ai 以外で開いたとき) ----------
-function peerLobby(){
-  return{join(name){return new Promise((resolve,reject)=>{
-    const hostId='unkorensa-v1-'+name;
-    let peer=null,conn=null,myState={},remote=null,done=false;const ls=[];
-    const emit=()=>{const peers=[{peer:peer?peer.id:'me',sameTab:true,isMe:true,kind:'viewer',presence:myState}];
-      if(conn&&conn.open&&remote)peers.push({peer:conn.peer,sameTab:false,isMe:false,kind:'viewer',presence:remote});ls.forEach(f=>{try{f({peers})}catch(e){}})};
-    const wire=c=>{
-      if(conn&&conn.open&&c!==conn){c.on('open',()=>{try{c.close()}catch(e){}});return}
-      conn=c;
-      c.on('open',()=>{try{c.send(myState)}catch(e){}emit()});
-      c.on('data',d=>{if(d&&typeof d==='object'&&!Array.isArray(d)){remote=d;emit()}});
-      c.on('close',()=>{if(conn===c){conn=null;remote=null;emit()}});
-      c.on('error',()=>{});
-    };
-    const api={
-      presence(st){myState=st;if(conn&&conn.open){try{conn.send(st)}catch(e){}}return Promise.resolve()},
-      onPeers(f){ls.push(f);setTimeout(emit,0);return()=>{}},
-      leave(){done=true;try{conn&&conn.close()}catch(e){}try{peer&&peer.destroy()}catch(e){}return Promise.resolve()}
-    };
-    const ok=()=>{resolve(api)};
-    const asHost=()=>{peer=new Peer(hostId);
-      peer.on('open',ok);peer.on('connection',wire);
-      peer.on('error',e=>{if(e.type==='unavailable-id'){try{peer.destroy()}catch(_){}asGuest()}else if(e.type!=='peer-unavailable')reject(e)})};
-    const asGuest=()=>{peer=new Peer();
-      peer.on('open',()=>{wire(peer.connect(hostId,{reliable:true}));ok()});
-      peer.on('error',e=>{if(e.type==='peer-unavailable'&&!done){try{peer.destroy()}catch(_){}asHost()}else reject(e)})};
-    asHost();
-    setTimeout(()=>reject(new Error('timeout')),15000);
-  })}};
+// ---------- オンライン（claude.ai 以外：公開MQTTブローカー経由） ----------
+const BROKERS=['wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt'];
+function mqttLobby(){
+  return{join(name){
+    const tryBroker=(url)=>new Promise((resolve,reject)=>{
+      const id=Math.random().toString(36).slice(2,10);
+      const base='unkorensa/v1/'+name+'/';
+      const client=mqtt.connect(url,{clientId:'ur_'+id,clean:true,keepalive:20,reconnectPeriod:2000,connectTimeout:8000,
+        will:{topic:base+id,payload:'',qos:0,retain:false}});
+      const remotes=new Map(),ls=[];let myState={},lastSent=0,pend=null,settled=false,timer=null;
+      const emit=()=>{const peers=[{peer:id,sameTab:true,isMe:true,kind:'viewer',presence:myState}];
+        for(const [pid,r] of remotes)peers.push({peer:pid,sameTab:false,isMe:false,kind:'viewer',presence:r.p});
+        ls.forEach(f=>{try{f({peers})}catch(e){}})};
+      const send=()=>{pend=null;if(client.connected){client.publish(base+id,JSON.stringify(myState),{qos:0});lastSent=Date.now()}};
+      const queue=()=>{if(pend)return;const wait=Math.max(0,90-(Date.now()-lastSent));pend=setTimeout(send,wait)};
+      const api={
+        presence(st){myState=st;queue();return Promise.resolve()},
+        onPeers(f){ls.push(f);setTimeout(emit,0);return()=>{}},
+        leave(){clearInterval(timer);clearTimeout(pend);try{client.publish(base+id,'',{qos:0},()=>client.end(true))}catch(e){try{client.end(true)}catch(_){}}return Promise.resolve()},
+        connected(){return client.connected}
+      };
+      client.on('connect',()=>{client.subscribe(base+'+',{qos:0},err=>{
+        if(err){if(!settled){settled=true;client.end(true);reject(err)}return}
+        send();if(!settled){settled=true;resolve(api)}})});
+      client.on('message',(topic,payload)=>{
+        const pid=topic.slice(base.length);if(pid===id)return;
+        if(!payload||!payload.length){if(remotes.delete(pid))emit();return}
+        let d;try{d=JSON.parse(payload.toString())}catch(e){return}
+        if(d&&typeof d==='object'&&!Array.isArray(d)){const isNew=!remotes.has(pid);remotes.set(pid,{p:d,t:Date.now()});if(isNew)queue();emit()}
+      });
+      client.on('error',e=>{if(!settled){settled=true;try{client.end(true)}catch(_){}reject(e)}});
+      timer=setInterval(()=>{
+        if(Date.now()-lastSent>1500)send();
+        let ch=false;for(const [pid,r] of remotes)if(Date.now()-r.t>6000){remotes.delete(pid);ch=true}
+        if(ch)emit();
+      },1000);
+      setTimeout(()=>{if(!settled){settled=true;clearInterval(timer);try{client.end(true)}catch(_){}reject(new Error('timeout'))}},9000);
+    });
+    return (async()=>{let last;for(const u of BROKERS){try{return await tryBroker(u)}catch(e){last=e}}throw last})();
+  }};
 }
 // ---------- boot ----------
 (async()=>{
   const c=window.claude;
   try{lobby=c&&c.use?await c.use('room'):null}catch(e){lobby=null}
-  if(!lobby&&window.Peer&&!(c&&c.use)){
-    lobby=peerLobby();$('dot').classList.add('on');$('conn').textContent='オンライン';return;
+  if(!lobby&&window.mqtt&&!(c&&c.use)){
+    lobby=mqttLobby();$('dot').classList.add('on');$('conn').textContent='オンライン';return;
   }
   if(!lobby){
     $('conn').textContent='オンライン不可（練習のみ）';$('joinBtn').disabled=true;
