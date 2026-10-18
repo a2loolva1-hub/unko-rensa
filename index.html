@@ -20,7 +20,7 @@
 <meta name="twitter:title" content="うんこ連鎖オンライン">
 <meta name="twitter:description" content="同じ色のうんこを4つ以上くっつけて流す、漫画風の落ちものパズル。スマホで2人オンライン対戦できます。">
 <meta name="twitter:image" content="https://a2loolva1-hub.github.io/unko-rensa/ogp.png">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:#130a33}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@500;800&display=swap">
 <style>
 /* Layout: 夜空の宇宙に浮かぶガラスの盤面。キャラは金の額縁、操作は艶のある立体ボタン。単一のダークテーマ。 */
@@ -34,7 +34,7 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{height:100%}
-html{background:#130a33;overscroll-behavior:none}
+html{background:#130a33;overscroll-behavior:none;min-height:100%}
 body{overscroll-behavior:none}
 html:has(body.ingame),body.ingame{overflow:hidden}
 body.ingame .arena{touch-action:none}
@@ -52,7 +52,7 @@ body.ingame .arena{touch-action:none}
 @keyframes opzoom{from{transform:scale(1)}to{transform:scale(1.025)}}
 body.ingame header{display:none}
 body{
-  background:radial-gradient(120% 80% at 70% 10%,#3b1a7a 0%,#1d0f4f 40%,var(--night) 70%,var(--deep) 100%);
+  background:transparent;
   color:var(--ink);font-family:var(--body);font-weight:500;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   padding-block:12px;-webkit-user-select:none;user-select:none;touch-action:manipulation;
@@ -73,10 +73,54 @@ h1 span{display:inline-block;margin-left:.05em;background:linear-gradient(180deg
 .dot{width:10px;height:10px;border-radius:50%;background:#777}
 .dot.on{background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
 .lobby,.card{background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1.5px solid rgba(220,200,255,.45);border-radius:18px;
-  box-shadow:0 0 0 1px rgba(255,90,217,.15) inset,0 10px 30px rgba(5,0,30,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.lobby{padding:18px;display:grid;gap:14px;max-width:520px;width:100%;margin:0 auto}
+  box-shadow:0 0 0 1px rgba(255,90,217,.15) inset,0 10px 30px rgba(5,0,30,.45)}
+.lobby{padding:0;display:grid;gap:18px;max-width:520px;width:100%;margin:0 auto;background:none!important;border:0!important;box-shadow:none!important}
+.panel{position:relative;display:grid;gap:12px;padding:16px 14px 16px;border-radius:20px;
+  background:radial-gradient(120% 60% at 50% 0%,rgba(255,90,217,.22),rgba(255,90,217,0) 60%),linear-gradient(180deg,#2e1468 0%,#1c0a44 55%,#13062f 100%);
+  box-shadow:0 0 0 1.5px #c99a3a,0 0 0 4px #24093f,0 0 0 5.5px #ffe08a,0 0 0 7px #8a5a0e,0 14px 34px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.18),inset 0 0 40px rgba(98,242,255,.08)}
+.panel::before,.panel::after{content:"";position:absolute;top:-9px;width:18px;height:18px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff7c8,#ffd23f 45%,#b87a10 80%);box-shadow:0 0 10px rgba(255,216,107,.9),0 0 0 2px #24093f}
+.panel::before{left:-9px}.panel::after{right:-9px}
+.sec{display:flex;align-items:center;gap:10px;margin:-4px 0 0;font-weight:400}
+.sec::before,.sec::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,rgba(255,216,107,0),#ffd86b 60%,#fff6c8);border-radius:2px;box-shadow:0 0 6px rgba(255,216,107,.8)}
+.sec::after{transform:scaleX(-1)}
+.sec span{font-family:var(--display);font-size:18px;letter-spacing:.08em;background:linear-gradient(180deg,#fffbe2,#ffd86b 55%,#e58a12);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 6px rgba(255,200,80,.7)) drop-shadow(0 2px 0 #3a0e52);white-space:nowrap}
+.hint{margin:-4px 0 0;font-size:12px;line-height:1.6;color:var(--muted);text-align:center}
+.fl{display:grid;gap:6px;font-size:13px;font-weight:800;color:#fff}
+.kisebox{display:grid;gap:8px;padding:10px;border-radius:14px;background:rgba(10,4,30,.55);border:1px solid rgba(255,216,107,.35)}
+.kisehead{display:flex;align-items:center;justify-content:space-between}
+.ktitle{font-family:var(--display);font-size:15px;color:var(--neon2);text-shadow:0 0 8px rgba(255,90,217,.8)}
+.modes{display:grid;gap:12px;min-width:0}
+.panel>*,.mode>*{min-width:0}
+.fl input,.mode input{width:100%;min-width:0}
+.lvls{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;position:relative}
+.lvls .chip{justify-content:center;padding:6px 4px;gap:4px;font-size:12px}
+.lvls .chip input{width:14px;height:14px}
+.mode{display:grid;gap:10px;padding:12px;border-radius:16px;position:relative;overflow:hidden}
+.mode::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 12px,transparent 12px 24px)}
+.mcpu{background:linear-gradient(160deg,rgba(255,216,107,.22),rgba(120,60,10,.25));border:1.5px solid rgba(255,216,107,.75);box-shadow:inset 0 0 22px rgba(255,216,107,.18)}
+.monline{background:linear-gradient(160deg,rgba(255,90,217,.22),rgba(90,20,120,.3));border:1.5px solid rgba(255,140,230,.75);box-shadow:inset 0 0 22px rgba(255,90,217,.18)}
+.msolo{background:linear-gradient(160deg,rgba(98,242,255,.18),rgba(20,40,120,.3));border:1.5px solid rgba(98,242,255,.7);box-shadow:inset 0 0 22px rgba(98,242,255,.15)}
+.mhead{display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative}
+.mtitle{font-family:var(--display);font-size:19px;color:#fff;text-shadow:0 0 10px rgba(255,255,255,.4),0 2px 0 #3a0e52}
+.mtag{font-size:11px;font-weight:800;padding:2px 10px;border-radius:999px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.4)}
+.mode .main,.mode .sub{position:relative;width:100%;padding:13px 16px;font-size:18px}
+.mode .sub{font-family:var(--display);font-weight:400}
+.mode .note{margin:0;position:relative}
+.main{position:relative;overflow:hidden}
+.main::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;transform:skewX(-20deg);background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0));animation:shine 3.2s ease-in-out infinite;pointer-events:none}
+@keyframes shine{0%,60%{left:-60%}100%{left:130%}}
+.picker button[data-r="base"]{border-color:rgba(201,166,255,.55)}
+.picker button[data-r="R"]{border-color:#7fb2ff}
+.picker button[data-r="SR"]{border-color:#ff8de8;box-shadow:0 0 8px rgba(255,90,217,.45)}
+.picker button[data-r="SSR"]{border-color:#ffd86b;box-shadow:0 0 10px rgba(255,216,107,.6)}
+.picker button[aria-pressed="true"]{transform:translateY(-2px);border-color:#fff6c8;box-shadow:0 0 0 2px #ffd86b,0 0 18px rgba(255,216,107,.95)}
+.picker button[aria-pressed="true"]::before{content:"えらんだ";position:absolute;left:50%;top:-8px;transform:translateX(-50%);z-index:2;padding:0 8px;border-radius:999px;font-size:10px;font-weight:800;color:#4a1a00;background:linear-gradient(180deg,#fff2a8,#ffd23f);white-space:nowrap}
+.picker{padding-top:14px}
+.panel .help{background:rgba(10,4,30,.45)}
+.gview{background:radial-gradient(120% 60% at 50% 0%,rgba(255,90,217,.22),rgba(255,90,217,0) 60%),linear-gradient(180deg,#2e1468 0%,#1c0a44 55%,#13062f 100%)!important;box-shadow:0 0 0 1.5px #c99a3a,0 0 0 4px #24093f,0 0 0 5.5px #ffe08a,0 14px 34px rgba(0,0,0,.55)!important;border:0!important}
 .lobby p{margin:0;line-height:1.7;color:var(--muted);font-size:14px}
-.lobby .lead{color:#fff;font-weight:800}
+.lobby .lead{color:#fff;font-weight:800;font-size:13px}
 .lbl{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--cyan);text-shadow:0 0 6px rgba(98,242,255,.6)}
 label{display:grid;gap:6px;font-size:13px;font-weight:800;color:#fff}
 input{font:inherit;font-size:17px;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(98,242,255,.55);background:rgba(10,4,40,.6);color:#fff;-webkit-user-select:text;user-select:text}
@@ -430,15 +474,49 @@ canvas{display:block}
     <details class="help"><summary>提供割合</summary><div id="oddsTbl"></div></details>
   </section>
   <section class="lobby" id="lobby">
-    <p class="lead">同じ色のうんこを4つ以上くっつけると流れて消えます。連鎖すると相手にカチカチうんこ（おじゃま）が降ります。</p>
-    <label for="nameIn">ニックネーム<input id="nameIn" maxlength="12" placeholder="うんこマン"></label>
-    <div class="pickwrap"><span class="lbl">キャラをえらぶ（カギつきはガチャで手に入る）</span><div class="picker" id="picker"></div></div>
-    <p class="note">キャラにカーソルを合わせる（スマホは長押し）と大きく表示されるよ。<button class="sub small zoomopen" id="zOpen">着せかえを大きく見る</button></p>
-    <div class="pickwrap"><span class="lbl">きせかえ</span>
-      <div class="kise"><span class="ksub">服装</span><div class="krow" id="cosRow"></div></div>
-      <div class="kise"><span class="ksub">持ち物</span><div class="krow" id="accRow"></div></div>
+    <div class="panel">
+      <h3 class="sec"><span>プレイヤー</span></h3>
+      <label for="nameIn" class="fl">ニックネーム<input id="nameIn" maxlength="12" placeholder="うんこマン"></label>
     </div>
-    <div class="pickwrap"><span class="lbl">ハンデ（自分だけにかかります。対戦では相手のOKが必要）</span>
+    <div class="panel">
+      <h3 class="sec"><span>キャラクター</span></h3>
+      <p class="hint">カギつきはガチャで手に入るよ。カーソルを合わせる（スマホは長押し）と大きく見られるよ</p>
+      <div class="picker" id="picker"></div>
+      <div class="kisebox">
+        <div class="kisehead"><span class="ktitle">きせかえ</span><button class="sub small zoomopen" id="zOpen">大きく見る</button></div>
+        <div class="kise"><span class="ksub">服装</span><div class="krow" id="cosRow"></div></div>
+        <div class="kise"><span class="ksub">持ち物</span><div class="krow" id="accRow"></div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 class="sec"><span>あそぶ</span></h3>
+      <div class="modes">
+        <div class="mode mcpu cpubox">
+          <div class="mhead"><span class="mtitle">CPUと対戦</span><span class="mtag">3本先取</span></div>
+          <div class="lvls" role="radiogroup" aria-label="CPUの強さ">
+            <label class="chip" for="lv0"><input type="radio" name="lv" id="lv0" value="0"><span>よわい</span></label>
+            <label class="chip" for="lv1"><input type="radio" name="lv" id="lv1" value="1" checked><span>ふつう</span></label>
+            <label class="chip" for="lv2"><input type="radio" name="lv" id="lv2" value="2"><span>つよい</span></label>
+            <label class="chip" for="lv3"><input type="radio" name="lv" id="lv3" value="3"><span>鬼</span></label>
+          </div>
+          <button class="main cpu" id="cpuBtn">CPUと対戦する</button>
+        </div>
+        <div class="mode monline">
+          <div class="mhead"><span class="mtitle">ともだちと対戦</span><span class="mtag">オンライン</span></div>
+          <label for="roomIn" class="fl">ルーム名（英数字・相手と同じにしてね）<input id="roomIn" maxlength="16" autocomplete="off" inputmode="latin"></label>
+          <button class="main" id="joinBtn">ルームに入る</button>
+          <p class="note" id="lobbyNote">相手にも同じページを開いてもらい、同じルーム名で入ると対戦できます。</p>
+        </div>
+        <div class="mode msolo">
+          <div class="mhead"><span class="mtitle">ひとりで練習</span><span class="mtag">スコアでコイン</span></div>
+          <button class="sub" id="soloBtn">ひとりで練習する</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 class="sec"><span>ルールとハンデ</span></h3>
+      <p class="lead">同じ色のうんこを4つ以上くっつけると流れて消えます。連鎖すると相手にカチカチうんこ（おじゃま）が降ります。</p>
+      <div class="pickwrap"><span class="lbl">ハンデ（自分だけにかかります。対戦では相手のOKが必要）</span>
       <div class="hcs">
         <label class="chip" for="hcHalf"><input type="checkbox" id="hcHalf"><span>ダメージ半減</span></label>
         <label class="chip" for="hcC3"><input type="checkbox" id="hcC3"><span>3色モード</span></label>
@@ -446,7 +524,7 @@ canvas{display:block}
         <label class="chip" for="hcFixed"><input type="checkbox" id="hcFixed"><span>スピード固定</span></label>
       </div>
     </div>
-    <details class="help"><summary>アイテム・必殺技の説明</summary>
+      <details class="help"><summary>アイテム・必殺技の説明</summary>
       <ul>
         <li><b>流す</b>：一番下の2段を流して消す（1試合2回）</li>
         <li><b>金のうんこ</b>：となりで連鎖すると消えて、アイテムが1つもらえる（最大3個）</li>
@@ -463,22 +541,7 @@ canvas{display:block}
         <li><b>3連鎖以上</b>：キャラのカットインが入る</li>
       </ul>
     </details>
-    <label for="roomIn">ルーム名（英数字）<input id="roomIn" maxlength="16" autocomplete="off" inputmode="latin"></label>
-    <div class="row">
-      <button class="main" id="joinBtn">ルームに入る</button>
-      <button class="sub" id="soloBtn">ひとりで練習</button>
     </div>
-    <div class="cpubox">
-      <span class="lbl">CPUと対戦（3本先取）</span>
-      <div class="lvls" role="radiogroup" aria-label="CPUの強さ">
-        <label class="chip" for="lv0"><input type="radio" name="lv" id="lv0" value="0"><span>よわい</span></label>
-        <label class="chip" for="lv1"><input type="radio" name="lv" id="lv1" value="1" checked><span>ふつう</span></label>
-        <label class="chip" for="lv2"><input type="radio" name="lv" id="lv2" value="2"><span>つよい</span></label>
-        <label class="chip" for="lv3"><input type="radio" name="lv" id="lv3" value="3"><span>鬼</span></label>
-      </div>
-      <button class="main cpu" id="cpuBtn">CPUと対戦する</button>
-    </div>
-    <p class="note" id="lobbyNote">相手にも同じページを開いてもらい、同じルーム名で入ると対戦できます。</p>
   </section>
 
   <main class="arena" id="arena" hidden>
@@ -1456,6 +1519,7 @@ for(const c of CHARS){
 }
 function drawPicker(){dpr=Math.min(2,window.devicePixelRatio||1);pickBtns.forEach(([b,cv,id])=>{const own=owns(id);b.classList.toggle('locked',!own);b.setAttribute('aria-pressed',String(id===myChr));
   let lk=b.querySelector('.lock');if(!own&&!lk){lk=document.createElement('span');lk.className='lock';lk.textContent=(CHAR_R[id]||'R');b.appendChild(lk)}else if(own&&lk)lk.remove();
+  b.dataset.r=CHAR_R[id]||'base';
   const sec=CHAR_R[id]==='SECRET';b.classList.toggle('secretc',sec);b.classList.toggle('hidden',sec&&!own);b.querySelector('span').textContent=sec&&!own?'？？？':charOf(id).name;
   portrait(cv,cv.getContext('2d'),84,id,id===myChr?'happy':'normal',id===myChr?myLook():null)})}
 function drawKise(){
