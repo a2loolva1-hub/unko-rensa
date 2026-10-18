@@ -87,6 +87,9 @@ button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 .picker button[aria-pressed="true"]{border-color:var(--gold);background:linear-gradient(180deg,rgba(255,216,107,.25),rgba(255,90,217,.2));box-shadow:0 0 14px rgba(255,216,107,.7)}
 .picker canvas{width:100%!important;height:auto!important;aspect-ratio:1;max-width:90px;border-radius:8px}
 .picker button span{font-size:clamp(9px,2.7vw,12px);line-height:1.2;max-width:100%}
+.cpubox{display:grid;gap:8px;padding:12px;border-radius:14px;border:1.5px solid rgba(255,216,107,.6);background:rgba(255,216,107,.07)}
+.lvls{display:flex;flex-wrap:wrap;gap:8px}
+.main.cpu{background:linear-gradient(180deg,#fff2a8 0%,var(--gold) 45%,#d07a10 100%);color:#4a1a00;text-shadow:none;box-shadow:0 4px 0 #6a3a04,0 0 18px rgba(255,216,107,.6),inset 0 2px 0 rgba(255,255,255,.7)}
 .hcs{display:flex;flex-wrap:wrap;gap:8px}
 .chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-weight:800;font-size:13px;cursor:pointer;
   border:1.5px solid rgba(98,242,255,.45);background:rgba(10,4,40,.5)}
@@ -145,7 +148,7 @@ canvas{display:block}
 .charpanel::before{left:-7px;top:-7px}.charpanel::after{right:-7px;top:-7px}
 .charpanel.hype{box-shadow:0 0 0 2px #b77a14,0 0 0 4px #ffe08a,0 0 0 5px #8a5a0e,0 0 30px rgba(255,90,217,.95)}
 #meCh{border-radius:10px;box-shadow:0 0 12px rgba(255,140,230,.55)}
-#meName{position:relative;padding:3px 16px;font-size:13px;color:#fff;background:linear-gradient(180deg,#4a1446,#24061f);border:1.5px solid var(--gold);
+#meName{position:relative;max-width:100%;padding:3px 12px;font-size:clamp(10px,3vw,13px);color:#fff;background:linear-gradient(180deg,#4a1446,#24061f);border:1.5px solid var(--gold);
   clip-path:polygon(9px 0,calc(100% - 9px) 0,100% 50%,calc(100% - 9px) 100%,9px 100%,0 50%)}
 .scoreline{display:flex;align-items:baseline;gap:6px;justify-content:center}
 .scoreline .lbl{color:var(--gold);text-shadow:0 0 6px rgba(255,216,107,.7)}
@@ -262,6 +265,16 @@ canvas{display:block}
       <button class="main" id="joinBtn">ルームに入る</button>
       <button class="sub" id="soloBtn">ひとりで練習</button>
     </div>
+    <div class="cpubox">
+      <span class="lbl">CPUと対戦（3本先取）</span>
+      <div class="lvls" role="radiogroup" aria-label="CPUの強さ">
+        <label class="chip" for="lv0"><input type="radio" name="lv" id="lv0" value="0"><span>よわい</span></label>
+        <label class="chip" for="lv1"><input type="radio" name="lv" id="lv1" value="1" checked><span>ふつう</span></label>
+        <label class="chip" for="lv2"><input type="radio" name="lv" id="lv2" value="2"><span>つよい</span></label>
+        <label class="chip" for="lv3"><input type="radio" name="lv" id="lv3" value="3"><span>鬼</span></label>
+      </div>
+      <button class="main cpu" id="cpuBtn">CPUと対戦する</button>
+    </div>
     <p class="note" id="lobbyNote">相手にも同じページを開いてもらい、同じルーム名で入ると対戦できます。</p>
   </section>
 
@@ -358,7 +371,7 @@ const ITEMS={geri:{name:'下痢',desc:'おじゃまを下痢に変える。2手�
   paper:{name:'紙',desc:'次の3手が同じ色のペアになる'},
   spray:{name:'消臭',desc:'たまっているおじゃま予告を半分にする'},
   beam:{name:'便秘',desc:'相手のNEXTを10秒間見えなくする'}};
-function makeGame(s,c3){
+function makeGame(s,c3,chr,isCpu){chr=chr||myChr;
   const r=rng32(s),pairs=[],nc=c3?3:4;
   for(let i=0;i<256;i++){
     const a=1+Math.floor(r()*4),b=1+Math.floor(r()*4),gold=r()<0.08&&i>=3,gs=r()<0.5;
@@ -366,12 +379,12 @@ function makeGame(s,c3){
   }
   return{b:new Array(W*H).fill(0),off:new Array(W*H).fill(0),pop:null,pairs,qi:0,piece:null,phase:'spawn',t:0,grav:0,
     score:0,chain:0,left:0,sent:0,inc:0,incFrac:0,dead:false,elapsed:0,chainShow:null,soft:false,qt:0,
-    flushes:2,items:[],geriT:0,sp:myChr==='oyaji'?1:0,gauge:0,atk:{fz:0,dc:0,sk:0},freezeT:0,decoT:0,shakeT:0,cutin:null,pinch:false,rush:false,nextHide:0,msg:null,beams:0,gotItem:0};
+    chr,isCpu:!!isCpu,fixed:!isCpu&&!!ACT.fixed,flushes:2,items:[],geriT:0,sp:chr==='oyaji'?1:0,gauge:0,atk:{fz:0,dc:0,sk:0},freezeT:0,decoT:0,shakeT:0,cutin:null,pinch:false,rush:false,nextHide:0,msg:null,beams:0,gotItem:0};
 }
 function say2(gm,text,kind){gm.msg={text,t:1.4,kind:kind||''};dirty=true}
 function topOf(gm,x){for(let y=1;y<H;y++)if(gm.b[idx(x,y)])return y;return H}
 function giveItem(gm){
-  const pool=['geri','paper','spray'];if(mode==='online')pool.push('beam');
+  const pool=['geri','paper','spray'];if(mode==='online'||mode==='cpu')pool.push('beam');
   if(gm.items.length<3){gm.items.push(pool[Math.floor(Math.random()*pool.length)]);gm.gotItem=1.2;say2(gm,'アイテムGET!','item')}
 }
 function useItem(gm,i){
@@ -388,7 +401,7 @@ function useItem(gm,i){
     if(!gm.inc){say2(gm,'予告がない!');return}
     gm.inc=Math.floor(gm.inc/2);say2(gm,'シュッシュッ!!','spray');
   }else if(it==='beam'){
-    gm.beams++;say2(gm,'便秘ビーム!!','beam');speak('chain');
+    gm.beams++;if(mode==='cpu'&&cg)cg.nextHide=10;say2(gm,'便秘ビーム!!','beam');speak('chain');
   }
   gm.items.splice(i,1);dirty=true;
 }
@@ -398,7 +411,7 @@ function useFlush(gm){
   for(const y of [H-2,H-1])for(let x=0;x<W;x++)gm.b[idx(x,y)]=0;
   gravity(gm);say2(gm,'ジャーッ!!','flush');dirty=true;
 }
-function specialReady(gm){const sp=SPECIAL[myChr];if(!gm||!sp||myChr==='oyaji')return false;if(sp.atk&&mode!=='online')return false;return gm.gauge>=sp.cost}
+function specialReady(gm){const sp=SPECIAL[myChr];if(!gm||!sp||myChr==='oyaji')return false;if(sp.atk&&mode!=='online'&&mode!=='cpu')return false;return gm.gauge>=sp.cost}
 function useSpecial(gm){
   if(!gm||me.st!=='play'||gm.phase!=='control'||!specialReady(gm))return;
   const sp=SPECIAL[myChr];
@@ -421,7 +434,7 @@ function useSpecial(gm){
     for(let x=0;x<W;x++)gm.b[idx(x,best)]=0;gravity(gm);
     say2(gm,'手裏剣斬り!!','special');
   }else if(sp.atk){
-    gm.atk[sp.atk]++;say2(gm,sp.name+'!!','special');
+    gm.atk[sp.atk]++;if(mode==='cpu'&&cg){cg[{fz:'freezeT',dc:'decoT',sk:'shakeT'}[sp.atk]]={fz:3,dc:6,sk:5}[sp.atk];cpuSpeak('hurt')}say2(gm,sp.name+'!!','special');
   }
   gm.gauge-=sp.cost;speak('big');gm.cutin={t:1.5,text:lineText(myChr,'big')};dirty=true;
 }
@@ -476,7 +489,7 @@ function checkPop(gm){
     for(let d=0;d<4;d++){const nx=x+DX[d],ny=y+DY[d];
       if(nx>=0&&nx<W&&ny>=1&&ny<H){const v=gm.b[idx(nx,ny)];if(v===9||v===5||v===6)pop.add(idx(nx,ny))}}}
   for(const i of pop)if(gm.b[i]===5)giveItem(gm);
-  gm.chain++;
+  gm.chain++;gm.maxChain=Math.max(gm.maxChain||0,gm.chain);
   const n=groups.reduce((a,b)=>a+b,0);
   let bonus=CP[Math.min(gm.chain-1,CP.length-1)]+groups.reduce((a,b)=>a+GB(b),0)+CB[colors.size-1];
   if(!bonus)bonus=1;
@@ -484,13 +497,14 @@ function checkPop(gm){
   let gar=Math.floor(gm.left/70);gm.left-=gar*70;
   if(gm.pinch)gar=Math.ceil(gar*1.5);if(gm.rush)gar*=2;
   const o=Math.min(gar,gm.inc);gm.inc-=o;gar-=o;
-  if(mode==='online')gm.sent+=gar;
+  if(mode==='online'||mode==='cpu')gm.sent+=gar;
   gm.pop=pop;gm.phase='pop';gm.t=0;gm.chainShow={n:gm.chain,t:1.3};dirty=true;
-  if(gm.chain===1)speak('chain');else if(gm.chain===3){speak('big');gm.cutin={t:1.6,text:lineText(myChr,'big')}}
+  if(gm.isCpu){if(gm.chain===1)cpuSpeak('chain');else if(gm.chain===3)cpuSpeak('big')}
+  else if(gm.chain===1)speak('chain');else if(gm.chain===3){speak('big');gm.cutin={t:1.6,text:lineText(myChr,'big')}}
   gm.gauge=Math.min(100,gm.gauge+CHAIN_GAIN(gm.chain));
 }
 function dropGarbage(gm){
-  gm.thud=0.9;if(gm.inc>=3)speak('hurt');
+  gm.thud=0.9;if(gm.inc>=3){if(gm.isCpu)cpuSpeak('hurt');else speak('hurt')}
   const n=Math.min(gm.inc,30);gm.inc-=n;
   const rows=Math.floor(n/6),rem=n%6;
   const cols=[0,1,2,3,4,5].sort(()=>Math.random()-.5).slice(0,rem);
@@ -518,13 +532,13 @@ function update(gm,dt){
   switch(gm.phase){
     case 'spawn':{
       if(gm.b[idx(2,1)]){
-        if(myChr==='oyaji'&&gm.sp>0){gm.sp=0;for(let y=0;y<=4;y++)for(let x=0;x<W;x++)gm.b[idx(x,y)]=0;say2(gm,'根性ォォ!!','special');speak('big');return}
-        gm.dead=true;gm.phase='end';dirty=true;onDeath();return}
+        if(gm.chr==='oyaji'&&gm.sp>0){gm.sp=0;for(let y=0;y<=4;y++)for(let x=0;x<W;x++)gm.b[idx(x,y)]=0;say2(gm,'根性ォォ!!','special');if(gm.isCpu)cpuSpeak('big');else speak('big');return}
+        gm.dead=true;gm.phase='end';dirty=true;if(gm.isCpu)cpuDied();else onDeath();return}
       const pr=gm.pairs[gm.qi++%gm.pairs.length];
       gm.piece={x:2,y:1,r:0,c1:pr[0],c2:pr[1]};gm.grav=0;gm.phase='control';dirty=true;break}
     case 'control':{
       if(gm.freezeT>0)break;
-      const iv=gm.soft?0.035:ACT.fixed?0.75:gm.rush?0.16:Math.max(0.16,0.75-gm.elapsed*0.004);
+      const iv=gm.soft?0.035:gm.fixed?0.75:gm.rush?0.16:Math.max(0.16,0.75-gm.elapsed*0.004);
       gm.grav+=dt;
       while(gm.grav>=iv&&gm.piece){gm.grav-=iv;if(!move(gm,0,1)){lock(gm);break}else if(gm.soft)gm.score+=1}
       break}
@@ -1176,6 +1190,7 @@ function publish(force){
 }
 function others(){return peersNow.filter(p=>!p.sameTab&&p.kind==='viewer'&&p.presence&&typeof p.presence.name==='string')}
 function getOpp(){
+  if(mode==='cpu')return cpuOpp();
   const os=others();
   if(oppPeer){const f=os.find(p=>p.peer===oppPeer);if(f)return f;if(me.st==='play'||me.st==='count')return null}
   return os[0]||null;
@@ -1224,6 +1239,7 @@ function startCount(){
 }
 function pressReady(){
   if(mode==='solo'){startSolo();return}
+  if(mode==='cpu'){if(matchOver()){me.wins=0;me.losses=0}startCpuRound();return}
   const o=getOpp(),op=o&&o.presence;
   let r;
   if(op&&op.ready&&(op.round|0)>me.round&&op.st==='wait')r=op.round|0;
@@ -1238,7 +1254,8 @@ function stars(n){return '★'.repeat(Math.min(n,WIN_N))+'☆'.repeat(Math.max(0
 function finish(res,why){
   if(me.st==='over')return;
   me.st='over';me.res=res;me.why=why||'';speak(res==='win'?'win':'lose');
-  if(mode==='online'){if(res==='win')me.wins=(me.wins|0)+1;else me.losses=(me.losses|0)+1}
+  if(mode==='cpu')cpuSpeak(res==='win'?'lose':'win');
+  if(mode==='online'||mode==='cpu'){if(res==='win')me.wins=(me.wins|0)+1;else me.losses=(me.losses|0)+1}
   if(g&&g.phase!=='end'){g.piece=null;g.phase='end'}
   publish(true);
 }
@@ -1257,7 +1274,7 @@ function showArena(){
 }
 async function leave(){
   if(rm){try{await rm.leave()}catch(e){}}
-  rm=null;mode=null;g=null;peersNow=[];oppPeer=null;
+  rm=null;mode=null;g=null;cg=null;peersNow=[];oppPeer=null;
   arena.hidden=true;lobbyEl.hidden=false;document.body.classList.remove('ingame');
 }
 
@@ -1311,6 +1328,125 @@ function setOverlay(){
 // ---------- stamps ----------
 const STAMPS=['やるな！','くさっ！','まだまだ！','ナイス連鎖！','ごめん！','うんこ！'];
 function sendStamp(i){if(mode!=='online')return;stampN++;stampI=i;myStamp={text:STAMPS[i],t:2.5};dirty=true;publish(true);$('stampPop').hidden=true}
+// ---------- CPU opponent ----------
+let cg=null,cpuSentSeen=0,mySentSeen=0;
+const CPU={chr:'unko',lv:1};
+const LV=[{name:'よわい',think:0.9,step:0.2,pick:4,fireAt:1,look:false,build:false},
+          {name:'ふつう',think:0.5,step:0.12,pick:2,fireAt:2,look:false,build:true},
+          {name:'つよい',think:0.22,step:0.07,pick:1,fireAt:2,look:true,build:true},
+          {name:'鬼',think:0.08,step:0.04,pick:1,fireAt:3,look:true,build:true}];
+const cpu={plan:null,t:0,mv:0,say:{e:'wait',i:0,t:0},res:null};
+function cpuSpeak(e){const L=LINES[CPU.chr]&&LINES[CPU.chr][e];if(!L)return;cpu.say={e,i:Math.floor(Math.random()*L.length),t:(e==='idle'||e==='wait'||e==='win'||e==='lose')?0:2.6}}
+function cpuOpp(){
+  const p=cg&&cg.piece?[cg.piece.x,cg.piece.y,cg.piece.r,cg.piece.c1,cg.piece.c2]:null;
+  const st=me.st==='play'?(cg&&cg.dead?'over':'play'):me.st==='over'?'over':'wait';
+  return{peer:'cpu',kind:'viewer',sameTab:false,presence:{name:'CPU',chr:CPU.chr,round:me.round,ready:true,st,dead:!!(cg&&cg.dead),
+    b:cg?encode(cg):'',p,sc:cg?cg.score:0,ch:cg&&cg.chainShow?cg.chainShow.n:0,say:[cpu.say.e,cpu.say.i],hc:['強さ：'+LV[CPU.lv].name],rs:!!(cg&&cg.rush)}};
+}
+function startCpu(){
+  const lv=document.querySelector('input[name=lv]:checked');CPU.lv=lv?+lv.value:1;lsSet('unko-lv',String(CPU.lv));
+  const pool=CHARS.map(c=>c.id).filter(id=>id!==myChr);CPU.chr=pool[Math.floor(Math.random()*pool.length)];
+  mode='cpu';me={name:(nameIn.value.trim()||'うんこマン').slice(0,12),round:0,ready:true,st:'wait',res:null,why:'',wins:0,losses:0};
+  ACT={...HC};actNote='';
+  if(arena.hidden)showArena();
+  startCpuRound();
+}
+function startCpuRound(){
+  me.round++;me.st='count';me.res=null;me.why='';countT=3;g=null;cg=null;seed=(Math.random()*4294967296)>>>0;
+  cpu.plan=null;cpuSpeak('wait');speak('wait');ovKey='';
+}
+function cpuDied(){cpuSpeak('lose');finish('win','')}
+// --- AI: simulate a placement and the chains it causes
+function simLand(b,x,r,c1,c2){
+  const cx=x+DX[r];if(x<0||x>=W||cx<0||cx>=W)return null;
+  const nb=b.slice();const top=col=>{for(let y=1;y<H;y++)if(nb[idx(col,y)])return y;return H};
+  const put=(col,c)=>{const t=top(col)-1;if(t<1)return -1;nb[idx(col,t)]=c;return t};
+  let ok;
+  if(r===0){ok=put(x,c1);if(ok<0)return null;ok=put(x,c2)}
+  else if(r===2){ok=put(x,c2);if(ok<0)return null;ok=put(x,c1)}
+  else{ok=put(x,c1);if(ok<0)return null;ok=put(cx,c2)}
+  if(ok<0)return null;return nb;
+}
+function simChains(b){
+  let chains=0,score=0;
+  for(;;){
+    const seen=new Uint8Array(W*H),pop=new Set();let n=0,gb=0;const cols=new Set();
+    for(let y=1;y<H;y++)for(let x=0;x<W;x++){const i=idx(x,y),c=b[i];if(c<1||c>4||seen[i])continue;
+      const st=[i],cells=[];seen[i]=1;while(st.length){const k=st.pop();cells.push(k);const kx=k%W,ky=(k/W)|0;
+        for(let d=0;d<4;d++){const nx=kx+DX[d],ny=ky+DY[d];if(nx<0||nx>=W||ny<1||ny>=H)continue;const j=idx(nx,ny);if(!seen[j]&&b[j]===c){seen[j]=1;st.push(j)}}}
+      if(cells.length>=4){cells.forEach(k=>pop.add(k));n+=cells.length;gb+=GB(cells.length);cols.add(c)}}
+    if(!pop.size)break;
+    for(const k of [...pop]){const kx=k%W,ky=(k/W)|0;for(let d=0;d<4;d++){const nx=kx+DX[d],ny=ky+DY[d];if(nx>=0&&nx<W&&ny>=1&&ny<H){const v=b[idx(nx,ny)];if(v===9||v===5||v===6)pop.add(idx(nx,ny))}}}
+    chains++;score+=10*n*Math.max(1,CP[Math.min(chains-1,CP.length-1)]+gb+CB[cols.size-1]);
+    for(const k of pop)b[k]=0;
+    for(let x=0;x<W;x++){let w=H-1;for(let y=H-1;y>=0;y--){const c=b[idx(x,y)];if(c){if(w!==y){b[idx(x,w)]=c;b[idx(x,y)]=0}w--}}}
+  }
+  return{chains,score};
+}
+function boardValue(b){
+  let v=0;const tops=[];for(let x=0;x<W;x++){let t=H;for(let y=1;y<H;y++)if(b[idx(x,y)]){t=y;break}tops.push(t)}
+  for(let x=0;x<W;x++){const hgt=H-tops[x];v-=hgt*hgt*0.35;if(x===2||x===3)v-=Math.max(0,hgt-7)*12}
+  // grouping: same-colour neighbours, groups of 3 are chain seeds
+  const seen=new Uint8Array(W*H);
+  for(let y=1;y<H;y++)for(let x=0;x<W;x++){const i=idx(x,y),c=b[i];if(c<1||c>4||seen[i])continue;
+    const st=[i];let n=0;seen[i]=1;while(st.length){const k=st.pop();n++;const kx=k%W,ky=(k/W)|0;for(let d=0;d<4;d++){const nx=kx+DX[d],ny=ky+DY[d];if(nx<0||nx>=W||ny<1||ny>=H)continue;const j=idx(nx,ny);if(!seen[j]&&b[j]===c){seen[j]=1;st.push(j)}}}
+    v+=n===2?3:n===3?9:0}
+  if(tops[2]<=3)v-=400;
+  return v;
+}
+function reachable(b,x){const step=x>2?1:-1;for(let c=2;c!==x+step;c+=step){if(c<0||c>=W)return false;if(b[idx(c,1)])return false}return true}
+function evalMove(gm,b,x,r,c1,c2,nextPair,depth){
+  const cx=x+DX[r];if(cx<0||cx>=W||!reachable(b,x)||!reachable(b,cx))return null;
+  const nb=simLand(b,x,r,c1,c2);if(!nb)return null;
+  const res=simChains(nb);const lv=LV[CPU.lv];
+  let maxH=0;for(let xx=0;xx<W;xx++){for(let y=1;y<H;y++)if(nb[idx(xx,y)]){maxH=Math.max(maxH,H-y);break}}
+  const danger=maxH>=8||gm.inc>=6;
+  let val=boardValue(nb);
+  if(res.chains>0){
+    const fire=res.chains*res.chains*60+res.score/40;
+    if(!lv.build||danger||res.chains>=lv.fireAt)val+=fire+200;
+    else val+=res.chains>=2?fire*0.5:-25; // keep building instead of wasting small pops
+  }
+  if(depth>0&&nextPair&&!res.chains){
+    let best=-1e9;for(let r2=0;r2<4;r2++)for(let x2=0;x2<W;x2++){const e=evalMove(gm,nb,x2,r2,nextPair[0],nextPair[1],null,0);if(e&&e.val>best)best=e.val}
+    if(best>-1e9)val=val*0.4+best*0.6;
+  }
+  return{x,r,val,chains:res.chains};
+}
+function cpuPlan(gm){
+  const p=gm.piece;const lv=LV[CPU.lv];const nextP=gm.pairs[gm.qi%gm.pairs.length];const cands=[];
+  for(let r=0;r<4;r++)for(let x=0;x<W;x++){
+    if(p.c1===p.c2&&r>=2)continue;
+    const e=evalMove(gm,gm.b,x,r,p.c1,p.c2,lv.look?nextP:null,lv.look?1:0);if(e)cands.push(e)}
+  if(!cands.length)return{x:2,r:0};
+  cands.sort((a,b)=>b.val-a.val);
+  const k=Math.min(cands.length,lv.pick);return cands[Math.floor(Math.random()*k)];
+}
+function cpuTick(dt){
+  const gm=cg;if(!gm||gm.dead)return;
+  // garbage exchange
+  if(g.sent>mySentSeen){gm.inc+=g.sent-mySentSeen;mySentSeen=g.sent}
+  if(gm.sent>cpuSentSeen){const d=gm.sent-cpuSentSeen;cpuSentSeen=gm.sent;
+    if(ACT.half){g.incFrac+=d*0.5;const w=Math.floor(g.incFrac);g.incFrac-=w;g.inc+=w}else g.inc+=d}
+  if(cpu.say.t>0){cpu.say.t-=dt;if(cpu.say.t<=0)cpuSpeak('idle')}
+  update(gm,dt);
+  if(gm.dead||gm.phase!=='control'||!gm.piece){cpu.plan=null;cpu.t=0;gm.soft=false;return}
+  if(gm.freezeT>0)return;
+  const lv=LV[CPU.lv],slow=(gm.nextHide>0||gm.decoT>0||gm.shakeT>0)?1.8:1;
+  // specials / flush
+  const sp=SPECIAL[gm.chr];
+  if(sp&&sp.atk&&gm.gauge>=sp.cost&&g&&!g.dead){gm.gauge-=sp.cost;const k={fz:'freezeT',dc:'decoT',sk:'shakeT'}[sp.atk];g[k]={fz:3,dc:6,sk:5}[sp.atk];say2(g,sp.name+'をくらった!!','beam');speak('hurt');cpuSpeak('big')}
+  if(topOf(gm,2)<=4&&gm.flushes>0&&CPU.lv>=1){gm.flushes--;for(const y of [H-2,H-1])for(let x=0;x<W;x++)gm.b[idx(x,y)]=0;gravity(gm)}
+  if(!cpu.plan){cpu.t+=dt;if(cpu.t<lv.think*slow)return;cpu.t=0;cpu.plan=cpuPlan(gm);cpu.mv=0;gm.soft=false}
+  cpu.mv+=dt;if(cpu.mv<lv.step*slow)return;cpu.mv=0;
+  const p=gm.piece;
+  if(p.r!==cpu.plan.r){const before=p.r;rotate(gm,((cpu.plan.r-p.r+4)%4)===3?-1:1);if(p.r===before){cpu.plan.r=p.r}}
+  else if(p.x<cpu.plan.x){if(!move(gm,1,0))cpu.plan.x=p.x}
+  else if(p.x>cpu.plan.x){if(!move(gm,-1,0))cpu.plan.x=p.x}
+  else gm.soft=true;
+}
+$('cpuBtn').addEventListener('click',()=>{lsSet('unko-name',nameIn.value.trim());startCpu()});
+{const v=lsGet('unko-lv');if(v&&$('lv'+v))$('lv'+v).checked=true}
 // ---------- handicap ----------
 const HC={half:false,c3:false,guide:false,fixed:false};
 try{const v=JSON.parse(lsGet('unko-hc')||'{}');Object.assign(HC,{half:!!v.half,c3:!!v.c3,guide:!!v.guide,fixed:!!v.fixed})}catch(e){}
@@ -1384,15 +1520,16 @@ function setTxt(id,v){if(uiCache[id]!==v){uiCache[id]=v;$(id).textContent=v}}
 function frame(now){
   const dt=Math.min(0.05,(now-last)/1000);last=now;
   if(!arena.hidden){
-    if(me.st==='count'){countT-=dt;if(countT<=0){me.st='play';g=makeGame(seed,ACT.c3);oppSentSeen=0;oppBeamSeen=0;oppAtkSeen={};dirty=true;speak('idle');handleOpp()}}
+    if(me.st==='count'){countT-=dt;if(countT<=0){me.st='play';g=makeGame(seed,ACT.c3);if(mode==='cpu'){cg=makeGame(seed,false,CPU.chr,true);cpuSentSeen=0;mySentSeen=0;cpu.plan=null;cpuSpeak('idle')}oppSentSeen=0;oppBeamSeen=0;oppAtkSeen={};dirty=true;speak('idle');handleOpp()}}
     if(g&&me.st==='play')update(g,dt);
+    if(mode==='cpu'&&cg&&me.st==='play')cpuTick(dt);
     else if(g)for(let i=0;i<g.off.length;i++)if(g.off[i]>0)g.off[i]=Math.max(0,g.off[i]-dt*18);
     drawBoard(myCtx,cell,g?g.b:EMPTY,g?g.off:null,g&&me.st==='play'?g.piece:null,g&&g.pop,g?g.t:0,g&&g.chainShow?g.chainShow.n:0,{t:g&&g.chainShow?g.chainShow.t:0,thud:g&&me.st==='play'?g.thud||0:0,msg:g&&g.msg,ghost:ACT.guide&&g&&me.st==='play'?g:null,freeze:g&&me.st==='play'?g.freezeT:0,deco:g&&me.st==='play'?g.decoT:0,rush:g&&me.st==='play'&&g.rush,cutin:g&&g.cutin,chr:myChr});
     drawNext();
     setTxt('score',String(g?g.score:0));
     updateActs();
     $('stampBtn').hidden=mode!=='online';
-    setTxt('matchSc',mode==='online'?stars(me.wins|0)+' - '+stars(me.losses|0):'');
+    setTxt('matchSc',(mode==='online'||mode==='cpu')?stars(me.wins|0)+' - '+stars(me.losses|0):'');
     $('flagPinch').hidden=!(g&&me.st==='play'&&g.pinch);$('flagRush').hidden=!(g&&me.st==='play'&&g.rush);
     if(myStamp){myStamp.t-=dt;if(myStamp.t<=0)myStamp=null}
     if(oppStamp){oppStamp.t-=dt;if(oppStamp.t<=0)oppStamp=null}
@@ -1404,7 +1541,7 @@ function frame(now){
     if(uiCache.meCh!==myChr+myMood+pS){uiCache.meCh=myChr+myMood+pS;portrait(meChCv,meChCtx,pS,myChr,myMood)}
     setTxt('meName',charOf(myChr).name);
     const inc=g?g.inc:0;setTxt('incN',String(inc));$('incbar').classList.toggle('hot',inc>=6);
-    if(mode==='online'){
+    if(mode==='online'||mode==='cpu'){
       const o=getOpp(),op=o&&o.presence;
       setTxt('opName',op?(op.name||'だれか'):'まだいません');
       setTxt('opScore',op?String(op.sc|0):'0');
