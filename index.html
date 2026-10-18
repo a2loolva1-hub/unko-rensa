@@ -259,6 +259,58 @@ textarea{font:inherit;font-size:14px;width:100%;padding:8px 10px;border-radius:1
 .pksp{font-size:11px;line-height:1.5;color:var(--muted);text-align:center}
 .pksp b{color:var(--gold)}
 .picker button,.pcard,.pgrid button{-webkit-touch-callout:none}
+.today .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.today .row2 .main{padding:12px 8px;font-size:16px}
+.caltitle{font-size:12px;font-weight:800;color:var(--cyan);text-shadow:0 0 6px rgba(98,242,255,.6)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cday{position:relative;display:grid;justify-items:center;gap:2px;padding:6px 2px;border-radius:10px;background:rgba(10,4,30,.6);border:1.5px solid rgba(220,200,255,.3);font-size:10px;font-weight:800;color:var(--muted)}
+.cday b{font-family:var(--display);font-weight:400;font-size:12px;color:#fff}
+.cday.got{border-color:rgba(255,216,107,.6);color:var(--gold)}
+.cday.got::after{content:'✓';position:absolute;right:3px;top:1px;color:var(--gold);font-size:11px}
+.cday.now{border-color:#fff6c8;box-shadow:0 0 12px rgba(255,216,107,.9);background:linear-gradient(180deg,rgba(255,216,107,.3),rgba(255,90,217,.2))}
+.cday.big b{color:var(--gold)}
+.missions{display:grid;gap:6px}
+.mis{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:rgba(10,4,30,.55);border:1px solid rgba(220,200,255,.3)}
+.mis .mt{font-size:13px;font-weight:800;color:#fff}
+.mis .bar{grid-column:1;height:6px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden}
+.mis .bar i{display:block;height:100%;background:linear-gradient(90deg,#62f2ff,#ff5ad9)}
+.mis button{grid-row:1 / span 2;grid-column:2;padding:6px 10px;font-size:12px}
+.mis.done{border-color:rgba(255,216,107,.7)}
+.mis.claimed{opacity:.55}
+.misbonus{font-size:12px;text-align:center;color:var(--gold);font-weight:800}
+.evbanner{padding:10px 12px;border-radius:14px;text-align:center;font-weight:800;font-size:13px;line-height:1.5;color:#fff;
+  background:linear-gradient(90deg,#ff7a1a,#7a2ad0,#ff7a1a);background-size:200% 100%;animation:evflow 6s linear infinite;box-shadow:0 0 16px rgba(255,122,26,.6);border:1.5px solid #ffd86b}
+.evbanner.xmas{background:linear-gradient(90deg,#d0242e,#1f8a3a,#d0242e);background-size:200% 100%}
+.evbanner b{font-family:var(--display);font-weight:400;font-size:16px;display:block}
+@keyframes evflow{to{background-position:200% 0}}
+.pickup{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:8px;padding:10px;border-radius:14px;background:linear-gradient(90deg,rgba(255,216,107,.25),rgba(255,90,217,.2));border:1.5px solid #ffd86b;box-shadow:0 0 14px rgba(255,216,107,.5)}
+.pickup canvas{width:58px!important;height:58px!important;border-radius:10px;border:2px solid #ffd86b}
+.pickup .pt{font-size:12px;line-height:1.5;color:#fff;font-weight:800}
+.pickup .pt b{font-family:var(--display);font-weight:400;font-size:15px;color:var(--gold);display:block}
+.main.tix{background:linear-gradient(180deg,#bff6ff,#29b3f0 50%,#1466c4);box-shadow:0 4px 0 #0a3570,0 0 16px rgba(98,242,255,.7),inset 0 2px 0 rgba(255,255,255,.7)}
+.medal{display:inline-flex;align-items:center;gap:6px;font-weight:800;color:#ffe0a0}
+.medal b{font-family:var(--display);font-weight:400;color:var(--gold)}
+.medalicon{display:inline-block;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff2c8,#d9a520 50%,#7a4a06);box-shadow:inset 0 0 0 2px #5a3a06,0 0 6px rgba(255,200,80,.7)}
+.medalline{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.stages{display:grid;gap:10px}
+.stage{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:10px;padding:10px;border-radius:14px;background:rgba(10,4,30,.6);border:1.5px solid rgba(220,200,255,.35)}
+.stage canvas{width:64px!important;height:64px!important;border-radius:10px;border:2px solid #ffd86b}
+.stage .sn{font-size:11px;font-weight:800;color:var(--cyan)}
+.stage .sb{font-family:var(--display);font-size:16px;color:#fff}
+.stage .sd{font-size:11px;color:var(--gold)}
+.stage .sr{font-size:11px;color:var(--muted)}
+.stage.clear{border-color:rgba(255,216,107,.7)}
+.stage.lock{opacity:.5}
+.stage.boss{background:linear-gradient(160deg,rgba(120,20,60,.6),rgba(30,10,60,.8));border-color:#ff5ad9;box-shadow:0 0 14px rgba(255,90,217,.5)}
+.stage button{padding:8px 12px;font-size:13px}
+.shop{display:grid;gap:12px}
+.shopsec{font-family:var(--display);font-size:15px;color:var(--gold)}
+.shopgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.sitem{display:grid;justify-items:center;gap:3px;padding:6px 4px;border-radius:12px;background:rgba(10,4,30,.6);border:1.5px solid rgba(220,200,255,.35);font-size:11px;font-weight:800;color:#fff;text-align:center}
+.sitem canvas{width:100%!important;height:auto!important;aspect-ratio:1;border-radius:8px}
+.sitem button{padding:4px 6px;font-size:11px;width:100%}
+.sitem.own{opacity:.5}
+.afb{position:absolute;right:3px;top:3px;z-index:2;font-size:9px;font-weight:800;padding:0 4px;border-radius:999px;color:#fff;background:#ff5aa8;box-shadow:0 0 6px rgba(255,90,168,.8)}
 .cpubox{display:grid;gap:8px;padding:12px;border-radius:14px;border:1.5px solid rgba(255,216,107,.6);background:rgba(255,216,107,.07)}
 .lvls{display:flex;flex-wrap:wrap;gap:8px}
 .main.cpu{background:linear-gradient(180deg,#fff2a8 0%,var(--gold) 45%,#d07a10 100%);color:#4a1a00;text-shadow:none;box-shadow:0 4px 0 #6a3a04,0 0 18px rgba(255,216,107,.6),inset 0 2px 0 rgba(255,255,255,.7)}
@@ -306,6 +358,10 @@ canvas{display:block}
 .overlay .msg{font-size:14px;line-height:1.6;font-weight:800;padding:5px 14px;border-radius:999px;background:rgba(20,10,60,.7);border:1.5px solid rgba(98,242,255,.55)}
 .overlay .pose{display:block;width:min(46%,170px);height:auto;border-radius:12px;border:3px solid var(--gold);box-shadow:0 0 22px rgba(255,216,107,.8);transform:rotate(-3deg)}
 .overlay .pose.lost{filter:grayscale(.85) brightness(.85);border-color:#8a86a8;box-shadow:none;transform:rotate(3deg)}
+.overlay{overflow-y:auto;gap:8px}
+.overlay .main,.overlay .sub{padding:9px 16px;font-size:15px;flex-shrink:0}
+.overlay .msg{font-size:13px;padding:4px 12px}
+.overlay canvas.pose{width:96px;height:96px;flex-shrink:0;border-radius:12px;border:3px solid var(--gold)}
 .okrow{display:flex;gap:14px;justify-content:center}
 .okrow button{min-width:96px}
 .side{display:flex;flex-direction:column;gap:8px;min-width:0}
@@ -464,16 +520,39 @@ canvas{display:block}
   </div>
   <section class="gview" id="gview" hidden>
     <div class="ghead"><button class="sub small" id="gachaClose">◀ 戻る</button><h2>うんこガチャ</h2><span class="coin"><i class="coinicon" aria-hidden="true"></i><b id="coinN2">0</b></span></div>
+    <div class="pickup" id="pickupBox"></div>
+    <div class="evbanner" id="evBanner2" hidden></div>
     <div class="machine" id="machine"><canvas id="machCv"></canvas><div class="burst" id="burst" hidden></div></div>
     <div class="grow">
       <button class="main" id="pull1">1回<small>100コイン</small></button>
       <button class="main cpu" id="pull10">10連<small>900コイン・SR以上1つ確定</small></button>
     </div>
+    <button class="main tix" id="pullT" hidden>10連ガチャ券でまわす（<span id="tixN">0</span>枚）</button>
+    <div class="medalline"><span class="medal"><i class="medalicon" aria-hidden="true"></i>うんこメダル <b class="medalN">0</b>枚</span><button class="sub small" id="shopOpen2">メダル交換所へ</button></div>
     <p class="note" id="gNote">キャラ・服装・持ち物が当たるよ！ 持っているものが出たら、服装か持ち物に変わるよ！</p>
     <div class="gres" id="gres"></div>
     <details class="help"><summary>提供割合</summary><div id="oddsTbl"></div></details>
   </section>
+  <section class="gview" id="storyv" hidden>
+    <div class="ghead"><button class="sub small" id="storyClose">◀ 戻る</button><h2>ボスに挑戦</h2><span class="coin"><i class="coinicon" aria-hidden="true"></i><b class="coinN">0</b></span></div>
+    <p class="note">ボスを順番にたおそう！ 1回勝てばクリア。はじめてクリアしたときにごほうびがもらえるよ。</p>
+    <div class="stages" id="stages"></div>
+  </section>
+  <section class="gview" id="shopv" hidden>
+    <div class="ghead"><button class="sub small" id="shopClose">◀ 戻る</button><h2>メダル交換所</h2><span class="medal"><i class="medalicon" aria-hidden="true"></i><b class="medalN">0</b></span></div>
+    <p class="note">ガチャを1回まわすと「うんこメダル」が1枚たまるよ。メダルで好きなものと交換できる！</p>
+    <div class="shop" id="shop"></div>
+  </section>
   <section class="lobby" id="lobby">
+    <div class="panel today">
+      <h3 class="sec"><span>きょうのおたのしみ</span></h3>
+      <div class="evbanner" id="evBanner" hidden></div>
+      <div class="caltitle">ログインボーナス（7日でひとまわり）</div>
+      <div class="cal" id="cal"></div>
+      <div class="caltitle">デイリーミッション（毎日かわるよ）</div>
+      <div class="missions" id="missions"></div>
+      <div class="row2"><button class="main cpu" id="storyOpen">ボスに挑戦</button><button class="main" id="shopOpen">メダル交換所</button></div>
+    </div>
     <div class="panel">
       <h3 class="sec"><span>プレイヤー</span></h3>
       <label for="nameIn" class="fl">ニックネーム<input id="nameIn" maxlength="12" placeholder="うんこマン"></label>
@@ -537,6 +616,12 @@ canvas{display:block}
         <li><b>トイレ渋滞タイム</b>：2分たつと落下が最速＆攻撃が2倍</li>
         <li><b>ハンデ</b>：ひとり練習ではそのまま使える。対戦では相手にお願いが届き、OKをもらえたときだけかかる（NGならなし）</li>
         <li><b>ガチャのかぶり</b>：持っているものが出たら、まだ持っていない服装か持ち物に変わる</li>
+        <li><b>うんこメダル</b>：ガチャ1回で1枚。メダル交換所で好きなものと交換（R=10・SR=30・SSR=100・シークレット=300枚）</li>
+        <li><b>今週のピックアップ</b>：毎週2人のキャラが出やすさ3倍。イベント中は限定アイテムが出やすさ2倍</li>
+        <li><b>ログインボーナス</b>：開いた日ごとに1日分。7日目は10連ガチャ券</li>
+        <li><b>デイリーミッション</b>：毎日3つ。1つ50コイン、全部で+100コイン</li>
+        <li><b>ボスに挑戦</b>：12ステージ。はじめてクリアでごほうび</li>
+        <li><b>なかよし度</b>：同じキャラで遊ぶほどアップ（勝つと3・負けても1）。Lv2で100コイン、Lv3で「色ちがい」、Lv4で300コイン、Lv5でメダル30枚＆とくべつセリフ</li>
         <li><b>3本先取</b>：対戦は先に3回勝ったほうがマッチ勝利</li>
         <li><b>3連鎖以上</b>：キャラのカットインが入る</li>
       </ul>
@@ -693,13 +778,13 @@ function useItem(gm,i){
   }else if(it==='beam'){
     gm.beams++;if(mode==='cpu'&&cg)cg.nextHide=10;say2(gm,'便秘ビーム!!','beam');speak('chain');
   }
-  gm.items.splice(i,1);dirty=true;
+  gm.items.splice(i,1);dirty=true;mission('item');
 }
 function useFlush(gm){
   if(!gm||me.st!=='play'||gm.phase!=='control'||gm.flushes<=0)return;
   gm.flushes--;
   for(const y of [H-2,H-1])for(let x=0;x<W;x++)gm.b[idx(x,y)]=0;
-  gravity(gm);say2(gm,'ジャーッ!!','flush');dirty=true;
+  gravity(gm);say2(gm,'ジャーッ!!','flush');dirty=true;mission('item');
 }
 function specialReady(gm){const chr=gm?gm.chr:myChr,sp=SPECIAL[chr];if(!gm||!sp||sp.fx==='auto')return false;if((sp.atk||sp.send)&&!sp.fx&&mode!=='online'&&mode!=='cpu')return false;return gm.gauge>=sp.cost}
 const ATK_T={fz:3,dc:6,sk:5,bm:10},ATK_K={fz:'freezeT',dc:'decoT',sk:'shakeT',bm:'nextHide'},ATK_MSG={fz:'動けない!!',dc:'色が見えない!!',sk:'画面がゆれる!!',bm:'NEXTが見えない!!'};
@@ -739,6 +824,7 @@ function applySpecial(gm){
 function useSpecial(gm){
   if(!gm||me.st!=='play'||gm.phase!=='control'||!specialReady(gm))return;
   if(!applySpecial(gm)){say2(gm,'いまは使えない!');return}
+  mission('special');
   speak('big');
 }
 function lineText(chr,e){const L=LINES[chr]&&LINES[chr][e];return L?L[Math.floor(Math.random()*L.length)]:''}
@@ -793,6 +879,7 @@ function checkPop(gm){
       if(nx>=0&&nx<W&&ny>=1&&ny<H){const v=gm.b[idx(nx,ny)];if(v===9||v===5||v===6)pop.add(idx(nx,ny))}}}
   for(const i of pop)if(gm.b[i]===5)giveItem(gm);
   gm.chain++;gm.maxChain=Math.max(gm.maxChain||0,gm.chain);
+  if(!gm.isCpu&&gm===g){if(gm.chain===3)mission('chain3');if(gm.chain===2)mission('chain2x5')}
   const n=groups.reduce((a,b)=>a+b,0);
   let bonus=CP[Math.min(gm.chain-1,CP.length-1)]+groups.reduce((a,b)=>a+GB(b),0)+CB[colors.size-1];
   if(!bonus)bonus=1;
@@ -1053,7 +1140,7 @@ function drawChara(ctx,x,y,s,id,mood,look){
   ctx.save();
   ctx.beginPath();ctx.rect(x0,y0,s,s);ctx.clip();
   if(mood==='happy'){const z=1.06;ctx.drawImage(im,x-s*z/2,y-s*z/2+s*0.02,s*z,s*z)}else ctx.drawImage(im,x0,y0,s,s);
-  if(look&&look.cos)applyCos(ctx,x0,y0,s,look.cos);
+  if(look&&look.cos==='alt')applyAlt(ctx,x0,y0,s,s,id);else if(look&&look.cos)applyCos(ctx,x0,y0,s,look.cos);
   if(mood==='sad'){
     ctx.globalCompositeOperation='saturation';ctx.fillStyle='hsl(0,0%,50%)';ctx.globalAlpha=0.75;ctx.fillRect(x0,y0,s,s);
     ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
@@ -1068,8 +1155,11 @@ function drawChara(ctx,x,y,s,id,mood,look){
   ctx.restore();
 }
 // ---------- cosmetics ----------
-const COS={gold:{name:'ゴールド',r:'SSR'},rainbow:{name:'レインボー',r:'SSR'},neon:{name:'ネオン',r:'SR'},night:{name:'ミッドナイト',r:'SR'},sakura:{name:'サクラ',r:'SR'},zombie:{name:'ゾンビ',r:'R'},mono:{name:'まんが',r:'R'}};
-const ACC={crown:{name:'王冠',r:'SSR'},halo:{name:'天使の輪',r:'SSR'},horns:{name:'悪魔のツノ',r:'SR'},catears:{name:'ネコミミ',r:'SR'},flower:{name:'花かんむり',r:'SR'},poophat:{name:'うんこ帽子',r:'SR'},star:{name:'星バッジ',r:'R'},heart:{name:'ハートバッジ',r:'R'},trophy:{name:'トロフィー',r:'R'},pet:{name:'ペットうんこ',r:'R'}};
+const COS={alt:{name:'色ちがい',r:'NONE'},pumpkin:{name:'パンプキン',r:'SR',ev:'halloween'},xmas:{name:'ホーリーナイト',r:'SR',ev:'xmas'},gold:{name:'ゴールド',r:'SSR'},rainbow:{name:'レインボー',r:'SSR'},neon:{name:'ネオン',r:'SR'},night:{name:'ミッドナイト',r:'SR'},sakura:{name:'サクラ',r:'SR'},zombie:{name:'ゾンビ',r:'R'},mono:{name:'まんが',r:'R'}};
+const ACC={witchhat:{name:'魔女ぼうし',r:'SSR',ev:'halloween'},jacko:{name:'かぼちゃランタン',r:'R',ev:'halloween'},santahat:{name:'サンタぼうし',r:'SSR',ev:'xmas'},tree:{name:'ツリー',r:'R',ev:'xmas'},crown:{name:'王冠',r:'SSR'},halo:{name:'天使の輪',r:'SSR'},horns:{name:'悪魔のツノ',r:'SR'},catears:{name:'ネコミミ',r:'SR'},flower:{name:'花かんむり',r:'SR'},poophat:{name:'うんこ帽子',r:'SR'},star:{name:'星バッジ',r:'R'},heart:{name:'ハートバッジ',r:'R'},trophy:{name:'トロフィー',r:'R'},pet:{name:'ペットうんこ',r:'R'}};
+function applyAlt(ctx,x0,y0,w,h,id){let hs=0;for(const ch of String(id))hs=(hs*31+ch.charCodeAt(0))>>>0;const hue=(hs*47)%360;
+  ctx.globalCompositeOperation='hue';ctx.globalAlpha=0.8;ctx.fillStyle='hsl('+hue+',90%,55%)';ctx.fillRect(x0,y0,w,h);ctx.globalCompositeOperation='soft-light';ctx.globalAlpha=0.35;ctx.fillStyle='#fff';ctx.fillRect(x0,y0,w,h);
+  ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.strokeStyle='hsl('+hue+',90%,70%)';ctx.lineWidth=Math.max(2,w*0.04);ctx.shadowColor=ctx.strokeStyle;ctx.shadowBlur=w*0.06;ctx.strokeRect(x0+w*0.02,y0+w*0.02,w*0.96,h-w*0.04);ctx.shadowBlur=0}
 function applyCos(ctx,x0,y0,s,cos){applyCosRect(ctx,x0,y0,s,s,cos)}
 function applyCosRect(ctx,x0,y0,s,hh,cos){const sy=hh/s;
   const fill=(op,col,a)=>{ctx.globalCompositeOperation=op;ctx.globalAlpha=a;ctx.fillStyle=col;ctx.fillRect(x0,y0,s,hh)};
@@ -1081,6 +1171,8 @@ function applyCosRect(ctx,x0,y0,s,hh,cos){const sy=hh/s;
   else if(cos==='night'){fill('multiply','#5a6ad0',0.55);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.fillStyle='#fff6b0';ctx.beginPath();ctx.arc(x0+s*0.84,y0+s*0.16,s*0.08,0,7);ctx.fill();ctx.fillStyle='#3a3a8a';ctx.beginPath();ctx.arc(x0+s*0.87,y0+s*0.14,s*0.07,0,7);ctx.fill();dots('rgba(255,255,255,.85)',8,0.012)}
   else if(cos==='sakura'){fill('soft-light','#ff8fc8',0.85);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=0.9;ctx.fillStyle='#ffc2e2';for(let k=0;k<9;k++){const px=x0+s*((k*41%97)/97),py=y0+hh*((k*29%89)/89);ctx.beginPath();ctx.ellipse(px,py,s*0.03,s*0.018,k,0,7);ctx.fill()}}
   else if(cos==='zombie'){fill('color','#86d36b',0.6);fill('multiply','#b0c8a0',0.35);dots('rgba(90,140,60,.6)',6,0.02)}
+  else if(cos==='pumpkin'){fill('soft-light','#ff8a1a',0.85);fill('multiply','#7a3ab0',0.2);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=0.85;ctx.fillStyle='#1a0a20';for(let k=0;k<3;k++){const bx=x0+s*(0.15+k*0.32),by=y0+hh*(0.1+(k%2)*0.06),w2=s*0.06;ctx.beginPath();ctx.moveTo(bx,by);ctx.quadraticCurveTo(bx-w2,by-w2*0.8,bx-w2*2,by);ctx.quadraticCurveTo(bx-w2,by+w2*0.2,bx,by+w2*0.5);ctx.quadraticCurveTo(bx+w2,by+w2*0.2,bx+w2*2,by);ctx.quadraticCurveTo(bx+w2,by-w2*0.8,bx,by);ctx.fill()}frame('#ff8a1a','#ff8a1a')}
+  else if(cos==='xmas'){fill('soft-light','#ff4040',0.55);dots('rgba(255,255,255,.95)',14,0.014);frame('#3ad06a','#ff4040')}
   else if(cos==='mono'){fill('saturation','hsl(0,0%,50%)',1);fill('overlay','#808080',0.5);frame('#111','#000')}
   ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
 }
@@ -1098,6 +1190,11 @@ function drawAcc(ctx,x0,y0,s,acc){
   else if(acc==='star'||acc==='heart'){const [px,py]=P(.85,.85),r=s*0.11;ctx.fillStyle=acc==='star'?gold():'#ff5aa8';ctx.beginPath();ctx.arc(px,py,r,0,7);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=Math.max(1,s*0.015);ctx.stroke();ctx.fillStyle='#fff';ctx.beginPath();
     if(acc==='star'){for(let k=0;k<10;k++){const an=-Math.PI/2+k*Math.PI/5,rr=k%2?r*0.28:r*0.65;ctx.lineTo(px+Math.cos(an)*rr,py+Math.sin(an)*rr)}}else{ctx.moveTo(px,py+r*0.5);ctx.bezierCurveTo(px-r*0.9,py,px-r*0.5,py-r*0.7,px,py-r*0.25);ctx.bezierCurveTo(px+r*0.5,py-r*0.7,px+r*0.9,py,px,py+r*0.5)}ctx.closePath();ctx.fill()}
   else if(acc==='trophy'){const [px,py]=P(.15,.84);const r=s*0.1;ctx.fillStyle=gold();ctx.beginPath();ctx.moveTo(px-r,py-r);ctx.lineTo(px+r,py-r);ctx.quadraticCurveTo(px+r,py+r*0.3,px,py+r*0.4);ctx.quadraticCurveTo(px-r,py+r*0.3,px-r,py-r);ctx.fill();ctx.fillRect(px-r*0.15,py+r*0.35,r*0.3,r*0.4);ctx.fillRect(px-r*0.5,py+r*0.72,r,r*0.25);ctx.strokeStyle='#ffd23f';ctx.lineWidth=Math.max(1,s*0.015);ctx.beginPath();ctx.arc(px-r,py-r*0.5,r*0.3,Math.PI*0.5,Math.PI*1.5);ctx.stroke();ctx.beginPath();ctx.arc(px+r,py-r*0.5,r*0.3,-Math.PI*0.5,Math.PI*0.5);ctx.stroke()}
+  else if(acc==='witchhat'){ctx.fillStyle='#2a1040';ctx.beginPath();ctx.moveTo(...P(.3,.2));ctx.quadraticCurveTo(...P(.48,.12),...P(.62,-.04));ctx.quadraticCurveTo(...P(.6,.1),...P(.7,.2));ctx.closePath();ctx.fill();ctx.beginPath();ctx.ellipse(...P(.5,.2),s*0.26,s*0.045,0,0,7);ctx.fill();ctx.fillStyle='#ff8a1a';ctx.fillRect(...P(.36,.15),s*0.3,s*0.035);ctx.fillStyle='#ffd23f';ctx.beginPath();ctx.arc(...P(.5,.165),s*0.018,0,7);ctx.fill()}
+  else if(acc==='jacko'||acc==='santahat'||acc==='tree'){
+    if(acc==='jacko'){const [px,py]=P(.17,.85),r=s*0.1;ctx.fillStyle='#ff8a1a';ctx.beginPath();ctx.ellipse(px,py,r*1.15,r,0,0,7);ctx.fill();ctx.strokeStyle='#b0500a';ctx.lineWidth=Math.max(1,s*0.01);ctx.beginPath();ctx.ellipse(px,py,r*0.45,r,0,0,7);ctx.stroke();ctx.fillStyle='#3a8a2a';ctx.fillRect(px-r*0.1,py-r*1.25,r*0.2,r*0.3);ctx.fillStyle='#ffe14d';ctx.beginPath();ctx.moveTo(px-r*0.6,py-r*0.15);ctx.lineTo(px-r*0.3,py-r*0.45);ctx.lineTo(px-r*0.1,py-r*0.15);ctx.fill();ctx.beginPath();ctx.moveTo(px+r*0.1,py-r*0.15);ctx.lineTo(px+r*0.3,py-r*0.45);ctx.lineTo(px+r*0.6,py-r*0.15);ctx.fill();ctx.beginPath();ctx.moveTo(px-r*0.6,py+r*0.25);ctx.quadraticCurveTo(px,py+r*0.7,px+r*0.6,py+r*0.25);ctx.quadraticCurveTo(px,py+r*0.45,px-r*0.6,py+r*0.25);ctx.fill()}
+    else if(acc==='santahat'){ctx.fillStyle='#d0242e';ctx.beginPath();ctx.moveTo(...P(.28,.2));ctx.quadraticCurveTo(...P(.45,-.02),...P(.74,.06));ctx.quadraticCurveTo(...P(.66,.12),...P(.72,.2));ctx.closePath();ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(...P(.5,.2),s*0.25,s*0.045,0,0,7);ctx.fill();ctx.beginPath();ctx.arc(...P(.75,.07),s*0.04,0,7);ctx.fill()}
+    else{const [px,py]=P(.85,.86),r=s*0.12;ctx.fillStyle='#1f8a3a';for(const [k,w2] of [[0,1],[0.4,0.8],[0.75,0.55]]){ctx.beginPath();ctx.moveTo(px,py-r*1.1+k*r*0.5);ctx.lineTo(px-r*w2,py-r*0.3+k*r*0.5);ctx.lineTo(px+r*w2,py-r*0.3+k*r*0.5);ctx.closePath();ctx.fill()}ctx.fillStyle='#8a5a2a';ctx.fillRect(px-r*0.15,py+r*0.55,r*0.3,r*0.3);ctx.fillStyle='#ffd23f';ctx.beginPath();ctx.arc(px,py-r*1.15,r*0.15,0,7);ctx.fill();for(const [a,b,c] of [[-0.3,-0.2,'#ff4040'],[0.35,0.15,'#62c8ff'],[-0.4,0.4,'#ffe14d']]){ctx.fillStyle=c;ctx.beginPath();ctx.arc(px+a*r,py+b*r,r*0.1,0,7);ctx.fill()}}}
   else if(acc==='pet'){unko(ctx,x0+s*0.16,y0+s*0.86,s*0.24,3)}
 }
 
@@ -1503,11 +1600,11 @@ let SAVE={coins:1000,chars:[],cos:[],acc:[],eqCos:'',eqAcc:'',daily:''};
 try{const v=JSON.parse(lsGet('unko-save')||'null');if(v&&typeof v==='object')SAVE=Object.assign(SAVE,v)}catch(e){}
 function saveNow(){lsSet('unko-save',JSON.stringify(SAVE))}
 function owns(id){return BASE_CHARS.includes(id)||SAVE.chars.includes(id)}
-function myLook(){return{cos:SAVE.cos.includes(SAVE.eqCos)?SAVE.eqCos:'',acc:SAVE.acc.includes(SAVE.eqAcc)?SAVE.eqAcc:''}}
+function myLook(){return{cos:(SAVE.cos.includes(SAVE.eqCos)||(SAVE.eqCos==='alt'&&(SAVE.alt||[]).includes(myChr)))?SAVE.eqCos:'',acc:SAVE.acc.includes(SAVE.eqAcc)?SAVE.eqAcc:''}}
 function toast(t){const el=$('toast');el.textContent=t;el.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>{el.hidden=true},2400)}
 // addCoins is the single entry point for coins, so a future in-app purchase can call it too.
 function addCoins(n,why){SAVE.coins=Math.max(0,(SAVE.coins|0)+n);saveNow();updateWallet();if(why&&n>0)toast(why+'  +'+n+'コイン')}
-function updateWallet(){$('coinN').textContent=SAVE.coins;$('coinN2').textContent=SAVE.coins;if($('coinN3'))$('coinN3').textContent=SAVE.coins;
+function updateWallet(){$('coinN').textContent=SAVE.coins;document.querySelectorAll('.coinN').forEach(e=>e.textContent=SAVE.coins);document.querySelectorAll('.medalN').forEach(e=>e.textContent=SAVE.medals|0);if($('pullT')){$('pullT').hidden=!(SAVE.tickets>0);$('tixN').textContent=SAVE.tickets|0}$('coinN2').textContent=SAVE.coins;if($('coinN3'))$('coinN3').textContent=SAVE.coins;
   const b1=$('pull1'),b10=$('pull10');if(b1){b1.disabled=SAVE.coins<100||gBusy;b10.disabled=SAVE.coins<900||gBusy}}
 let myChr=lsGet('unko-chr');if(!CHARS.some(c=>c.id===myChr)||!owns(myChr))myChr='boy';
 const pickBtns=[];
@@ -1520,11 +1617,12 @@ for(const c of CHARS){
 function drawPicker(){dpr=Math.min(2,window.devicePixelRatio||1);pickBtns.forEach(([b,cv,id])=>{const own=owns(id);b.classList.toggle('locked',!own);b.setAttribute('aria-pressed',String(id===myChr));
   let lk=b.querySelector('.lock');if(!own&&!lk){lk=document.createElement('span');lk.className='lock';lk.textContent=(CHAR_R[id]||'R');b.appendChild(lk)}else if(own&&lk)lk.remove();
   b.dataset.r=CHAR_R[id]||'base';
+  {let af=b.querySelector('.afb');const lv=own&&window.__affReady?affLv(id):1;if(lv>1){if(!af){af=document.createElement('span');af.className='afb';b.appendChild(af)}af.textContent='♥'+lv}else if(af)af.remove()}
   const sec=CHAR_R[id]==='SECRET';b.classList.toggle('secretc',sec);b.classList.toggle('hidden',sec&&!own);b.querySelector('span').textContent=sec&&!own?'？？？':charOf(id).name;
   portrait(cv,cv.getContext('2d'),84,id,id===myChr?'happy':'normal',id===myChr?myLook():null)})}
 function drawKise(){
   const mk=(row,list,key,dict)=>{row.replaceChildren();
-    const opts=[''].concat(Object.keys(dict).filter(k=>list.includes(k)));
+    const opts=[''].concat(Object.keys(dict).filter(k=>list.includes(k)||(k==='alt'&&key==='eqCos'&&(SAVE.alt||[]).includes(myChr))));
     for(const k of opts){const b=document.createElement('button');b.type='button';b.setAttribute('aria-pressed',String((SAVE[key]||'')===k));
       const cv=document.createElement('canvas');const lab=document.createElement('span');lab.textContent=k?dict[k].name:'なし';b.append(cv,lab);row.appendChild(b);
       const look=key==='eqCos'?{cos:k,acc:myLook().acc}:{cos:myLook().cos,acc:k};portrait(cv,cv.getContext('2d'),52,myChr,'normal',look);
@@ -1542,6 +1640,7 @@ function showPeek(id,el,look){
   $('pkName').textContent=sec?'？？？':c.name;
   const r=CHAR_R[id]||(BASE_CHARS.includes(id)?'':'R');$('pkRar').textContent=(r==='SECRET'?'★ シークレット ★':r)+(own?'':'（ガチャで手に入る）');
   $('pkSp').replaceChildren();if(sp&&!sec){const b=document.createElement('b');b.textContent='必殺技「'+sp.name+'」';$('pkSp').append(b,document.createElement('br'),sp.desc)}
+  if(own){const lv=affLv(id),nx=affNext(id);const a=document.createElement('div');a.style.cssText='margin-top:4px;color:#ff9bd2;font-weight:800';a.textContent='なかよし Lv'+lv+(nx?'（あと'+nx+'ポイント）':'（MAX）');$('pkSp').appendChild(a);if(lv>=5){const q=document.createElement('div');q.textContent='「'+AFF_LINE+'」';$('pkSp').appendChild(q)}}
   pk.hidden=false;
   const r0=el.getBoundingClientRect(),pr=pk.getBoundingClientRect(),vw=innerWidth,vh=innerHeight,m=8;
   let x=r0.left+r0.width/2-pr.width/2;x=Math.max(m,Math.min(vw-pr.width-m,x));
@@ -1567,10 +1666,10 @@ addEventListener('scroll',hidePeek,{passive:true});
 let zMode='face';
 function drawZoom(){if($('zoomv').hidden)return;const c=charOf(myChr),sp=SPECIAL[myChr],cv=$('zCv'),ctx=cv.getContext('2d'),lk=myLook();
   if(zMode==='face')portrait(cv,ctx,300,myChr,'happy',lk);
-  else{const im=new Image();im.onload=()=>{const w=300,h=Math.round(300*im.height/im.width);ctx2size(cv,ctx,w,h);ctx.clearRect(0,0,w,h);ctx.drawImage(im,0,0,w,h);if(lk.cos){ctx.save();ctx.beginPath();ctx.rect(0,0,w,h);ctx.clip();applyCosRect(ctx,0,0,w,h,lk.cos);ctx.restore()}};im.src=CHAR_FULL[myChr]||CHAR_FULL.girl}
+  else{const im=new Image();im.onload=()=>{const w=300,h=Math.round(300*im.height/im.width);ctx2size(cv,ctx,w,h);ctx.clearRect(0,0,w,h);ctx.drawImage(im,0,0,w,h);if(lk.cos){ctx.save();ctx.beginPath();ctx.rect(0,0,w,h);ctx.clip();if(lk.cos==='alt')applyAlt(ctx,0,0,w,h,myChr);else applyCosRect(ctx,0,0,w,h,lk.cos);ctx.restore()}};im.src=CHAR_FULL[myChr]||CHAR_FULL.girl}
   $('zName').textContent=c.name;const r=CHAR_R[c.id]||(BASE_CHARS.includes(c.id)?'はじめから':'R');$('zRar').textContent=r==='SECRET'?'★ シークレット ★':r;
   $('zSp').replaceChildren();if(sp){const b=document.createElement('b');b.textContent='必殺技「'+sp.name+'」';$('zSp').append(b,document.createElement('br'),sp.desc)}
-  $('zSay').textContent=lineText(myChr,'idle');$('zFace').setAttribute('aria-pressed',String(zMode==='face'));$('zBody').setAttribute('aria-pressed',String(zMode==='body'))}
+  $('zSay').textContent=affLv(myChr)>=5?AFF_LINE:lineText(myChr,'idle');$('zFace').setAttribute('aria-pressed',String(zMode==='face'));$('zBody').setAttribute('aria-pressed',String(zMode==='body'))}
 $('zOpen').addEventListener('click',()=>{$('zoomv').hidden=false;drawKise();drawZoom()});
 $('zClose').addEventListener('click',()=>{$('zoomv').hidden=true});
 $('zoomv').addEventListener('click',e=>{if(e.target===$('zoomv'))$('zoomv').hidden=true});
@@ -1707,19 +1806,24 @@ function pressReady(){
   publish(true);handleOpp();
 }
 const WIN_N=3;
-function matchOver(){return (me.wins|0)>=WIN_N||(me.losses|0)>=WIN_N}
-function stars(n){return '★'.repeat(Math.min(n,WIN_N))+'☆'.repeat(Math.max(0,WIN_N-n))}
+function needWins(){return story!=null?1:WIN_N}
+function matchOver(){return (me.wins|0)>=needWins()||(me.losses|0)>=needWins()}
+function stars(n){const N=needWins();return '★'.repeat(Math.min(n,N))+'☆'.repeat(Math.max(0,N-n))}
 function finish(res,why){
   if(me.st==='over')return;
   me.st='over';me.res=res;me.why=why||'';speak(res==='win'?'win':'lose');
   if(mode==='cpu')cpuSpeak(res==='win'?'lose':'win');
   if(mode==='online'||mode==='cpu'){if(res==='win')me.wins=(me.wins|0)+1;else me.losses=(me.losses|0)+1}
   {const n=mode==='cpu'?(res==='win'?20+CPU.lv*20:10):(res==='win'?50:15);me.coinGain=n;addCoins(n)}
+  if(mode==='cpu'&&res==='win')mission('cpuwin');
+  addAff(myChr,res==='win'?3:1);
+  if(story!=null&&res==='win')storyClear(story);
   if(g&&g.phase!=='end'){g.piece=null;g.phase='end'}
   publish(true);
 }
-function onDeath(){if(mode==='solo'){me.st='over';me.res='solo';speak('lose');me.coinGain=Math.max(5,Math.floor((g?g.score:0)/300));addCoins(me.coinGain)}else finish('lose','')}
+function onDeath(){if(mode==='solo'){me.st='over';me.res='solo';speak('lose');me.coinGain=Math.max(5,Math.floor((g?g.score:0)/300));addCoins(me.coinGain);if(g&&g.score>=3000)mission('score3k');addAff(myChr,1)}else finish('lose','')}
 function startSolo(){
+  story=null;
   me.coinGain=0;
   ACT={...HC};actNote='';
   speak('wait');
@@ -1734,8 +1838,8 @@ function showArena(){
 }
 async function leave(){
   if(rm){try{await rm.leave()}catch(e){}}
-  rm=null;mode=null;g=null;cg=null;peersNow=[];oppPeer=null;
-  arena.hidden=true;lobbyEl.hidden=false;document.body.classList.remove('ingame');
+  rm=null;mode=null;g=null;cg=null;peersNow=[];oppPeer=null;story=null;
+  arena.hidden=true;lobbyEl.hidden=false;document.body.classList.remove('ingame');try{renderToday();drawPicker()}catch(e){}
 }
 
 // ---------- overlay ----------
@@ -1752,6 +1856,17 @@ function setOverlay(){
   if(me.st==='count'){add('big',String(Math.max(1,Math.ceil(countT))));if(o)add('msg','VS '+(o.presence.name||'だれか'));if(actNote)add('msg',actNote);return}
   if(me.st==='over'){
     if(me.res==='solo'){add('big','終了!!');add('msg','スコア '+(g?g.score:0));if(me.coinGain)add('msg','+'+me.coinGain+' コイン');btn('もう一回',startSolo);return}
+    if(matchOver()&&story!=null){
+      const won=(me.wins|0)>=1;const st=STAGES[story];
+      const cv=document.createElement('canvas');cv.className='pose';ov.appendChild(cv);portrait(cv,cv.getContext('2d'),96,st.c,won?'sad':'happy');
+      add('big',won?'クリア!!':'まけちゃった…').style.fontSize='clamp(26px,8vw,40px)';
+      add('msg','ステージ'+(story+1)+'：'+charOf(st.c).name);
+      if(won&&me.storyReward)add('msg','ごほうび：'+me.storyReward);
+      if(me.coinGain)add('msg','+'+me.coinGain+' コイン');
+      if(won&&story+1<STAGES.length)btn('つぎのステージへ',()=>startStory(story+1));
+      if(!won)btn('もう一回',()=>{me.wins=0;me.losses=0;startCpuRound()});
+      btn('ステージ一覧へ',async()=>{await leave();openStory()}).className='sub';return;
+    }
     if(matchOver()){
       const won=(me.wins|0)>=WIN_N;
       const pim=document.createElement('img');pim.className='pose'+(won?'':' lost');pim.alt=charOf(myChr).name;pim.src=CHAR_FULL[myChr]||CHAR_FULL.girl;ov.appendChild(pim);
@@ -1805,6 +1920,7 @@ function cpuOpp(){
     b:cg?encode(cg):'',p,sc:cg?cg.score:0,ch:cg&&cg.chainShow?cg.chainShow.n:0,say:[cpu.say.e,cpu.say.i],hc:['強さ：'+LV[CPU.lv].name],rs:!!(cg&&cg.rush)}};
 }
 function startCpu(){
+  story=null;
   const lv=document.querySelector('input[name=lv]:checked');CPU.lv=lv?+lv.value:1;lsSet('unko-lv',String(CPU.lv));
   const pool=CHARS.map(c=>c.id).filter(id=>id!==myChr);CPU.chr=pool[Math.floor(Math.random()*pool.length)];
   {const ck=Object.keys(COS),ak=Object.keys(ACC);CPU.look={cos:Math.random()<0.4?ck[Math.floor(Math.random()*ck.length)]:'',acc:Math.random()<0.5?ak[Math.floor(Math.random()*ak.length)]:''}}
@@ -1814,7 +1930,7 @@ function startCpu(){
   startCpuRound();
 }
 function startCpuRound(){
-  me.coinGain=0;
+  me.coinGain=0;me.storyReward='';
   me.round++;me.st='count';me.res=null;me.why='';countT=3;g=null;cg=null;seed=(Math.random()*4294967296)>>>0;
   cpu.plan=null;cpuSpeak('wait');speak('wait');ovKey='';
 }
@@ -1924,16 +2040,18 @@ function secretReveal(pz){return new Promise(res=>{
 })}
 let gBusy=false;
 const RATE={SECRET:0.5,SSR:3,SR:17,R:79.5},REFUND={R:10,SR:50,SSR:200,SECRET:500};
+const itemOn=v=>!v.ev||(activeEvent()&&activeEvent().id===v.ev);
 function poolOf(r){const out=[];
   for(const c of CHARS)if(!BASE_CHARS.includes(c.id)&&(CHAR_R[c.id]||'R')===r)out.push({t:'char',id:c.id,name:c.name,r});
-  for(const [k,v] of Object.entries(COS))if(v.r===r)out.push({t:'cos',id:k,name:'服装：'+v.name,r});
-  for(const [k,v] of Object.entries(ACC))if(v.r===r)out.push({t:'acc',id:k,name:'持ち物：'+v.name,r});return out}
+  for(const [k,v] of Object.entries(COS))if(v.r===r&&itemOn(v))out.push({t:'cos',id:k,name:'服装：'+v.name,r,ev:v.ev});
+  for(const [k,v] of Object.entries(ACC))if(v.r===r&&itemOn(v))out.push({t:'acc',id:k,name:'持ち物：'+v.name,r,ev:v.ev});return out}
+function itemW(pz){return pz.t==='char'&&pickupIds().includes(pz.id)?3:(pz.ev?2:1)}
 function roll(minSR){let x=Math.random()*100,r;if(minSR)r=x<0.5?'SECRET':x<15.5?'SSR':'SR';else r=x<RATE.SECRET?'SECRET':x<RATE.SECRET+RATE.SSR?'SSR':x<RATE.SECRET+RATE.SSR+RATE.SR?'SR':'R';
-  const p=poolOf(r);return Object.assign({},p[Math.floor(Math.random()*p.length)])}
+  const p=poolOf(r);const tot=p.reduce((a,b)=>a+itemW(b),0);let q=Math.random()*tot;for(const it of p){q-=itemW(it);if(q<0)return Object.assign({},it)}return Object.assign({},p[p.length-1])}
 const RORD=['R','SR','SSR','SECRET'];
 function cosmeticFor(r){
-  const free=[];for(const [k,v] of Object.entries(COS))if(!SAVE.cos.includes(k))free.push({t:'cos',id:k,name:'服装：'+v.name,r:v.r});
-  for(const [k,v] of Object.entries(ACC))if(!SAVE.acc.includes(k))free.push({t:'acc',id:k,name:'持ち物：'+v.name,r:v.r});
+  const free=[];for(const [k,v] of Object.entries(COS))if(!SAVE.cos.includes(k)&&RORD.includes(v.r)&&itemOn(v))free.push({t:'cos',id:k,name:'服装：'+v.name,r:v.r});
+  for(const [k,v] of Object.entries(ACC))if(!SAVE.acc.includes(k)&&RORD.includes(v.r)&&itemOn(v))free.push({t:'acc',id:k,name:'持ち物：'+v.name,r:v.r});
   if(!free.length)return null;
   // same rarity first (SECRET counts as SSR), else the closest rarity below, else anything left
   const want=r==='SECRET'?'SSR':r;
@@ -1961,8 +2079,8 @@ function prizeCard(pz){const d=document.createElement('div');d.className='pcard 
   if(pz.conv){const c=document.createElement('span');c.className='conv';c.textContent='→ '+pz.conv.name+' GET!';d.appendChild(c)}
   const look=pz.t==='cos'?{cos:pz.id}:pz.t==='acc'?{acc:pz.id}:pz.conv?(pz.conv.t==='cos'?{cos:pz.conv.id}:{acc:pz.conv.id}):null;
   const pid=pz.t==='char'?pz.id:myChr;portrait(cv,cv.getContext('2d'),96,pid,'happy',look);d.dataset.peek=pid;if(look)d.dataset.look=JSON.stringify(look);return d}
-async function pull(n){
-  const cost=n===10?900:100;if(gBusy||SAVE.coins<cost)return;gBusy=true;SAVE.coins-=cost;updateWallet();
+async function pull(n,tix){
+  const cost=tix?0:(n===10?900:100);if(gBusy||SAVE.coins<cost||(tix&&!(SAVE.tickets>0)))return;gBusy=true;SAVE.coins-=cost;if(tix)SAVE.tickets--;SAVE.medals=(SAVE.medals|0)+n;updateWallet();mission('gacha1',n);
   const res=[];for(let i=0;i<n;i++){res.push(roll(n===10&&i===9&&!res.some(p=>p.r!=='R')))}
   res.forEach(grant);saveNow();
   $('gres').replaceChildren();const m=$('machine');m.classList.add('shake');const t0=performance.now();
@@ -1977,15 +2095,95 @@ async function pull(n){
 function oddsTable(){const t=document.createElement('table');t.className='odds';
   const tr=(a,b,h)=>{const r=document.createElement('tr');for(const v of [a,b]){const c=document.createElement(h?'th':'td');c.textContent=v;r.appendChild(c)}t.appendChild(r)};
   tr('レア度・景品','確率',true);
-  for(const r of ['SECRET','SSR','SR','R']){const p=poolOf(r);tr((r==='SECRET'?'シークレット':r)+'（全'+p.length+'種）',RATE[r]+'%');for(const pz of p)tr('　'+(r==='SECRET'&&!SAVE.chars.includes(pz.id)?'？？？（シークレットキャラ）':pz.name),(RATE[r]/p.length).toFixed(3)+'%')}
+  for(const r of ['SECRET','SSR','SR','R']){const p=poolOf(r);tr((r==='SECRET'?'シークレット':r)+'（全'+p.length+'種）',RATE[r]+'%');const tw=p.reduce((a,b)=>a+itemW(b),0);for(const pz of p)tr('　'+(r==='SECRET'&&!SAVE.chars.includes(pz.id)?'？？？（シークレットキャラ）':pz.name)+(itemW(pz)>1?(pz.t==='char'?'（ピックアップ）':'（イベント限定）'):''),(RATE[r]*itemW(pz)/tw).toFixed(3)+'%')}
   const note=document.createElement('p');note.className='note';note.textContent='10連の10回目はSR以上が確定（シークレット 0.5%・SSR 15%・SR 84.5%）。持っているものが出たときは、まだ持っていない服装か持ち物にランダムで変わります（できるだけ同じレア度。全部そろったあとは R=10・SR=50・SSR=200・シークレット=500 コインに戻ります）。';
   $('oddsTbl').replaceChildren(t,note)}
-oddsTable();
-$('gachaOpen').addEventListener('click',()=>{document.body.classList.add('gacha');lobbyEl.hidden=true;$('gview').hidden=false;$('gres').replaceChildren();drawMachine(0);updateWallet();window.scrollTo(0,0)});
-$('gachaClose').addEventListener('click',()=>{document.body.classList.remove('gacha');$('gview').hidden=true;lobbyEl.hidden=false;drawPicker();drawKise()});
-$('pull1').addEventListener('click',()=>pull(1));$('pull10').addEventListener('click',()=>pull(10));
-{const d0=new Date(),today=d0.getFullYear()+'-'+String(d0.getMonth()+1).padStart(2,'0')+'-'+String(d0.getDate()).padStart(2,'0');if(SAVE.daily!==today){const first=!SAVE.daily;SAVE.daily=today;saveNow();if(!first)setTimeout(()=>addCoins(100,'ログインボーナス'),1200)}}
+$('gachaOpen').addEventListener('click',()=>{document.body.classList.add('gacha');lobbyEl.hidden=true;$('gview').hidden=false;$('gres').replaceChildren();drawMachine(0);renderPickup();oddsTable();updateWallet();window.scrollTo(0,0)});
+$('gachaClose').addEventListener('click',()=>{closeView()});
+$('pull1').addEventListener('click',()=>pull(1));$('pull10').addEventListener('click',()=>pull(10));$('pullT').addEventListener('click',()=>pull(10,true));
 updateWallet();
+// ---------- calendar / events / pickup ----------
+const pad2=n=>String(n).padStart(2,'0');
+function dayKey(d){d=d||new Date();return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())}
+function weekNo(d){d=d||new Date();const t=Date.UTC(d.getFullYear(),d.getMonth(),d.getDate());return Math.floor((t-Date.UTC(2026,0,5))/604800000)}
+function weekEnd(){const d=new Date();d.setDate(d.getDate()+(6-((d.getDay()+6)%7)));return (d.getMonth()+1)+'/'+d.getDate()}
+function seeded(n){let a=n>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const EVENTS=[{id:'halloween',name:'ハロウィンイベント',until:'10/31',on:d=>d.getMonth()===9},{id:'xmas',name:'クリスマスイベント',until:'12/25',on:d=>d.getMonth()===11&&d.getDate()<=25}];
+function activeEvent(){const d=new Date();return EVENTS.find(e=>e.on(d))||null}
+let _pick=null;
+function pickupIds(){const w=weekNo();if(_pick&&_pick.w===w)return _pick.ids;const pool=CHARS.filter(c=>['SR','SSR'].includes(CHAR_R[c.id])).map(c=>c.id).sort();const r=seeded(w*7919+13);const ids=[];while(ids.length<2&&pool.length)ids.push(pool.splice(Math.floor(r()*pool.length),1)[0]);_pick={w,ids};return ids}
+function evText(){const e=activeEvent();if(!e)return null;const items=[...Object.values(COS),...Object.values(ACC)].filter(v=>v.ev===e.id).map(v=>v.name);return {cls:e.id,html:['<b>'+e.name+'開催中！</b>','限定の「'+items.join('・')+'」がガチャに登場（'+e.until+'まで・出やすさ2倍）']}}
+function renderEvent(){for(const id of ['evBanner','evBanner2']){const el=$(id);if(!el)continue;const t=evText();el.hidden=!t;if(!t)continue;el.className='evbanner '+t.cls;el.replaceChildren();const b=document.createElement('b');b.textContent=t.html[0].replace(/<\/?b>/g,'');el.append(b,t.html[1])}}
+function renderPickup(){const box=$('pickupBox');box.replaceChildren();const ids=pickupIds();
+  for(const id of ids){const cv=document.createElement('canvas');box.appendChild(cv);portrait(cv,cv.getContext('2d'),58,id,'happy');bindPeek(cv,()=>id)}
+  const t=document.createElement('div');t.className='pt';const b=document.createElement('b');b.textContent='今週のピックアップ';t.append(b,ids.map(i=>charOf(i).name).join('・')+' の出やすさ3倍！（〜'+weekEnd()+'）');box.appendChild(t);renderEvent()}
+// ---------- login calendar ----------
+const LOGIN_REW=[100,150,200,250,300,400,'t'];
+function doLogin(){const today=dayKey();const L=SAVE.login||{day:0,last:''};if(L.last===today){SAVE.login=L;return}
+  L.day=L.day%7+1;L.last=today;SAVE.login=L;const rw=LOGIN_REW[L.day-1];if(rw==='t')SAVE.tickets=(SAVE.tickets|0)+1;else SAVE.coins+=rw;saveNow();updateWallet();
+  setTimeout(()=>toast('ログインボーナス '+L.day+'日目：'+(rw==='t'?'10連ガチャ券 GET!':rw+'コイン')),1400)}
+function renderCal(){const c=$('cal');c.replaceChildren();const L=SAVE.login||{day:0};
+  LOGIN_REW.forEach((rw,i)=>{const d=document.createElement('div');d.className='cday'+(i<L.day?' got':'')+(i===L.day-1?' now':'')+(rw==='t'?' big':'');
+    const n=document.createElement('span');n.textContent=(i+1)+'日目';const b=document.createElement('b');b.textContent=rw==='t'?'10連券':String(rw);d.append(n,b);c.appendChild(d)})}
+// ---------- daily missions ----------
+const MIS={cpuwin:{t:'CPUに1回勝つ',n:1},chain3:{t:'3連鎖以上を1回する',n:1},gacha1:{t:'ガチャを1回まわす',n:1},play3:{t:'3回あそぶ',n:3},special:{t:'必殺技を1回つかう',n:1},item:{t:'アイテムか「流す」を1回つかう',n:1},score3k:{t:'ひとり練習で3000点とる',n:1},chain2x5:{t:'2連鎖以上を5回する',n:5}};
+function dmState(){const today=dayKey();if(!SAVE.dm||SAVE.dm.date!==today){const ks=Object.keys(MIS);const r=seeded(parseInt(today.replace(/-/g,''),10));const ids=[];while(ids.length<3){const k=ks[Math.floor(r()*ks.length)];if(!ids.includes(k))ids.push(k)}SAVE.dm={date:today,ids,prog:{},claimed:[],bonus:false};saveNow()}return SAVE.dm}
+function mission(id,n){const d=dmState();if(!d.ids.includes(id))return;const before=d.prog[id]|0;d.prog[id]=Math.min(MIS[id].n,before+(n||1));if(d.prog[id]!==before){saveNow();if(d.prog[id]>=MIS[id].n&&before<MIS[id].n)toast('ミッション達成！「'+MIS[id].t+'」');renderToday()}}
+function claimMission(id){const d=dmState();if((d.prog[id]|0)<MIS[id].n||d.claimed.includes(id))return;d.claimed.push(id);addCoins(50,'ミッション報酬');if(d.claimed.length===d.ids.length&&!d.bonus){d.bonus=true;setTimeout(()=>addCoins(100,'全部達成ボーナス'),900)}saveNow();renderToday()}
+function renderMissions(){const box=$('missions');box.replaceChildren();const d=dmState();
+  for(const id of d.ids){const m=MIS[id],p=d.prog[id]|0,done=p>=m.n,cl=d.claimed.includes(id);const row=document.createElement('div');row.className='mis'+(done?' done':'')+(cl?' claimed':'');
+    const t=document.createElement('span');t.className='mt';t.textContent=m.t+'（'+p+'/'+m.n+'）';const bar=document.createElement('div');bar.className='bar';const i=document.createElement('i');i.style.width=Math.round(p/m.n*100)+'%';bar.appendChild(i);
+    const b=document.createElement('button');b.className=done&&!cl?'main':'sub small';b.textContent=cl?'受けとり済':done?'50コイン受けとる':'50コイン';b.disabled=!done||cl;b.addEventListener('click',()=>claimMission(id));row.append(t,bar,b);box.appendChild(row)}
+  const bo=document.createElement('div');bo.className='misbonus';bo.textContent=d.bonus?'全部達成ボーナス 受けとり済み！':'3つ全部受けとると、ボーナス100コイン！';box.appendChild(bo)}
+function renderToday(){if(!$('cal'))return;renderCal();renderMissions();renderEvent()}
+// ---------- affinity ----------
+const AFF_LV=[0,3,10,25,50];
+function affXp(id){return (SAVE.aff&&SAVE.aff[id])|0}
+function affLv(id){const x=affXp(id);let l=1;for(let i=1;i<AFF_LV.length;i++)if(x>=AFF_LV[i])l=i+1;return l}
+function affNext(id){const l=affLv(id);return l>=AFF_LV.length?0:AFF_LV[l]-affXp(id)}
+function affReward(id,lv){if(lv===2){SAVE.coins+=100;return '+100コイン'}if(lv===3){SAVE.alt=SAVE.alt||[];if(!SAVE.alt.includes(id))SAVE.alt.push(id);return '「色ちがい」が着られるように！'}if(lv===4){SAVE.coins+=300;return '+300コイン'}if(lv===5){SAVE.medals=(SAVE.medals|0)+30;return 'メダル30枚＆とくべつセリフ！'}return ''}
+function addAff(id,n){SAVE.aff=SAVE.aff||{};const b=affLv(id);SAVE.aff[id]=affXp(id)+n;const a=affLv(id);let msg='';for(let l=b+1;l<=a;l++)msg=affReward(id,l);saveNow();updateWallet();if(a>b)setTimeout(()=>toast(charOf(id).name+'となかよしLv'+a+'！ '+msg),1600)}
+const AFF_LINE='いつもいっしょにいてくれて、ありがとう！ だいすき！';
+// ---------- boss stages ----------
+const STAGES=[{c:'baby',lv:0,rw:{coins:200}},{c:'gal',lv:0,rw:{coins:200}},{c:'oyaji',lv:1,rw:{coins:300}},{c:'ninja',lv:1,rw:{coins:300}},{c:'b03',lv:1,rw:{coins:300}},{c:'g14',lv:2,rw:{tickets:1}},
+  {c:'b09',lv:2,rw:{coins:400}},{c:'maou',lv:2,rw:{coins:500}},{c:'g15',lv:3,rw:{medals:50}},{c:'b02',lv:3,rw:{coins:600}},{c:'s4',lv:3,rw:{tickets:1},boss:true},{c:'s3',lv:3,rw:{tickets:1,medals:100},boss:true}];
+let story=null;
+function rwText(rw){const a=[];if(rw.coins)a.push(rw.coins+'コイン');if(rw.tickets)a.push('10連ガチャ券'+(rw.tickets>1?'×'+rw.tickets:''));if(rw.medals)a.push('メダル'+rw.medals+'枚');return a.join('＋')}
+function storyClear(i){SAVE.story=SAVE.story||[];if(SAVE.story.includes(i)){me.storyReward='';return}SAVE.story.push(i);const rw=STAGES[i].rw;SAVE.coins+=rw.coins|0;SAVE.tickets=(SAVE.tickets|0)+(rw.tickets|0);SAVE.medals=(SAVE.medals|0)+(rw.medals|0);me.storyReward=rwText(rw);saveNow();updateWallet()}
+function startStory(i){story=i;const st=STAGES[i];CPU.lv=st.lv;CPU.chr=st.c;CPU.look={cos:'',acc:st.boss?'crown':''};
+  mode='cpu';me={name:(nameIn.value.trim()||'うんこマン').slice(0,12),round:0,ready:true,st:'wait',res:null,why:'',wins:0,losses:0};ACT={...HC};actNote='';
+  for(const v of ['storyv','shopv','gview','giftv'])$(v).hidden=true;document.body.classList.remove('gacha');if(arena.hidden)showArena();startCpuRound()}
+function openView(id){for(const v of ['storyv','shopv','gview','giftv'])$(v).hidden=v!==id;lobbyEl.hidden=true;document.body.classList.add('gacha');window.scrollTo(0,0)}
+function closeView(){for(const v of ['storyv','shopv','gview','giftv'])$(v).hidden=true;lobbyEl.hidden=false;document.body.classList.remove('gacha');drawPicker();drawKise();renderToday()}
+function openStory(){openView('storyv');renderStory();updateWallet()}
+function renderStory(){const box=$('stages');box.replaceChildren();const done=SAVE.story||[];const reach=done.length;
+  STAGES.forEach((st,i)=>{const open=i<=Math.max(reach,...done.map(x=>x+1));const clr=done.includes(i);const d=document.createElement('div');d.className='stage'+(clr?' clear':'')+(open?'':' lock')+(st.boss?' boss':'');
+    const cv=document.createElement('canvas');const hide=CHAR_R[st.c]==='SECRET'&&!clr&&!owns(st.c);portrait(cv,cv.getContext('2d'),64,st.c,'normal');if(hide)cv.style.filter='blur(5px) brightness(.4)';
+    const info=document.createElement('div');const n=document.createElement('div');n.className='sn';n.textContent='ステージ'+(i+1)+(st.boss?'（ラスボス）':'');const b=document.createElement('div');b.className='sb';b.textContent=hide?'？？？':charOf(st.c).name;
+    const df=document.createElement('div');df.className='sd';df.textContent='強さ '+'★'.repeat(st.lv+1)+'☆'.repeat(3-st.lv)+'　'+['よわい','ふつう','つよい','鬼'][st.lv];
+    const r=document.createElement('div');r.className='sr';r.textContent=(clr?'クリア済み！ ':'はじめてクリア：')+rwText(st.rw);info.append(n,b,df,r);
+    const btn=document.createElement('button');btn.className=clr?'sub small':'main';btn.textContent=open?(clr?'もう一度':'挑戦'):'カギ';btn.disabled=!open;btn.addEventListener('click',()=>startStory(i));
+    d.append(cv,info,btn);box.appendChild(d)})}
+// ---------- medal shop ----------
+const MEDAL_COST={R:10,SR:30,SSR:100,SECRET:300};
+function shopItems(){const out=[];for(const r of ['SECRET','SSR','SR','R'])for(const it of poolOf(r))out.push(it);return out}
+function owned(it){return it.t==='char'?owns(it.id):it.t==='cos'?SAVE.cos.includes(it.id):SAVE.acc.includes(it.id)}
+function openShop(){openView('shopv');renderShop();updateWallet()}
+function renderShop(){const box=$('shop');box.replaceChildren();
+  for(const r of ['SECRET','SSR','SR','R']){const items=poolOf(r);if(!items.length)continue;const h=document.createElement('div');h.className='shopsec';h.textContent=(r==='SECRET'?'シークレット':r)+'　メダル'+MEDAL_COST[r]+'枚';box.appendChild(h);
+    const g2=document.createElement('div');g2.className='shopgrid';
+    for(const it of items){const own=owned(it);const d=document.createElement('div');d.className='sitem'+(own?' own':'');const cv=document.createElement('canvas');
+      const look=it.t==='cos'?{cos:it.id}:it.t==='acc'?{acc:it.id}:null;const pid=it.t==='char'?it.id:myChr;portrait(cv,cv.getContext('2d'),80,pid,'normal',look);
+      const sec=r==='SECRET'&&!own;if(sec)cv.style.filter='blur(5px) brightness(.4)';
+      const n=document.createElement('span');n.textContent=sec?'？？？':it.name;const b=document.createElement('button');b.className=own?'sub small':'main';b.textContent=own?'持ってる':'こうかん';b.disabled=own||(SAVE.medals|0)<MEDAL_COST[r];
+      b.addEventListener('click',()=>{if(owned(it)||(SAVE.medals|0)<MEDAL_COST[r])return;SAVE.medals-=MEDAL_COST[r];({char:SAVE.chars,cos:SAVE.cos,acc:SAVE.acc})[it.t].push(it.id);saveNow();updateWallet();renderShop();drawPicker();drawKise();
+        if(r==='SECRET')secretReveal(it);else toast(it.name+' と交換しました！')});
+      d.append(cv,n,b);if(!sec)bindPeek(d,()=>pid,()=>look);g2.appendChild(d)}
+    box.appendChild(g2)}}
+$('storyOpen').addEventListener('click',openStory);$('storyClose').addEventListener('click',closeView);
+$('shopOpen').addEventListener('click',openShop);$('shopOpen2').addEventListener('click',openShop);$('shopClose').addEventListener('click',closeView);
+SAVE.medals=SAVE.medals|0;SAVE.tickets=SAVE.tickets|0;
+window.__affReady=true;doLogin();dmState();renderToday();updateWallet();drawPicker();
 // ---------- gifts ----------
 const GK={"pub": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtNENYOI+R+i3G8eCMg4hCvObGTO3H5pJloNS/RkibSN4kqcOjqHJvrp60aa3+7HfVwnzzV7kbCIRHzjSEfOsAQ==", "enc": "CGQT3D0+DnJ8n6Otx6J3XYxKKaK1AxUbiCyq6IEMaRGhB73dKTPHnSIx+gYSXHMXHcQ2K7cJbtmvCjQBDK6O4arr0afish5v+aPlk3+S4TWJWvVP4dOz8FZVYx/VJD5x7R2/U9stwK5jHqhF1geJzt9qdF5VOv4DeDmvp1/Q0Q7JQWgJ5ezg7BmBWMt0d9/As9FYF/DOlgxGiQ==", "salt": "ckfsgPsC7Vz6v25rM7X62w==", "iv": "ubVe/pIlJIWrKrHJ"};
 const b64u={enc:u8=>btoa(String.fromCharCode(...u8)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''),dec:t=>{t=t.replace(/-/g,'+').replace(/_/g,'/');while(t.length%4)t+='=';return Uint8Array.from(atob(t),c=>c.charCodeAt(0))}};
@@ -2134,7 +2332,7 @@ function setTxt(id,v){if(uiCache[id]!==v){uiCache[id]=v;$(id).textContent=v}}
 function frame(now){
   const dt=Math.min(0.05,(now-last)/1000);last=now;
   if(!arena.hidden){
-    if(me.st==='count'){countT-=dt;if(countT<=0){me.st='play';g=makeGame(seed,ACT.c3);if(mode==='cpu'){cg=makeGame(seed,false,CPU.chr,true);cpuSentSeen=0;mySentSeen=0;cpu.plan=null;cpuSpeak('idle')}oppSentSeen=0;oppBeamSeen=0;oppAtkSeen={};dirty=true;speak('idle');handleOpp()}}
+    if(me.st==='count'){countT-=dt;if(countT<=0){me.st='play';mission('play3');g=makeGame(seed,ACT.c3);if(mode==='cpu'){cg=makeGame(seed,false,CPU.chr,true);if(story!=null&&STAGES[story].boss)cg.gauge=60;cpuSentSeen=0;mySentSeen=0;cpu.plan=null;cpuSpeak('idle')}oppSentSeen=0;oppBeamSeen=0;oppAtkSeen={};dirty=true;speak('idle');handleOpp()}}
     if(g&&me.st==='play')update(g,dt);
     if(mode==='cpu'&&cg&&me.st==='play')cpuTick(dt);
     else if(g)for(let i=0;i<g.off.length;i++)if(g.off[i]>0)g.off[i]=Math.max(0,g.off[i]-dt*18);
