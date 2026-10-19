@@ -330,6 +330,7 @@ textarea{font:inherit;font-size:14px;width:100%;padding:8px 10px;border-radius:1
 .stage.boss{background:linear-gradient(160deg,rgba(120,20,60,.6),rgba(30,10,60,.8));border-color:#ff5ad9;box-shadow:0 0 14px rgba(255,90,217,.5)}
 .stage button{padding:8px 12px;font-size:13px}
 .shop{display:grid;gap:12px}
+.pwrow{display:flex;gap:6px}.pwrow input{flex:1;min-width:0}
 .shopsel{font:inherit;font-weight:800;padding:8px 10px;border-radius:12px;border:1.5px solid var(--gold);background:rgba(10,4,40,.8);color:#fff}
 .pcard .owner{font-size:9px;color:var(--muted);line-height:1.2}
 .shopsec{font-family:var(--display);font-size:15px;color:var(--gold)}
@@ -510,7 +511,7 @@ canvas{display:block}
     </div>
     <details class="help" id="parentBox"><summary>保護者メニュー（プレゼントを作る）</summary>
       <div class="plock" id="plock">
-        <label for="ppw">保護者パスワード<input id="ppw" type="password" autocomplete="off" placeholder="xxxx-xxxx-xxxx"></label>
+        <label for="ppw">保護者パスワード<span class="pwrow"><input id="ppw" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="パスワード"><button type="button" class="sub small" id="pshow">表示</button></span></label>
         <button class="sub" id="punlock">ひらく</button>
         <p class="note" id="pmsg"></p>
       </div>
@@ -2333,7 +2334,14 @@ function buildParent(){
 function giftPayload(){return{i:Math.random().toString(36).slice(2,10)+Date.now().toString(36),c:Math.max(0,Math.min(99999,parseInt($('pcoinN').value,10)||0)),ch:[...giftSel.ch],cs:[...giftSel.cs],ac:[...giftSel.ac],gr:[...giftSel.gr],f:$('pfrom').value.trim().slice(0,12),m:$('pnote').value.trim().slice(0,40)}}
 function giftEmpty(p){return !p.c&&!p.ch.length&&!p.cs.length&&!p.ac.length&&!p.gr.length}
 $('punlock').addEventListener('click',async()=>{const m=$('pmsg');if(!window.crypto||!crypto.subtle){m.textContent='このブラウザでは使えません。';return}
-  m.textContent='確認中…';try{await unlockParent($('ppw').value.trim());$('ppw').value='';m.textContent='';$('plock').hidden=true;$('ppanel').hidden=false;buildParent()}catch(e){m.textContent='パスワードがちがいます。'}});
+  const raw=$('ppw').value;if(!raw.trim()){m.textContent='パスワードを入れてね。';return}
+  const norm=raw.normalize('NFKC').toLowerCase().replace(/[\u2010-\u2015\u2212\u30fc\uff0d\u2043_]/g,'-').replace(/\s+/g,'');
+  const cands=[...new Set([raw.trim(),norm,norm.replace(/-/g,''),raw])];
+  m.textContent='確認中…';let ok=false;for(const c of cands){try{await unlockParent(c);ok=true;break}catch(e){}}
+  if(!ok){m.textContent='パスワードがちがいます。（入力：'+raw.length+'文字）';return}
+  $('ppw').value='';m.textContent='';$('plock').hidden=true;$('ppanel').hidden=false;
+  try{buildParent()}catch(e){m.textContent='メニューの表示でエラー：'+e.message;$('plock').hidden=false}});
+$('pshow').addEventListener('click',()=>{const i=$('ppw'),on=i.type==='password';i.type=on?'text':'password';$('pshow').textContent=on?'かくす':'表示'});
 $('pmake').addEventListener('click',async()=>{const p=giftPayload();if(giftEmpty(p)){toast('プレゼントを選んでね');return}
   const code=await makeGift(p);$('pcode').value=code;const base=location.href.split('#')[0];$('plink').value=base+'#g'+code;$('pout').hidden=false;toast('コードができました')});
 $('phere').addEventListener('click',async()=>{const p=giftPayload();if(giftEmpty(p)){toast('プレゼントを選んでね');return}await openPresent(p)});
