@@ -552,7 +552,12 @@ canvas{display:block}
 .pad button:active{transform:translateY(4px);box-shadow:0 0 0 #050f3a,0 0 16px rgba(98,242,255,.8)}
 .keys{text-align:center;font-size:13px;color:var(--muted);padding:6px 12px;border-radius:12px;width:fit-content;margin:0 auto;background:rgba(10,4,40,.55);border:1px solid rgba(220,200,255,.35)}
 @media (hover:hover) and (pointer:fine){.pad{display:none}}
-@media (hover:none),(pointer:coarse){.keys{display:none}}
+@media (hover:none),(pointer:coarse){
+body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 20px)}
+.arena:not(.land) .actbar{margin-bottom:22px}
+.arena:not(.land) .pad{margin-top:auto;position:relative;padding-top:10px}
+.arena:not(.land) .pad::before{content:"";position:absolute;left:8%;right:8%;top:-12px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(191,246,255,.45),transparent)}
+.keys{display:none}}
 .arena.land{display:grid;grid-template-columns:minmax(0,1fr) clamp(150px,24vw,220px);grid-template-areas:"top top" "field pad";grid-template-rows:auto 1fr;column-gap:12px;align-items:end}
 .arena.land #topbar{grid-area:top}
 .arena.land .field{grid-area:field;justify-content:flex-start}
@@ -2609,6 +2614,9 @@ addEventListener('keydown',e=>{
   if(map[k]){e.preventDefault();act(map[k])}
 });
 addEventListener('keyup',e=>{if(e.key==='ArrowDown'&&g)g.soft=false});
+let padT=0;
+document.querySelectorAll('.pad button').forEach(b=>b.addEventListener('pointerdown',()=>{padT=Date.now()},true));
+$('actbar').addEventListener('click',e=>{if(Date.now()-padT<450){e.stopPropagation();e.preventDefault()}},true);
 document.querySelectorAll('.pad button').forEach(b=>{
   let rep=null,del=null;const a=b.dataset.a;
   const stop=()=>{clearTimeout(del);clearInterval(rep);del=rep=null;if(a==='down'&&g)g.soft=false};
