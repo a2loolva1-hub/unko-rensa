@@ -1288,7 +1288,7 @@ function gearName(id){const g=GEAR_BY[id];return g?g.n:''}
 const CIMG={};
 for(const id in CHAR_IMG){const im=new Image();im.onload=()=>{CIMG[id]=im;try{uiCache.meCh=uiCache.opCh=null}catch(e){}clearTimeout(window.__rd);window.__rd=setTimeout(()=>{try{drawPicker();drawKise()}catch(e){}},60)};im.src=CHAR_IMG[id]}
 function drawChara(ctx,x,y,s,id,mood,look){
-  const skinIm=look&&look.skin?gearImg(look.skin):null;
+  const skinIm=null;
   const im=skinIm||CIMG[charOf(id).id];
   if(!im){drawCharaVec(ctx,x,y,s,id,mood);return}
   const x0=x-s/2,y0=y-s/2;
@@ -1846,8 +1846,8 @@ let zMode='body';
 function drawZoom(){if($('zoomv').hidden)return;const c=charOf(myChr),sp=SPECIAL[myChr],cv=$('zCv'),ctx=cv.getContext('2d'),lk=myLook();
   const zi=$('zImg'),it=lk.item&&GEAR_BY[lk.item];
   if(zMode==='face'){cv.hidden=false;zi.hidden=true;portrait(cv,ctx,300,myChr,'happy',lk);$('zItem').hidden=true;$('zPet').hidden=true;$('zSkinTag').hidden=true}
-  else{cv.hidden=true;zi.hidden=false;zi.className=lk.skin?'skin':'';zi.src=lk.skin?GEAR_IMG[lk.skin]:(CHAR_FULL[myChr]||CHAR_FULL.girl);
-    const tag=$('zSkinTag');tag.hidden=!lk.skin;if(lk.skin)tag.textContent='スキン：'+gearName(lk.skin);
+  else{cv.hidden=true;zi.hidden=false;zi.className='';zi.src=CHAR_FULL[myChr]||CHAR_FULL.girl;
+    const tag=$('zSkinTag');tag.hidden=!lk.skin;if(lk.skin)tag.textContent='服装：'+gearName(lk.skin);
     $('zItem').hidden=!(it&&!it.pet);$('zPet').hidden=!(it&&it.pet);if(it){const el=it.pet?$('zPet'):$('zItem');el.src=GEAR_IMG[lk.item];el.style.setProperty('--gc',RCOL[it.r]||'#fff')}}
   $('zName').textContent=c.name;const r=CHAR_R[c.id]||(BASE_CHARS.includes(c.id)?'はじめから':'R');$('zRar').textContent=r==='SECRET'?'★ シークレット ★':r;
   $('zSp').replaceChildren();if(sp){const b=document.createElement('b');b.textContent='必殺技「'+sp.name+'」';$('zSp').append(b,document.createElement('br'),sp.desc)}
