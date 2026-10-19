@@ -34,7 +34,8 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{height:100%}
-html{background:#130a33;overscroll-behavior:none;min-height:100%}
+html{background:#130a33;overscroll-behavior:none;min-height:100%;touch-action:manipulation;-webkit-text-size-adjust:100%}
+button,canvas,.arena,.bomv{-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 body{overscroll-behavior:none}
 html:has(body.ingame),body.ingame{overflow:hidden}
 body.ingame .arena{touch-action:none}
@@ -777,6 +778,24 @@ canvas{display:block}
   </div>
 </div>
 
+<script>
+/* no zoom: block double-tap & pinch zoom (iPhone / LINE browser) */
+(function(){
+  var VP='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover';
+  function setVP(c){var m=document.querySelector('meta[name="viewport"]');if(!m){m=document.createElement('meta');m.name='viewport';(document.head||document.documentElement).appendChild(m)}m.setAttribute('content',c||VP)}
+  setVP();
+  var last=0;
+  document.addEventListener('touchend',function(e){var now=Date.now();
+    if(now-last<320&&!(e.target.closest&&e.target.closest('input,textarea,select'))){e.preventDefault();
+      var el=e.target.closest&&e.target.closest('button,label,a,[role="button"],summary');if(el&&!el.disabled)el.click()}
+    last=now},{passive:false});
+  document.addEventListener('dblclick',function(e){e.preventDefault()},{passive:false});
+  ['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault()},{passive:false})});
+  document.addEventListener('touchmove',function(e){if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});
+  /* if the page somehow got zoomed, snap back to 1x */
+  if(window.visualViewport){var t=null;visualViewport.addEventListener('resize',function(){if(visualViewport.scale>1.02){clearTimeout(t);t=setTimeout(function(){setVP('width=device-width,initial-scale=1.0001,maximum-scale=1,user-scalable=no,viewport-fit=cover');setTimeout(function(){setVP()},60)},250)}})}
+})();
+</script>
 <script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
 <script>
 (()=>{
