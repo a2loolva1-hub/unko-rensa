@@ -251,6 +251,28 @@ textarea{font:inherit;font-size:14px;width:100%;padding:8px 10px;border-radius:1
 .zskin{position:absolute;left:8px;top:8px;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:800;color:#fff;background:linear-gradient(90deg,#1a8fc8,#b07aff)}
 .zeq{margin-top:4px;color:#9fdcff;font-weight:800}
 @keyframes zfl{50%{transform:translateY(-10px) rotate(4deg)}}
+
+.kstat{margin-top:6px;padding:7px 10px;border-radius:12px;background:rgba(20,8,50,.6);border:1.5px solid rgba(255,216,107,.55);font-size:12px;font-weight:800;color:#fff;line-height:1.6}
+.kstat b{color:var(--gold);margin-right:6px}
+.kstat .st{display:inline-block;margin:2px 4px 2px 0;padding:0 8px;border-radius:999px;background:rgba(255,90,217,.22);border:1px solid rgba(255,90,217,.6)}
+.kstat .st.set{background:rgba(98,242,255,.18);border-color:rgba(98,242,255,.7)}
+.kstat small{display:block;font-weight:500;opacity:.75;font-size:11px}
+.gcard .geff{display:block;font-size:10px;line-height:1.25;color:#ffe9a8;font-weight:800;margin-top:1px;max-width:84px}
+.chwrap{position:relative;display:inline-block;line-height:0;border-radius:12px;justify-self:center}
+.chwrap>canvas{position:relative;z-index:1}
+.chwrap::before{content:"";position:absolute;inset:-5px;border-radius:14px;opacity:0;z-index:0;pointer-events:none}
+.chwrap.au-R::before{opacity:1;box-shadow:0 0 10px 3px rgba(127,178,255,.9),inset 0 0 8px rgba(127,178,255,.8);animation:auP 2s ease-in-out infinite}
+.chwrap.au-SR::before{opacity:1;box-shadow:0 0 14px 5px rgba(255,141,232,.95),inset 0 0 10px rgba(255,141,232,.8);animation:auP 1.6s ease-in-out infinite}
+.chwrap.au-UR::before{opacity:1;inset:-9px;border-radius:18px;background:conic-gradient(#62f2ff,#ff5ad9,#ffd86b,#7fff9a,#62f2ff);filter:blur(6px);animation:auHue 2.4s linear infinite}
+.chwrap.small::before{inset:-3px}
+@keyframes auP{50%{opacity:.45;transform:scale(1.05)}}
+@keyframes auHue{0%{filter:blur(6px) hue-rotate(0deg);transform:scale(1)}50%{transform:scale(1.06)}100%{filter:blur(6px) hue-rotate(360deg);transform:scale(1)}}
+.fitem,.fpet{position:absolute;z-index:2;background:#140828;border:2px solid var(--gc,#fff);box-shadow:0 0 8px var(--gc,#fff),0 0 16px var(--gc,#fff);pointer-events:none}
+.fitem{right:-30px;top:34%;width:30px;height:30px;object-fit:cover;border-radius:9px;animation:zfl 2.6s ease-in-out infinite}
+.fpet{left:-30px;bottom:-4px;width:30px;height:30px;object-fit:cover;border-radius:50%;animation:zhop 1.4s ease-in-out infinite}
+.small .fitem,.small .fpet{width:18px;height:18px;border-width:1.5px;border-radius:5px}.small .fitem{right:-14px;top:auto;bottom:-6px}.small .fpet{left:-12px;border-radius:50%}
+.fpet.eat{animation:petEat .45s ease 3}
+@keyframes petEat{50%{transform:scale(1.4) rotate(-12deg)}}
 @keyframes zhop{50%{transform:translateY(-8px)}}
 .zoomov{position:fixed;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(8,3,28,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .zcard{position:relative;width:min(100%,420px);max-height:100%;overflow-y:auto;display:grid;justify-items:center;gap:8px;padding:14px;border-radius:20px;background:linear-gradient(180deg,#4a1446,#1a0626);box-shadow:0 0 0 2px #b77a14,0 0 0 4px #ffe08a,0 0 30px rgba(255,216,107,.6)}
@@ -552,6 +574,7 @@ canvas{display:block}
       <div class="ztabs"><button class="sub small" id="zFace" aria-pressed="false">顔</button><button class="sub small" id="zBody" aria-pressed="true">全身</button></div>
       <div class="kise gk"><span class="ksub">服装</span><div class="krow" id="zgs"></div></div>
       <div class="kise gk"><span class="ksub">持ち物</span><div class="krow" id="zgi"></div></div>
+      <div class="kstat" id="zStat"></div>
       <div class="kise extra" id="zCosWrap"><span class="ksub">エフェクト</span><div class="krow" id="zCos"></div></div>
       <div class="kise extra" id="zAccWrap"><span class="ksub">バッジ</span><div class="krow" id="zAcc"></div></div>
     </div>
@@ -603,6 +626,7 @@ canvas{display:block}
         <div class="kisehead"><span class="ktitle">きせかえ</span><button class="sub small zoomopen" id="zOpen">大きく見る・そうび</button></div>
         <div class="kise gk"><span class="ksub">服装</span><div class="krow" id="gsRow"></div></div>
         <div class="kise gk"><span class="ksub">持ち物</span><div class="krow" id="giRow"></div></div>
+        <div class="kstat" id="kStat"></div>
         <div class="kise extra" id="cosWrap"><span class="ksub">エフェクト</span><div class="krow" id="cosRow"></div></div>
         <div class="kise extra" id="accWrap"><span class="ksub">バッジ</span><div class="krow" id="accRow"></div></div>
       </div>
@@ -683,11 +707,11 @@ canvas{display:block}
         </div>
       </div>
       <aside class="side" id="side">
-        <div class="card charpanel" id="mePanel"><div class="bubble" id="meSay"></div><canvas id="meCh"></canvas><span class="opname" id="meName"></span><span class="scoreline"><span class="lbl">SCORE</span> <span class="num" id="score">0</span></span></div>
+        <div class="card charpanel" id="mePanel"><div class="bubble" id="meSay"></div><div class="chwrap" id="meChW"><canvas id="meCh"></canvas><img class="fitem" id="meFI" alt="" hidden><img class="fpet" id="meFP" alt="" hidden></div><span class="opname" id="meName"></span><span class="scoreline"><span class="lbl">SCORE</span> <span class="num" id="score">0</span></span></div>
         <div class="card nextcard"><span class="lbl">NEXT</span><canvas id="nextCv"></canvas></div>
         <div class="card" id="opCard">
           <div class="bubble side-tail" id="opSay" hidden></div>
-          <div class="ophead"><canvas id="opCh"></canvas><span class="opname" id="opName">まだいません</span></div>
+          <div class="ophead"><div class="chwrap small" id="opChW"><canvas id="opCh"></canvas><img class="fitem" id="opFI" alt="" hidden><img class="fpet" id="opFP" alt="" hidden></div><span class="opname" id="opName">まだいません</span></div>
           <span class="hcbadge" id="opHc"></span>
           <div class="opbox"><canvas id="opCv"></canvas><span class="optag" id="opTag" hidden></span></div>
           <span class="scoreline"><span class="lbl">SCORE</span> <span class="num" id="opScore" style="font-size:15px">0</span></span>
@@ -829,7 +853,29 @@ function useFlush(gm){
 }
 function specialReady(gm){const chr=gm?gm.chr:myChr,sp=SPECIAL[chr];if(!gm||!sp||sp.fx==='auto')return false;if((sp.atk||sp.send)&&!sp.fx&&mode!=='online'&&mode!=='cpu')return false;return gm.gauge>=sp.cost}
 const ATK_T={fz:3,dc:6,sk:5,bm:10},ATK_K={fz:'freezeT',dc:'decoT',sk:'shakeT',bm:'nextHide'},ATK_MSG={fz:'動けない!!',dc:'色が見えない!!',sk:'画面がゆれる!!',bm:'NEXTが見えない!!'};
-function addInc(t,d,half){if(!t||d<=0)return;if(t.shieldT>0){say2(t,'鉄壁ガード!','special');return}if(half){t.incFrac+=d*0.5;const w=Math.floor(t.incFrac);t.incFrac-=w;t.inc+=w}else t.inc+=d}
+const ST_TYPE={b05:'atk',b01:'atk',b09:'atk',g12:'atk',g18:'atk',maou:'atk',b08:'atk',g19:'atk',g20:'atk',b03:'atk',g16:'atk',ninja:'atk',unko:'atk',s3:'atk',
+  girl:'sp',boy:'sp',b02:'sp',g14:'sp',g11:'sp',s1:'sp',b10:'sp',b07:'sp',g13:'sp',gal:'sp',
+  b06:'def',g15:'def',s2:'def',s4:'def',baby:'def',g17:'def',b04:'def',oyaji:'def'};
+const ST_NAME={atk:'こうげき',sp:'必殺ゲージ',def:'おじゃまガード',coin:'コイン'};
+function gearStat(id){const g=GEAR_BY[id];if(!g||!g.r)return null;const ty=ST_TYPE[g.c]||'atk';
+  if(g.t==='skin')return g.r==='UR'?{atk:10,sp:10}:{atk:5,sp:5};
+  if(g.pet)return{coin:5,pet:1};
+  if(g.r==='R')return{coin:10};
+  if(g.r==='SR')return{[ty]:10};
+  return{[ty]:15,start:1}}
+function lookStats(lk){const s={atk:0,sp:0,def:0,coin:0,pet:0,start:0,set:0,petN:''};lk=lk||{};
+  for(const id of [lk.skin,lk.item]){const x=gearStat(id);if(x)for(const k in x)s[k]+=x[k]}
+  if(s.pet)s.petN=GEAR_BY[lk.item].n;
+  if(lk.skin&&lk.item&&GEAR_BY[lk.skin]&&GEAR_BY[lk.item]){s.set=1;s.atk+=5;s.def+=5}return s}
+function statList(s,short){const a=[];for(const k of ['atk','sp','def','coin'])if(s[k])a.push(ST_NAME[k]+'+'+s[k]+'%');
+  if(s.start)a.push(short?'アイテム1こ':'はじめからアイテム1こ');if(s.pet)a.push(short?'おじゃまを食べる':'ピンチに'+(s.petN||'相棒')+'がおじゃまを3こ食べる');return a}
+function floatGear(p,lk){const fi=$(p+'FI'),fp=$(p+'FP'),w=$(p+'ChW');if(!fi||!w)return;lk=lk||{};const it=lk.item&&GEAR_BY[lk.item],sk=lk.skin&&GEAR_BY[lk.skin];
+  fi.hidden=!(it&&!it.pet);fp.hidden=!(it&&it.pet);if(it){const el=it.pet?fp:fi;if(el.dataset.id!==lk.item){el.src=GEAR_IMG[lk.item];el.dataset.id=lk.item}el.style.setProperty('--gc',RCOL[it.r]||'#fff')}
+  const ord=['','R','SR','UR'];let best='';for(const x of [it,sk])if(x&&ord.indexOf(x.r)>ord.indexOf(best))best=x.r;w.className='chwrap'+(best?' au-'+best:'')+(p==='op'?' small':'')}
+function petEatFx(){const fp=$('meFP');if(fp&&!fp.hidden){fp.classList.remove('eat');void fp.offsetWidth;fp.classList.add('eat')}}
+function addInc(t,d,half){if(!t||d<=0)return;
+  if(t.bst&&t.bst.def&&!(t.shieldT>0)){t.defF=(t.defF||0)+d*t.bst.def/100;const r=Math.floor(t.defF);t.defF-=r;d-=r;if(d<=0){say2(t,'ガード！','item');return}}
+  if(t.bst&&t.bst.pet&&!t.petUsed&&!(t.shieldT>0)&&t.inc+d>=8){t.petUsed=1;const e=Math.min(3,d);d-=e;say2(t,t.bst.petN+'がおじゃまを食べた！','item');petEatFx();if(d<=0)return}if(t.shieldT>0){say2(t,'鉄壁ガード!','special');return}if(half){t.incFrac+=d*0.5;const w=Math.floor(t.incFrac);t.incFrac-=w;t.inc+=w}else t.inc+=d}
 function hitTimer(target,kind,from){if(!target)return;target[ATK_K[kind]]=ATK_T[kind];say2(target,(from?from+'：':'')+ATK_MSG[kind],'beam')}
 function applySpecial(gm){
   const sp=SPECIAL[gm.chr];if(!sp)return false;
@@ -926,13 +972,13 @@ function checkPop(gm){
   if(!bonus)bonus=1;
   const pts=10*n*bonus;gm.score+=pts;gm.left+=pts;
   let gar=Math.floor(gm.left/70);gm.left-=gar*70;
-  if(gm.pinch)gar=Math.ceil(gar*1.5);if(gm.rush)gar*=2;
+  if(gm.pinch)gar=Math.ceil(gar*1.5);if(gm.rush)gar*=2;if(gm.bst&&gm.bst.atk){gm.atkF=(gm.atkF||0)+gar*gm.bst.atk/100;const b=Math.floor(gm.atkF);gm.atkF-=b;gar+=b}
   const o=Math.min(gar,gm.inc);gm.inc-=o;gar-=o;
   if(mode==='online'||mode==='cpu')gm.sent+=gar;
   gm.pop=pop;gm.phase='pop';gm.t=0;gm.chainShow={n:gm.chain,t:1.3};dirty=true;
   if(gm.isCpu){if(gm.chain===1)cpuSpeak('chain');else if(gm.chain===3)cpuSpeak('big')}
   else if(gm.chain===1)speak('chain');else if(gm.chain===3){speak('big');gm.cutin={t:1.6,text:lineText(myChr,'big')}}
-  gm.gauge=Math.min(100,gm.gauge+CHAIN_GAIN(gm.chain));
+  gm.gauge=Math.min(100,gm.gauge+CHAIN_GAIN(gm.chain)*(1+(gm.bst?gm.bst.sp:0)/100));
 }
 function dropGarbage(gm){
   gm.thud=0.9;if(gm.inc>=3){if(gm.isCpu)cpuSpeak('hurt');else speak('hurt')}
@@ -1683,9 +1729,14 @@ function gearRow(row,t){row.replaceChildren();const G=GEAR[myChr];
     const im=document.createElement('img');im.src=GEAR_IMG[g.id];im.alt='';b.appendChild(im);
     if(g.r){const rr=document.createElement('i');rr.className='grar';rr.textContent=g.r;b.appendChild(rr)}
     if(!own){const lk=document.createElement('i');lk.className='glock';lk.setAttribute('aria-label','まだ持っていない');b.appendChild(lk)}
-    const lb=document.createElement('span');lb.textContent=g.n+(g.r?'':'（なし）');b.appendChild(lb);
+    const lb=document.createElement('span');lb.textContent=g.n+(g.r?'':'（なし）');b.appendChild(lb);{const ef=gearStat(g.id);if(ef){const e=document.createElement('small');e.className='geff';e.textContent=statList(ef,true).join(' ');b.appendChild(e)}}
     b.addEventListener('click',()=>{if(!own){toast('「'+g.n+'」はガチャやメダル交換で手に入るよ！');return}SAVE.eq[myChr]=SAVE.eq[myChr]||{};SAVE.eq[myChr][t==='skin'?'s':'i']=g.r?g.id:'';saveNow();drawKise();drawPicker();dirty=true;uiCache.meCh=null});
     row.appendChild(b)}}
+function renderStat(box){if(!box)return;box.replaceChildren();if(!GEAR[myChr]){box.hidden=true;return}box.hidden=false;
+  const s=lookStats(myLook()),l=statList(s);const h=document.createElement('b');h.textContent='そうびの効果';box.appendChild(h);
+  if(!l.length){box.append('なし（装備をつけるとパワーアップ！）')}else for(const t of l){const e=document.createElement('span');e.className='st';e.textContent=t;box.appendChild(e)}
+  if(s.set){const e=document.createElement('span');e.className='st set';e.textContent='セットボーナス：こうげき・ガード+5%';box.appendChild(e)}
+  const n=document.createElement('small');n.textContent='CPU・ボス・ひとりで効果あり（オンライン対戦は見た目とコインだけ）';box.appendChild(n)}
 function drawKise(){
   const mk=(row,list,key,dict)=>{row.replaceChildren();
     const opts=[''].concat(Object.keys(dict).filter(k=>list.includes(k)||(k==='alt'&&key==='eqCos'&&(SAVE.alt||[]).includes(myChr))));
@@ -1697,7 +1748,7 @@ function drawKise(){
   const hasCos=0,hasAcc=0;
   $('cosWrap').hidden=!hasCos;$('accWrap').hidden=!hasAcc;$('zCosWrap').hidden=!hasCos;$('zAccWrap').hidden=!hasAcc;
   mk($('cosRow'),SAVE.cos,'eqCos',COS);mk($('accRow'),SAVE.acc,'eqAcc',ACC);
-  gearRow($('gsRow'),'skin');gearRow($('giRow'),'item');
+  gearRow($('gsRow'),'skin');gearRow($('giRow'),'item');renderStat($('kStat'));renderStat($('zStat'));
   if(!$('zoomv').hidden){mk($('zCos'),SAVE.cos,'eqCos',COS);mk($('zAcc'),SAVE.acc,'eqAcc',ACC);gearRow($('zgs'),'skin');gearRow($('zgi'),'item');drawZoom()}
 }
 drawPicker();drawKise();
@@ -1888,14 +1939,14 @@ function finish(res,why){
   me.st='over';me.res=res;me.why=why||'';speak(res==='win'?'win':'lose');
   if(mode==='cpu')cpuSpeak(res==='win'?'lose':'win');
   if(mode==='online'||mode==='cpu'){if(res==='win')me.wins=(me.wins|0)+1;else me.losses=(me.losses|0)+1}
-  {const n=mode==='cpu'?(res==='win'?20+CPU.lv*20:10):(res==='win'?50:15);me.coinGain=n;addCoins(n)}
+  {const n=mode==='cpu'?(res==='win'?20+CPU.lv*20:10):(res==='win'?50:15);const n2=Math.round(n*(1+lookStats(myLook()).coin/100));me.coinGain=n2;addCoins(n2)}
   if(mode==='cpu'&&res==='win')mission('cpuwin');
   addAff(myChr,res==='win'?3:1);
   if(story!=null&&res==='win')storyClear(story);
   if(g&&g.phase!=='end'){g.piece=null;g.phase='end'}
   publish(true);
 }
-function onDeath(){if(mode==='solo'){me.st='over';me.res='solo';speak('lose');me.coinGain=Math.max(5,Math.floor((g?g.score:0)/300));addCoins(me.coinGain);if(g&&g.score>=3000)mission('score3k');addAff(myChr,1)}else finish('lose','')}
+function onDeath(){if(mode==='solo'){me.st='over';me.res='solo';speak('lose');me.coinGain=Math.round(Math.max(5,Math.floor((g?g.score:0)/300))*(1+lookStats(myLook()).coin/100));addCoins(me.coinGain);if(g&&g.score>=3000)mission('score3k');addAff(myChr,1)}else finish('lose','')}
 function startSolo(){
   story=null;
   me.coinGain=0;
@@ -2438,7 +2489,7 @@ function setTxt(id,v){if(uiCache[id]!==v){uiCache[id]=v;$(id).textContent=v}}
 function frame(now){
   const dt=Math.min(0.05,(now-last)/1000);last=now;
   if(!arena.hidden){
-    if(me.st==='count'){countT-=dt;if(countT<=0){me.st='play';mission('play3');g=makeGame(seed,ACT.c3);if(mode==='cpu'){cg=makeGame(seed,false,CPU.chr,true);if(story!=null&&STAGES[story].boss)cg.gauge=60;cpuSentSeen=0;mySentSeen=0;cpu.plan=null;cpuSpeak('idle')}oppSentSeen=0;oppBeamSeen=0;oppAtkSeen={};dirty=true;speak('idle');handleOpp()}}
+    if(me.st==='count'){countT-=dt;if(countT<=0){me.st='play';mission('play3');g=makeGame(seed,ACT.c3);g.bst=mode==="online"?null:lookStats(myLook());if(g.bst&&g.bst.start&&g.items.length<3){g.items.push(["geri","paper","spray"][Math.floor(Math.random()*3)]);g.gotItem=1.2}if(mode==='cpu'){cg=makeGame(seed,false,CPU.chr,true);if(story!=null&&STAGES[story].boss)cg.gauge=60;cpuSentSeen=0;mySentSeen=0;cpu.plan=null;cpuSpeak('idle')}oppSentSeen=0;oppBeamSeen=0;oppAtkSeen={};dirty=true;speak('idle');handleOpp()}}
     if(g&&me.st==='play')update(g,dt);
     if(mode==='cpu'&&cg&&me.st==='play')cpuTick(dt);
     else if(g)for(let i=0;i<g.off.length;i++)if(g.off[i]>0)g.off[i]=Math.max(0,g.off[i]-dt*18);
@@ -2456,7 +2507,7 @@ function frame(now){
     setBubble($('meSay'),myStamp?{text:myStamp.text,shout:true}:lineOf(myChr,[say.e,say.i]),'meSay');
     $('mePanel').classList.toggle('hype',!!(g&&g.chainShow)||me.res==='win');
     const myMood=(me.st==='over'&&me.res!=='win')||say.e==='hurt'||(g&&g.inc>=12)?'sad':(me.res==='win'||(g&&g.chainShow))?'happy':'normal';
-    {const lk=myLook(),key=myChr+myMood+pS+lk.cos+lk.acc+lk.skin+lk.item;if(uiCache.meCh!==key){uiCache.meCh=key;portrait(meChCv,meChCtx,pS,myChr,myMood,lk)}}
+    {const lk=myLook(),key=myChr+myMood+pS+lk.cos+lk.acc+lk.skin+lk.item;if(uiCache.meCh!==key){uiCache.meCh=key;portrait(meChCv,meChCtx,pS,myChr,myMood,Object.assign({},lk,{item:''}));floatGear('me',lk)}}
     setTxt('meName',charOf(myChr).name);
     const inc=g?g.inc:0;setTxt('incN',String(inc));$('incbar').classList.toggle('hot',inc>=6);
     if(mode==='online'||mode==='cpu'){
@@ -2476,7 +2527,7 @@ function frame(now){
       const gOk=(id,t)=>op&&typeof id==='string'&&GEAR_BY[id]&&GEAR_BY[id].c===op.chr&&GEAR_BY[id].t===t?id:'';
       const olk={cos:'',acc:'',skin:gOk(op&&op.sk,'skin'),item:gOk(op&&op.it,'item')};
       const k=(opC||'-')+opMood+olk.cos+olk.acc+olk.skin+olk.item;
-      if(uiCache.opCh!==k){uiCache.opCh=k;if(opC)portrait(opChCv,opChCtx,36,opC,opMood,olk);else{ctx2size(opChCv,opChCtx,36,36);opChCtx.clearRect(0,0,36,36)}}
+      if(uiCache.opCh!==k){uiCache.opCh=k;if(opC){portrait(opChCv,opChCtx,36,opC,opMood,Object.assign({},olk,{item:''}));floatGear('op',olk)}else{ctx2size(opChCv,opChCtx,36,36);opChCtx.clearRect(0,0,36,36);floatGear('op',{})}}
       const n=others().length-(o?1:0);setTxt('watchers',n>0?'観戦 '+n+'人':'');
       if(dirty)publish(false);
     }
