@@ -644,6 +644,7 @@ h1{white-space:nowrap;font-size:clamp(28px,8.6vw,46px)!important;-webkit-text-st
 #decoOpen{background:linear-gradient(180deg,#fff,#ffe0f6 45%,#ff9ae6)!important}#hub_pet{background:linear-gradient(180deg,#fff,#fff0c8 45%,#ffc86a)!important}
 #hub_room{background:linear-gradient(180deg,#fff,#ffe8f0 45%,#ff9ab8)!important}#hub_coord{background:linear-gradient(180deg,#fff,#f0e0ff 45%,#c09aff)!important}
 #hub_cafe{background:linear-gradient(180deg,#fff,#ffe8e0 45%,#ffaa8a)!important}#hub_letter{background:linear-gradient(180deg,#fff,#ffe0ec 45%,#ff7aaa)!important}
+#hub_show[hidden],#hub_coord[hidden]{display:none!important}#storyOpen{grid-column:auto}.hub{grid-template-columns:repeat(3,1fr)!important}
 #hub_show{background:linear-gradient(180deg,#fff,#fff8d0 45%,#ffd84a)!important}#storyOpen{background:linear-gradient(180deg,#fff,#e8e0ff 45%,#8a7aff)!important}
 .hubt{color:#4a1a4a!important;text-shadow:0 1px 0 rgba(255,255,255,.8)!important;font-weight:900!important}
 /* picker */
@@ -1206,7 +1207,7 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
     <div class="panel funpanel">
       <h3 class="sec rib"><span>おたのしみルーム</span></h3>
       <button class="evnote" id="hubEvent" hidden></button>
-      <div class="hub"><button class="hubt" id="decoOpen"><span>🎨</span>デコスタジオ</button><button class="hubt" id="hub_pet"><span>🐣</span>ペットのおせわ</button><button class="hubt" id="hub_room"><span>🏠</span>マイルーム</button><button class="hubt" id="hub_coord"><span>👗</span>コーデたいけつ</button><button class="hubt" id="hub_cafe"><span>🍰</span>ケーキやさん</button><button class="hubt" id="hub_letter"><span>💌</span>おてがみ</button><button class="hubt" id="hub_show"><span>🌟</span>ショー</button><button class="hubt" id="storyOpen"><span>👹</span>ボスに挑戦</button></div>
+      <div class="hub"><button class="hubt" id="decoOpen"><span>🎨</span>デコスタジオ</button><button class="hubt" id="hub_pet"><span>🐣</span>ペットのおせわ</button><button class="hubt" id="hub_room"><span>🏠</span>マイルーム</button><button class="hubt" id="hub_coord" hidden><span>👗</span>コーデたいけつ</button><button class="hubt" id="hub_cafe"><span>🍰</span>ケーキやさん</button><button class="hubt" id="hub_letter"><span>💌</span>おてがみ</button><button class="hubt" id="hub_show" hidden><span>🌟</span>ショー</button><button class="hubt" id="storyOpen"><span>👹</span>ボスに挑戦</button></div>
     </div>
     <div class="panel">
       <h3 class="sec rib"><span>プレイヤー</span></h3>
