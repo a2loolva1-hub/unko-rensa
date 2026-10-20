@@ -47,6 +47,7 @@ body.ingame .arena{touch-action:none}
 .fishbtn{width:min(100%,420px);height:clamp(64px,10svh,84px);border-radius:22px;border:3px solid #fff;font-family:var(--display);font-size:22px;color:#fff;background:linear-gradient(180deg,#4ab0ff,#1c5ad8);box-shadow:0 5px 0 #0a2a7a,0 0 16px rgba(98,200,255,.6);touch-action:none;-webkit-user-select:none;user-select:none}
 .fishbtn:active{transform:translateY(3px);box-shadow:0 2px 0 #0a2a7a}
 .fishbtn.hot{background:linear-gradient(180deg,#ff6a8a,#e0204a);box-shadow:0 5px 0 #7a0a2a,0 0 24px #ff3a5a;animation:fhot .25s ease-in-out infinite alternate}@keyframes fhot{to{transform:scale(1.04)}}
+.fishbtn.lock,.fres button:disabled{opacity:.55;filter:grayscale(.4)}
 .fishbtn.reel{background:linear-gradient(180deg,#7fff9a,#1a9a5a);box-shadow:0 5px 0 #0a5a2a}
 .fres{gap:6px!important;padding:12px;text-align:center}
 .fres .fem{font-size:76px;line-height:1;animation:spop .5s both;color:#000}
@@ -4498,7 +4499,7 @@ function fNew(){F={st:'idle',t:0,pow:0,pdir:1,bx:180,by:400,tx:180,ty:400,fly:0,
   fImg=new Image();fImg.src=CHAR_IMG[myChr];$('fishRes').hidden=true;fUI()}
 function fUI(){const b=$('fishAct'),h=$('fishHint');if(!F)return;const st=F.st;
   b.textContent=st==='idle'||st==='charge'?'🎣 ながおしで なげる':st==='fly'||st==='wait'?'…まってね（タップでやめる）':st==='bite'?'❗ いまだ！タップ！':st==='reel'?'🌀 ながおしで まく！':'🎣 もう一回';
-  b.className='fishbtn'+(st==='bite'?' hot':st==='reel'?' reel':'');
+  const lock=st==='done'&&performance.now()-(F.doneAt||0)<1600;if(lock)b.textContent='🎉 つれた！';b.disabled=lock;$('fishAgain').disabled=lock;b.className='fishbtn'+(st==='bite'?' hot':st==='reel'?' reel':'')+(lock?' lock':'');
   h.textContent=st==='idle'?'ながおしで パワーをためて、はなすと なげるよ。とおくになげるほどレアがつれやすい！':st==='charge'?'いいところで はなしてね！':st==='wait'||st==='fly'?'ウキがしずんだら すぐタップ！':st==='bite'?'はやく！':st==='reel'?'ながおしでまく。メーターが赤くなったら はなして糸を休ませよう':'';
   $('fishCount').textContent='🎣 '+F.catches+'ひき';}
 function rollFish(){const mag=mgP(myChr,'mag'),boost=F.pow*0.6+mag*0.12;let tot=0;const w={};for(const k in F_RATE){w[k]=F_RATE[k]*(['SR','SSR','UR','LR'].includes(k)?1+boost:1);tot+=w[k]}
@@ -4506,7 +4507,7 @@ function rollFish(){const mag=mgP(myChr,'mag'),boost=F.pow*0.6+mag*0.12;let tot=
   const L=FISH.filter(f=>f.r===r);const f=L[Math.floor(Math.random()*L.length)];const size=Math.round(f.s[0]+Math.random()*(f.s[1]-f.s[0]));return Object.assign({},f,{size})}
 function fSay(t,s){F.msg=t;F.msgT=s||1.6}
 function fPress(down){if(!F)return;const st=F.st;
-  if(down){if(st==='idle'){F.st='charge';F.pow=0;F.pdir=1}else if(st==='wait'||st==='fly'){F.st='idle';fSay('ひきあげた');}else if(st==='bite'){F.st='reel';F.ten=.35;F.prog=.3;F.surge=0;F.saved=false;fSay('かかった！',1.2)}else if(st==='done'){fNew2()}fHold=true}
+  if(down){if(st==='idle'){F.st='charge';F.pow=0;F.pdir=1}else if(st==='wait'||st==='fly'){F.st='idle';fSay('ひきあげた');}else if(st==='bite'){F.st='reel';F.ten=.35;F.prog=.3;F.surge=0;F.saved=false;fSay('かかった！',1.2)}else if(st==='done'){if(performance.now()-(F.doneAt||0)<1600)return;fNew2()}fHold=true}
   else{fHold=false;if(st==='charge'){F.st='fly';F.fly=0;F.tx=180+(Math.random()-.5)*120;F.ty=360-F.pow*190}}
   fUI()}
 function fNew2(){$('fishRes').hidden=true;F.st='idle';F.fish=null;fUI()}
@@ -4520,7 +4521,7 @@ function fCatch(){const f=F.fish,B=fBook(),isNew=!B[f.id];B[f.id]=B[f.id]||{n:0,
   $('fishEm').textContent=f.e;$('fishEm').className='fem'+(f.gold?' gold':'');$('fishRar').textContent=f.r;$('fishRar').style.background=F_COL[f.r];$('fishNm').textContent=f.n+(isNew?'  NEW!':'');
   $('fishSz').textContent=(f.size>=100?(f.size/100).toFixed(1)+'m':f.size+'cm')+(B[f.id].max===f.size&&B[f.id].n>1?' 🏆じこベスト！':'')+'　'+f.d;$('fishRw').textContent=rw.join('　');
   $('fishResT').textContent=f.r==='N'&&(f.id==='boot'||f.id==='paper')?'…ハズレ？':['UR','LR'].includes(f.r)?'🎉 すごい！！ 🎉':'つれた！';
-  $('fishRes').hidden=false;$('fishRes').className='bomres fres r-'+f.r;F.st='done';fUI()}
+  $('fishRes').hidden=false;$('fishRes').className='bomres fres r-'+f.r;F.st='done';F.doneAt=performance.now();fHold=false;fUI();setTimeout(()=>{if(F&&F.st==='done')fUI()},1650)}
 function fStep(dt){const st=F.st;F.t+=dt;if(F.msgT>0)F.msgT-=dt;
   for(const s of F.sh){s.x+=s.v*dt;if(s.x<-40)s.x=W+40;if(s.x>W+40)s.x=-40}
   if(st==='charge'){F.pow+=F.pdir*dt*0.9;if(F.pow>1){F.pow=1;F.pdir=-1}if(F.pow<0){F.pow=0;F.pdir=1}}
