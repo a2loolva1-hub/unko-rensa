@@ -514,6 +514,7 @@ body.bomopen{overflow:hidden}
 @keyframes cheer{to{transform:translateY(-10px)}}
 .likes{position:absolute;top:10px;right:12px;z-index:4;font-weight:800;font-size:18px;color:#fff;background:rgba(255,90,217,.8);padding:4px 12px;border-radius:999px}
 .showres{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(20,4,40,.75);color:#fff}
+.dsetart{flex:1 1 100%;width:100%;white-space:nowrap;font-size:17px!important;padding:12px 16px!important;background:linear-gradient(180deg,#fff1a8,#ffd86b 50%,#e8901a)!important;color:#5a2a00!important;border:2px solid #fff!important;animation:pop 1s ease infinite}
 
 #gview{gap:10px}
 #gview .ghead h2{font-size:clamp(22px,7vw,30px);background:linear-gradient(180deg,#fff6c8,#ffd86b 45%,#e89a1a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #5a2a00) drop-shadow(0 0 8px rgba(255,216,107,.6))}
@@ -658,6 +659,38 @@ h1{white-space:nowrap;font-size:clamp(28px,8.6vw,46px)!important;-webkit-text-st
 .mode>button.main{background:linear-gradient(180deg,#fff1a8,#ffd86b 50%,#e8901a)!important;color:#5a2a00!important;border:2px solid #fff!important;box-shadow:0 4px 0 #7a4a06,0 0 12px rgba(255,216,107,.7)!important;text-shadow:none!important}
 .mode>button.sub{background:linear-gradient(180deg,#ff9ae6,#d0208f)!important;color:#fff!important;border:2px solid #fff!important;box-shadow:0 4px 0 #6a0a4a!important}
 
+
+/* v25 fixes */
+.mode::before{display:none!important}
+.mode{background-blend-mode:normal}
+.mcpu{background:repeating-linear-gradient(135deg,rgba(255,255,255,.09) 0 14px,rgba(255,255,255,0) 14px 28px),linear-gradient(135deg,#8a1a6a,#4a0a4a)!important}
+.monline{background:repeating-linear-gradient(135deg,rgba(255,255,255,.09) 0 14px,rgba(255,255,255,0) 14px 28px),linear-gradient(135deg,#6a1a8a,#3a0a5a)!important}
+.msolo{background:repeating-linear-gradient(135deg,rgba(255,255,255,.09) 0 14px,rgba(255,255,255,0) 14px 28px),linear-gradient(135deg,#2a3a8a,#14184a)!important}
+.mbom{background:repeating-linear-gradient(135deg,rgba(255,255,255,.09) 0 14px,rgba(255,255,255,0) 14px 28px),linear-gradient(135deg,#8a5a10,#4a2a06)!important}
+.mmaze{background:repeating-linear-gradient(135deg,rgba(255,255,255,.09) 0 14px,rgba(255,255,255,0) 14px 28px),linear-gradient(135deg,#a02a6a,#5a0a3a)!important}
+.mode>*{position:relative}
+.msub{font-family:var(--display);font-size:17px;color:#ffd86b;text-shadow:0 2px 0 #3a0a4a;padding:4px 2px 0;display:flex;align-items:center;gap:8px}
+.msub::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,#ffd86b,transparent)}
+.hcbox{display:grid;gap:8px;padding:12px;border-radius:14px;background:rgba(10,4,30,.55);border:1.5px dashed rgba(255,216,107,.55)}
+.hctitle{font-weight:900;font-size:14px;color:#fff}
+.hcbox .lead{margin:0;font-size:12px;line-height:1.6;color:#e8dcff}
+.hcbox .lbl{font-size:11px}
+.walletbar{flex-wrap:nowrap!important}
+.walletbar .coin{flex:0 0 auto;font-size:16px!important;padding:5px 11px!important}
+.wbtns{flex:1 1 auto;min-width:0;justify-content:flex-end}
+.wbtns button{white-space:nowrap;padding:7px 11px!important;font-size:14px!important;flex:0 1 auto;min-width:0}
+.wbtns button i{font-size:16px!important}
+@media (max-width:360px){.wbtns button{font-size:12.5px!important;padding:7px 8px!important}}
+
+/* v26 iOS layer fixes */
+.gresh{white-space:nowrap;font-size:clamp(20px,7vw,34px)!important}
+.pcard.sr{position:relative!important;width:auto!important;height:auto!important;clip:auto!important;clip-path:none!important;overflow:visible!important;margin:0!important;white-space:normal!important;padding:5px 5px 7px!important;border:0!important}
+@keyframes cardin2{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+.pcard{animation:cardin2 .35s ease backwards!important}
+.machimg{-webkit-mask:none!important;mask:none!important;-webkit-mask-image:none!important;mask-image:none!important;border-radius:18px}
+.machine{margin:0!important;box-shadow:0 0 24px rgba(255,90,217,.45)}
+.machine.shake .machimg{animation:mshake2 .12s linear infinite!important}
+@keyframes mshake2{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 @keyframes zhop{50%{transform:translateY(-8px)}}
 .zoomov{position:fixed;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(8,3,28,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .zcard{position:relative;width:min(100%,420px);max-height:100%;overflow-y:auto;display:grid;justify-items:center;gap:8px;padding:14px;border-radius:20px;background:linear-gradient(180deg,#4a1446,#1a0626);box-shadow:0 0 0 2px #b77a14,0 0 0 4px #ffe08a,0 0 30px rgba(255,216,107,.6)}
@@ -1101,6 +1134,7 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
     <div class="panel">
       <h3 class="sec rib"><span>あそぶ</span></h3>
       <div class="modes">
+        <div class="msub">💩 うんこ連鎖</div>
         <div class="mode mcpu cpubox">
           <div class="mhead"><span class="mtitle">CPUと対戦</span><span class="mtag">3本先取</span></div>
           <div class="lvls" role="radiogroup" aria-label="CPUの強さ">
@@ -1121,20 +1155,8 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
           <div class="mhead"><span class="mtitle">ひとりで練習</span><span class="mtag">スコアでコイン</span></div>
           <button class="sub" id="soloBtn">れんしゅう ▶</button>
         </div>
-        <div class="mode mbom">
-          <div class="mhead"><span class="mtitle"><small>ミニゲーム</small>うんこボンバー</span><span class="mtag">CPU3人とバトル</span></div>
-          <p class="note">選んだキャラで、うんこ爆弾をおいてライバルをふきとばそう！強さは「CPUと対戦」と同じ</p>
-          <button class="main cpu" id="bomBtn">あそぶ ▶</button>
-        </div>
-        <div class="mode mmaze">
-          <div class="mhead"><span class="mtitle"><small>ミニゲーム</small>トイレ迷路</span><span class="mtag">レベルがどんどん上がる</span></div>
-          <p class="note">うんこがもれちゃう！選んだキャラで迷路をすすんで🚽トイレを目指そう。⭐スターを集めるとコインが増えるよ</p>
-          <button class="main" id="mazeBtn">あそぶ ▶</button>
-        </div>
-      </div>
-    </div>
-    <div class="panel">
-      <h3 class="sec rib"><span>ルールとハンデ</span></h3>
+        <div class="hcbox">
+          <div class="hctitle">🎯 うんこ連鎖のルールとハンデ</div>
       <p class="lead">同じ色のうんこを4つ以上くっつけると流れて消えます。連鎖すると相手にカチカチうんこ（おじゃま）が降ります。</p>
       <div class="pickwrap"><span class="lbl">ハンデ（自分だけにかかります。対戦では相手のOKが必要）</span>
       <div class="hcs">
@@ -1144,7 +1166,7 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
         <label class="chip" for="hcFixed"><input type="checkbox" id="hcFixed"><span>スピード固定</span></label>
       </div>
     </div>
-      <details class="help"><summary>アイテム・必殺技の説明</summary>
+      <details class="help"><summary>ルール・アイテム・必殺技の説明</summary>
       <ul>
         <li><b>流す</b>：一番下の2段を流して消す（1試合2回）</li>
         <li><b>金のうんこ</b>：となりで連鎖すると消えて、アイテムが1つもらえる（最大3個）</li>
@@ -1168,6 +1190,19 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
         <li><b>3連鎖以上</b>：キャラのカットインが入る</li>
       </ul>
     </details>
+            </div>
+        <div class="msub">🎮 ミニゲーム</div>
+        <div class="mode mbom">
+          <div class="mhead"><span class="mtitle">うんこボンバー</span><span class="mtag">CPU3人とバトル</span></div>
+          <p class="note">選んだキャラで、うんこ爆弾をおいてライバルをふきとばそう！強さは「CPUと対戦」と同じ</p>
+          <button class="main cpu" id="bomBtn">あそぶ ▶</button>
+        </div>
+        <div class="mode mmaze">
+          <div class="mhead"><span class="mtitle">トイレ迷路</span><span class="mtag">レベルがどんどん上がる</span></div>
+          <p class="note">うんこがもれちゃう！選んだキャラで迷路をすすんで🚽トイレを目指そう。⭐スターを集めるとコインが増えるよ</p>
+          <button class="main" id="mazeBtn">あそぶ ▶</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -2244,6 +2279,7 @@ const BASE_CHARS=['girl','boy','oyaji','unko','maou','gal','ninja','baby'];
 const CHAR_R={s1:'SECRET',s2:'SECRET',s3:'SECRET',s4:'SECRET',u1:'UR',u2:'UR',u3:'UR',u4:'UR',u5:'UR',l1:'LR',b09:'SSR',g15:'SSR',g17:'SSR',b02:'SSR',b01:'SR',b04:'SR',g14:'SR',g12:'SR',g16:'SR',g11:'SR'};
 let SAVE={gear:[],eq:{},coins:1000,chars:[],cos:[],acc:[],eqCos:'',eqAcc:'',daily:''};
 try{const v=JSON.parse(lsGet('unko-save')||'null');if(v&&typeof v==='object')SAVE=Object.assign(SAVE,v)}catch(e){}
+if(!SAVE.startMedal){SAVE.startMedal=1;SAVE.medals=(SAVE.medals|0)+5000;try{lsSet('unko-save',JSON.stringify(SAVE))}catch(e){}setTimeout(()=>{try{toast('🎁 スタート記念！うんこメダル5000枚プレゼント！')}catch(e){}},1500)}
 function saveNow(){lsSet('unko-save',JSON.stringify(SAVE))}
 function owns(id){return BASE_CHARS.includes(id)||SAVE.chars.includes(id)}
 function gearOwned(id){const g=GEAR_BY[id];return !!g&&(!g.r||(SAVE.gear||[]).includes(id))}
@@ -3625,7 +3661,7 @@ function dShow(src,idx){const w=document.createElement('div');w.className='dshow
   const t=document.createElement('p');t.textContent='画像を長おしすると、写真に保存できるよ';
   const row=document.createElement('div');row.className='row';
   if(navigator.canShare){const sh=document.createElement('button');sh.className='main';sh.textContent='保存・シェア';sh.addEventListener('click',async e=>{e.stopPropagation();try{const blob=await (await fetch(src)).blob();const f=new File([blob],'unko-deco.jpg',{type:'image/jpeg'});if(navigator.canShare({files:[f]}))await navigator.share({files:[f],title:'うんこ連鎖 デコ'});}catch(_){}});row.appendChild(sh)}
-  if(idx!=null){const it=albumGet()[idx];if(it&&it.chr&&owns(it.chr)){const st=document.createElement('button');st.className='main';st.textContent=charOf(it.chr).name+'の絵にする';st.addEventListener('click',e=>{e.stopPropagation();w.remove();pickFace(src,it.chr)});row.insertBefore(st,row.firstChild)}}
+  if(idx!=null){const it=albumGet()[idx];if(it&&it.chr&&owns(it.chr)){const st=document.createElement('button');st.className='main dsetart';st.textContent='⭐ メニューのキャラをこの絵にする';st.addEventListener('click',e=>{e.stopPropagation();w.remove();pickFace(src,it.chr)});row.insertBefore(st,row.firstChild)}}
   if(idx!=null){const del=document.createElement('button');del.className='sub';del.textContent='アルバムからけす';del.addEventListener('click',e=>{e.stopPropagation();if(!confirm('この作品をけす？'))return;const a=albumGet();a.splice(idx,1);albumSet(a);dRenderAlbum();w.remove()});row.appendChild(del)}
   const cl=document.createElement('button');cl.className='sub';cl.textContent='とじる';cl.addEventListener('click',()=>w.remove());row.appendChild(cl);
   w.append(im,t,row);w.addEventListener('click',e=>{if(e.target===w)w.remove()});document.body.appendChild(w)}
@@ -3634,14 +3670,14 @@ function pickFace(src,chr){const w=document.createElement('div');w.className='ds
   const row=document.createElement('div');row.className='row';const ok=document.createElement('button');ok.className='main';ok.textContent='これでOK';ok.disabled=true;const cl=document.createElement('button');cl.className='sub';cl.textContent='やめる';cl.addEventListener('click',()=>w.remove());row.append(ok,cl);
   let fx=.5,fy=.3;im.addEventListener('click',e=>{const r=im.getBoundingClientRect();fx=(e.clientX-r.left)/r.width;fy=(e.clientY-r.top)/r.height;const s=r.width*0.42;mk.style.left=(e.clientX-r.left-s/2)+'px';mk.style.top=(e.clientY-r.top-s/2)+'px';mk.style.width=mk.style.height=s+'px';mk.hidden=false;ok.disabled=false});
   ok.addEventListener('click',()=>{const base=new Image();base.onload=()=>{const W=base.naturalWidth,H=base.naturalHeight,s=W*0.42;let x=fx*W-s/2,y=fy*H-s/2;x=Math.max(0,Math.min(W-s,x));y=Math.max(0,Math.min(H-s,y));
-    const c=document.createElement('canvas');c.width=c.height=224;c.getContext('2d').drawImage(base,x,y,s,s,0,0,224,224);setArt(chr,{face:c.toDataURL('image/jpeg',0.86),full:src});w.remove();toast(charOf(chr).name+'の絵がデコ絵になったよ！')};base.src=src});
+    const c=document.createElement('canvas');c.width=c.height=224;c.getContext('2d').drawImage(base,x,y,s,s,0,0,224,224);setArt(chr,{face:c.toDataURL('image/jpeg',0.86),full:src});w.remove();if(myChr!==chr){myChr=chr;try{lsSet('unko-chr',chr)}catch(e){}}closeView();window.scrollTo({top:0,behavior:'smooth'});try{drawPicker();drawKise();drawHero();heroLine('win')}catch(e){}toast(charOf(chr).name+'がデコ絵になったよ！')};base.src=src});
   w.append(t,wrap,row);document.body.appendChild(w)}
 $('dSave').addEventListener('click',()=>{if(!D)return;const sel=D.sel;D.sel=-1;
   const c=document.createElement('canvas');c.width=480;c.height=640;const x=c.getContext('2d');x.scale(480/DW,640/DH);dDraw(x);D.sel=sel;dDraw();
   const src=c.toDataURL('image/jpeg',0.82);const a=albumGet();a.unshift({img:src,chr:D.chr,t:Date.now()});const n=albumSet(a.slice(0,12));
   if(n<Math.min(a.length,12))toast('アルバムがいっぱい！古い作品からけしたよ');
   const today=new Date().toDateString();let msg='';if(SAVE.decoDay!==today){SAVE.decoDay=today;addCoins(30);msg='（きょうのごほうび +30コイン）'}else saveNow();
-  dRenderAlbum();dShow(src,null);toast('アルバムに保存したよ！'+msg)});
+  dRenderAlbum();dShow(src,0);toast('アルバムに保存したよ！'+msg)});
 // ---- open / close ----
 function dOpen(){seasonUnlock();openView('decov');updateWallet();if(!D||!owns(D.chr))dNew(myChr);else{dDraw();dRenderChars();dRenderTab()}dRenderAlbum();dSelUI()}
 $('decoOpen').addEventListener('click',dOpen);if($('decoOpen2'))$('decoOpen2').addEventListener('click',dOpen);
