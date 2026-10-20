@@ -388,7 +388,8 @@ body.bomopen{overflow:hidden}
 .mzst{font-size:15px;font-weight:800;color:var(--gold);white-space:nowrap}
 .mazev .bomstage{background:linear-gradient(135deg,#ffb3ec,#c46ae0,#62f2ff)}
 .mzd{font-size:16px;font-weight:800;color:#fff}
-.mzctl{width:100%;max-width:440px;margin-top:auto;display:grid;gap:6px}
+.mzctl{width:100%;max-width:440px;margin-top:auto;display:grid;gap:4px;justify-items:center;padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))}
+.mzctl .mzstick{margin:0 auto}
 .mzhint{margin:0;text-align:center;font-size:12px;font-weight:800;color:rgba(255,255,255,.8)}
 .mzpad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .mzpad button{height:clamp(58px,9svh,80px);border-radius:18px;border:2px solid rgba(98,242,255,.75);background:linear-gradient(180deg,#4a7aff,#1c3aa8);color:#fff;font-size:24px;box-shadow:0 4px 0 #0a1a5a;touch-action:none}
@@ -1380,8 +1381,8 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
     <div class="bomtop" id="mazeTop"><button class="sub small" id="mazeQuit">◀ やめる</button><span class="mzlv" id="mazeLv">レベル 1</span><span class="bomtime" id="mazeTime">0.0秒</span><span class="mzst" id="mazeStar">⭐ 0/3</span></div>
     <div class="bomstage"><canvas id="mazeCv"></canvas>
       <div class="bomres" id="mazeRes" hidden><div class="bomrt win" id="mazeResT"></div><div class="mzd" id="mazeResD"></div><div class="bomrc" id="mazeResC"></div><div class="bomrb"><button class="main" id="mazeNext">つぎのレベル</button><button class="sub" id="mazeRetry">もう一回</button></div><button class="sub small" id="mazeBack">もどる</button></div></div>
-    <div class="mzctl" id="mazeCtl"><p class="mzhint">迷路の上を指でおさえると、その方向に歩くよ</p>
-      <div class="mzpad" id="mazePad"><button data-d="left" aria-label="左">◀</button><button data-d="up" aria-label="上">▲</button><button data-d="down" aria-label="下">▼</button><button data-d="right" aria-label="右">▶</button></div></div>
+    <div class="mzctl" id="mazeCtl"><p class="mzhint">スティックをたおすと、その方向に歩くよ（ななめにたおすと曲がり角で自動で曲がる）</p>
+      <div class="bomstick mzstick" id="mazeStick" aria-label="移動スティック"><div class="bsbase"><i class="ba u">▲</i><i class="ba d">▼</i><i class="ba l">◀</i><i class="ba r">▶</i><div class="bsknob" id="mazeKnob"></div></div></div></div>
   </div>
   <div class="bomv" id="bomv" hidden role="dialog" aria-label="うんこボンバー">
     <div class="bomtop" id="bomTop"><button class="sub small" id="bomQuit">◀ やめる</button><span class="bomtime" id="bomTime">2:30</span><div class="bomfoes" id="bomFoes"></div></div>
@@ -3909,7 +3910,7 @@ DECO_API={PART_PACKS,drawPart,PARTS,PART_BY,ppOwned,albumGet,albumSet,dShow,SEAS
 // ---------- mini game: トイレ迷路 ----------
 {
 const mv=$('mazev'),mcv=$('mazeCv'),mctx=mcv.getContext('2d');
-let M=null,mraf=0,mlast=0,mcell=24,mHold=null,mKey=null,mFinger=null;
+let M=null,mraf=0,mlast=0,mcell=24,mHold=null,mHold2=null,mKey=null,mFinger=null;
 const MD={up:[0,-1,1],right:[1,0,2],down:[0,1,4],left:[-1,0,8]};
 const OPP={1:4,2:8,4:1,8:2};
 function mazeLv(){return Math.max(1,SAVE.mazeLv|0||1)}
@@ -3932,7 +3933,7 @@ function mFit(){if(!M)return;const vw=Math.min(window.innerWidth,560)-24;const t
   mcell=Math.max(12,Math.floor(Math.min(vw/M.cw,vh/M.ch)));ctx2size(mcv,mctx,mcell*M.cw,mcell*M.ch)}
 function canGo(dir){const [dx,dy,b]=MD[dir];return !!(M.g[M.y*M.cw+M.x]&b)}
 function tryMove(){if(M.mv||M.done||M.start>0)return;let dirs=[];
-  if(mHold)dirs=[mHold];else if(mKey)dirs=[mKey];
+  if(mHold)dirs=mHold2?[mHold,mHold2]:[mHold];else if(mKey)dirs=[mKey];
   else if(mFinger){const cx=(M.x+.5)*mcell,cy=(M.y+.5)*mcell,dx=mFinger.x-cx,dy=mFinger.y-cy;if(Math.hypot(dx,dy)<mcell*0.5)return;
     const h=dx>0?'right':'left',v=dy>0?'down':'up';dirs=Math.abs(dx)>Math.abs(dy)?[h,v]:[v,h]}
   for(const d of dirs)if(canGo(d)){const [dx,dy]=MD[d];M.px=M.x;M.py=M.y;M.x+=dx;M.y+=dy;M.mv=true;M.mt=0;if(dx)M.face=dx>0?'right':'left';return}}
@@ -3974,7 +3975,7 @@ function mLoop(now){mraf=requestAnimationFrame(mLoop);const dt=Math.min(0.05,(no
   if(M.mv){M.mt+=dt*8*(1+0.15*mgP(myChr,'spd'));if(M.mt>=1){M.mv=false;arrive()}}
   if(!M.mv)tryMove();mDraw(now)}
 function mOpen(){lsSet('unko-name',nameIn.value.trim());mv.hidden=false;document.body.classList.add('bomopen');mNew();mlast=0;cancelAnimationFrame(mraf);mraf=requestAnimationFrame(mLoop)}
-function mClose(){mv.hidden=true;document.body.classList.remove('bomopen');cancelAnimationFrame(mraf);M=null;mHold=mKey=mFinger=null;drawPicker();drawKise();updateWallet()}
+function mClose(){mv.hidden=true;document.body.classList.remove('bomopen');cancelAnimationFrame(mraf);M=null;mHold=mHold2=mKey=mFinger=null;try{$('mazeKnob').style.transform='';$('mazeStick').dataset.d=''}catch(e){}drawPicker();drawKise();updateWallet()}
 $('mazeBtn').addEventListener('click',mOpen);$('mazeQuit').addEventListener('click',mClose);$('mazeBack').addEventListener('click',mClose);
 $('mazeNext').addEventListener('click',()=>{mNew()});
 $('mazeRetry').addEventListener('click',()=>{if(M)mNew(M.L)});
@@ -3985,9 +3986,17 @@ let fid=null;
 mcv.addEventListener('pointerdown',e=>{if(!M)return;e.preventDefault();fid=e.pointerId;try{mcv.setPointerCapture(fid)}catch(_){}mFinger=fpt(e)});
 mcv.addEventListener('pointermove',e=>{if(e.pointerId===fid&&M){e.preventDefault();mFinger=fpt(e)}});
 for(const ev of ['pointerup','pointercancel','lostpointercapture'])mcv.addEventListener(ev,e=>{if(e.pointerId===fid){fid=null;mFinger=null}});
-for(const btn of document.querySelectorAll('#mazePad [data-d]')){const d=btn.dataset.d;
-  btn.addEventListener('pointerdown',e=>{e.preventDefault();mHold=d;try{btn.setPointerCapture(e.pointerId)}catch(_){}});
-  for(const ev of ['pointerup','pointercancel','lostpointercapture'])btn.addEventListener(ev,()=>{if(mHold===d)mHold=null})}
+{const st=$('mazeStick'),kn=$('mazeKnob');let pid=null,cx=0,cy=0;const R=50;
+  const upd=e=>{const dx=e.clientX-cx,dy=e.clientY-cy,d=Math.hypot(dx,dy),k=d>R?R/d:1;kn.style.transform='translate('+dx*k+'px,'+dy*k+'px)';
+    if(d<12){mHold=mHold2=null;st.dataset.d='';return}
+    const ax=Math.abs(dx),ay=Math.abs(dy),h=dx>0?'right':'left',v=dy>0?'down':'up';
+    let nd=ax>ay?h:v;if(mHold){const hz=mHold==='left'||mHold==='right';if(hz&&ay<ax*1.3)nd=h;else if(!hz&&ax<ay*1.3)nd=v}
+    const other=(nd===h)?v:h,oc=(nd===h)?ay:ax,mc=(nd===h)?ax:ay;
+    mHold=nd;mHold2=oc>mc*0.4&&oc>14?other:null;st.dataset.d=nd};
+  const end=e=>{if(e.pointerId!==pid)return;pid=null;mHold=mHold2=null;kn.style.transform='';st.dataset.d='';st.classList.remove('on')};
+  st.addEventListener('pointerdown',e=>{e.preventDefault();pid=e.pointerId;const r=st.querySelector('.bsbase').getBoundingClientRect();cx=r.left+r.width/2;cy=r.top+r.height/2;st.classList.add('on');try{st.setPointerCapture(pid)}catch(_){}upd(e)});
+  st.addEventListener('pointermove',e=>{if(e.pointerId===pid){e.preventDefault();upd(e)}});
+  for(const ev of ['pointerup','pointercancel','lostpointercapture'])st.addEventListener(ev,end)}
 const MKEY={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down',a:'left',d:'right',w:'up',s:'down'};
 window.addEventListener('keydown',e=>{if(mv.hidden||!M)return;const d=MKEY[e.key];if(d){mKey=d;e.preventDefault();e.stopPropagation()}},true);
 window.addEventListener('keyup',e=>{if(mv.hidden)return;const d=MKEY[e.key];if(d&&mKey===d)mKey=null},true);
