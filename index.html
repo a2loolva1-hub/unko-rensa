@@ -691,6 +691,21 @@ h1{white-space:nowrap;font-size:clamp(28px,8.6vw,46px)!important;-webkit-text-st
 .machine{margin:0!important;box-shadow:0 0 24px rgba(255,90,217,.45)}
 .machine.shake .machimg{animation:mshake2 .12s linear infinite!important}
 @keyframes mshake2{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+/* v28 rarity badges */
+.picker .evb{left:50%!important;top:-6px!important;transform:translateX(-50%);z-index:3!important;font-family:var(--display);font-size:10px!important;font-weight:400!important;padding:1px 8px!important;white-space:nowrap;border:1.5px solid #fff;letter-spacing:.03em}
+.evb.rb-R{color:#fff!important;background:linear-gradient(180deg,#9ac8ff,#3a7ae0)!important;box-shadow:0 0 6px rgba(98,160,255,.8)!important}
+.evb.rb-SR{color:#fff!important;background:linear-gradient(180deg,#ffb0ee,#d03aa8)!important;box-shadow:0 0 8px rgba(255,90,217,.8)!important}
+.evb.rb-SSR{color:#4a2a00!important;background:linear-gradient(180deg,#fff6c8,#ffd86b 50%,#e8a01a)!important;box-shadow:0 0 8px rgba(255,216,107,.95)!important}
+.evb.rb-UR{color:#06304a!important;background:linear-gradient(180deg,#e8ffff,#62f2ff 50%,#2aa8d8)!important;box-shadow:0 0 10px rgba(98,242,255,1)!important}
+.evb.rb-SECRET{color:#fff!important;background:linear-gradient(90deg,#ff5ad9,#b07aff,#62f2ff,#7fff9a)!important;box-shadow:0 0 12px rgba(255,140,240,1)!important;text-shadow:0 1px 0 #4a0a5a}
+.evb.rb-LR{color:#5a2a00!important;background:linear-gradient(90deg,#fff6c8,#ffd86b,#ff9ae6,#fff6c8)!important;background-size:200% 100%!important;animation:lrShine 2s linear infinite;box-shadow:0 0 14px rgba(255,226,122,1),0 0 22px rgba(255,90,217,.7)!important}
+@keyframes lrShine{to{background-position:200% 0}}
+.picker button[data-r="UR"]{border-color:#62f2ff!important;box-shadow:0 0 12px rgba(98,242,255,.7)!important}
+.picker button[data-r="LR"]{border-color:#ffe27a!important;box-shadow:0 0 14px rgba(255,226,122,.95),0 0 22px rgba(255,90,217,.5)!important}
+.picker .evb,.picker .afb{width:auto!important;max-width:none!important;overflow:visible!important;text-overflow:clip!important}
+.picker .afb{left:auto!important;top:auto!important;bottom:22px!important;right:4px!important;font-size:9px!important;padding:0 5px!important;border:1px solid #fff}
+.picker button[aria-pressed="true"]::before{top:auto!important;bottom:-8px!important;z-index:4}
 @keyframes zhop{50%{transform:translateY(-8px)}}
 .zoomov{position:fixed;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(8,3,28,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .zcard{position:relative;width:min(100%,420px);max-height:100%;overflow-y:auto;display:grid;justify-items:center;gap:8px;padding:14px;border-radius:20px;background:linear-gradient(180deg,#4a1446,#1a0626);box-shadow:0 0 0 2px #b77a14,0 0 0 4px #ffe08a,0 0 30px rgba(255,216,107,.6)}
@@ -2301,7 +2316,8 @@ for(const c of CHARS){
 function drawPicker(){dpr=Math.min(2,window.devicePixelRatio||1);pickBtns.forEach(([b,cv,id])=>{const own=owns(id);b.classList.toggle('locked',!own);b.setAttribute('aria-pressed',String(id===myChr));
   let lk=b.querySelector('.lock');if(!own&&!lk){lk=document.createElement('span');lk.className='lock';lk.textContent=(CHAR_R[id]||'R');b.appendChild(lk)}else if(own&&lk)lk.remove();
   b.dataset.r=CHAR_R[id]||'base';
-  {let eb=b.querySelector('.evb');const ev=own&&window.__affReady&&evoOn(id);if(ev&&!eb){eb=document.createElement('span');eb.className='evb';eb.textContent='SSR';b.appendChild(eb)}else if(!ev&&eb)eb.remove()}{let af=b.querySelector('.afb');const lv=own&&window.__affReady?affLv(id):1;if(lv>1){if(!af){af=document.createElement('span');af.className='afb';b.appendChild(af)}af.textContent='♥'+lv}else if(af)af.remove()}
+  {let eb=b.querySelector('.evb');const ev=own&&window.__affReady&&evoOn(id);const ORD=['','R','SR','SSR','UR','SECRET','LR'];let r=CHAR_R[id]||(BASE_CHARS.includes(id)?'':'R');if(ev&&ORD.indexOf(r)<3)r='SSR';
+  if(own&&r){if(!eb){eb=document.createElement('span');b.appendChild(eb)}eb.className='evb rb-'+r+(ev?' evo':'');eb.textContent=(r==='SECRET'?'SECRET':r)+(ev?'✦':'')}else if(eb)eb.remove()}{let af=b.querySelector('.afb');const lv=own&&window.__affReady?affLv(id):1;if(lv>1){if(!af){af=document.createElement('span');af.className='afb';b.appendChild(af)}af.textContent='♥'+lv}else if(af)af.remove()}
   const sec=CHAR_R[id]==='SECRET';b.classList.toggle('secretc',sec);b.classList.toggle('hidden',sec&&!own);b.querySelector('span').textContent=sec&&!own?'？？？':charOf(id).name;
   portrait(cv,cv.getContext('2d'),84,id,id===myChr?'happy':'normal',id===myChr?myLook():null)})}
 function gearRow(row,t){row.replaceChildren();const G=GEAR[myChr];
