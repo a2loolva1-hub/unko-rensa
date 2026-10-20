@@ -58,11 +58,11 @@ body.ingame .arena{touch-action:none}
 .fzov{position:fixed;inset:0;z-index:70;background:rgba(10,4,32,.9);display:flex;align-items:center;justify-content:center;padding:12px}
 .fzbox{width:min(100%,460px);max-height:92svh;overflow-y:auto;background:linear-gradient(180deg,#3a1a7a,#1c0a44);border:3px solid #ffd86b;border-radius:20px;padding:14px;display:grid;gap:10px;color:#fff;text-align:center}
 .fzbox h3{margin:0;font-family:var(--display);color:#ffd86b}.fzbox p{margin:0;font-size:13px}
-.fzgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fzgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .fzc{position:relative;display:grid;justify-items:center;gap:2px;padding:8px 4px;border-radius:14px;background:rgba(255,255,255,.08);border:2px solid var(--rc)}
 .fzc.no{opacity:.55;border-style:dashed}.fzc i{position:absolute;top:3px;left:5px;font-style:normal;font-size:10px;font-weight:900;color:var(--rc)}
-.fze{font-size:38px;line-height:1.1;color:#000}.fzc.no .fze{color:rgba(255,255,255,.6);font-weight:900}
-.fzc span{font-size:11px;font-weight:800;line-height:1.2}.fzc small{font-size:9px;opacity:.8}
+.fze{font-size:32px;line-height:1.1;color:#000}.fzc.no .fze{color:rgba(255,255,255,.6);font-weight:900}
+.fzc span{font-size:10px;font-weight:800;line-height:1.2}.fzc small{font-size:9px;opacity:.8}
 #opLoad{position:absolute;left:50%;bottom:calc(40px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(72vw,320px);z-index:3;text-align:center;color:#fff;font:800 14px/1.5 system-ui,sans-serif;text-shadow:0 0 6px #ff5ad9,0 2px 0 #3a0e52;transition:opacity .4s;background:rgba(20,8,50,.62);padding:8px 14px 10px;border-radius:18px;box-sizing:border-box}
 #opLoad .ldtrack{position:relative;height:16px;margin-top:6px;border-radius:999px;background:rgba(20,8,50,.6);border:2px solid #fff;overflow:hidden;box-shadow:0 0 14px rgba(255,90,217,.7)}
 #ldBar{height:100%;width:3%;border-radius:999px;background:linear-gradient(90deg,#ff5ad9,#ffd86b,#62f2ff);transition:width .35s ease}
@@ -4485,8 +4485,28 @@ const FISH=[
  {id:'wani',e:'🐊',n:'ベンキワニ',r:'SSR',s:[200,400],k:1.05,d:'下水にすむというウワサの…'},
  {id:'ryu',e:'🐉',n:'トイレの竜神',r:'UR',s:[800,1500],k:1.25,d:'トイレをまもる、まぼろしの竜'},
  {id:'ningyo',e:'🧜‍♀️',n:'うんこ人魚',r:'UR',s:[150,180],k:1.2,d:'うたうと、うんこがながれる'},
+ {id:'can',e:'🥫',n:'からっぽのあきかん',r:'N',s:[8,12],k:.3,d:'カラン…中身はない'},
+ {id:'sock',e:'🧦',n:'かたっぽのくつした',r:'N',s:[15,25],k:.3,d:'もうかたっぽはどこへ？'},
+ {id:'kai',e:'🐚',n:'まきまきうんこ貝',r:'N',s:[5,15],k:.35,d:'うんこみたいに、まきまき'},
+ {id:'kaeru',e:'🐸',n:'トイレガエル',r:'N',s:[5,12],k:.4,d:'ゲコッとなく、べんきのぬし'},
+ {id:'kaki',e:'🦪',n:'ねぼすけカキ',r:'R',s:[8,15],k:.5,d:'ずっとねている。たまに口をあける'},
+ {id:'duck',e:'🦆',n:'おふろのアヒル',r:'R',s:[10,20],k:.5,d:'だれかのおふろからにげてきた'},
+ {id:'hitode',e:'⭐',n:'うんこヒトデ',r:'R',s:[10,30],k:.55,d:'夜になると、ほんのり光る'},
+ {id:'katatsu',e:'🐌',n:'のろのろカタツムリ',r:'R',s:[3,8],k:.45,d:'1日に1センチしかすすまない'},
+ {id:'rakko',e:'🦦',n:'うんこラッコ',r:'SR',s:[60,120],k:.75,d:'おなかの上でうんこをわる'},
+ {id:'pen',e:'🐧',n:'すべりペンギン',r:'SR',s:[40,100],k:.8,d:'べんきのふちをすべって遊ぶ'},
+ {id:'hebi',e:'🐍',n:'トイレウミヘビ',r:'SR',s:[100,200],k:.85,d:'はいすいかんを、にょろにょろ'},
+ {id:'flamingo',e:'🦩',n:'かたあしフラミンゴ',r:'SR',s:[80,140],k:.75,d:'かたあしで、ずっとまっている'},
+ {id:'nagasu',e:'🐋',n:'ながすうんこクジラ',r:'SSR',s:[1500,2500],k:1.15,d:'なんでもながしてくれる、うみの王さま'},
+ {id:'azarashi',e:'🦭',n:'ごろごろアザラシ',r:'SSR',s:[120,200],k:1,d:'こおりの上で、ずっとごろごろ'},
+ {id:'takara',e:'💰',n:'しずんだたからぶくろ',r:'SSR',s:[30,50],k:1,d:'むかしのかいぞくがおとしたらしい'},
+ {id:'nessie',e:'🦕',n:'うんこネッシー',r:'SSR',s:[1000,1800],k:1.15,d:'みずうみのなぞのいきもの'},
+ {id:'unicorn',e:'🦄',n:'うみユニコーン',r:'UR',s:[150,250],k:1.2,d:'にじのツノで、水をきれいにする'},
+ {id:'kanmuri',e:'👑',n:'トイレ王のかんむり',r:'UR',s:[25,35],k:1.2,d:'むかしのトイレ王がおとした、かんむり'},
+ {id:'sei',e:'🧞',n:'トイレの精',r:'UR',s:[170,200],k:1.25,d:'3つだけ、ねがいをかなえてくれる…？'},
+ {id:'uchu',e:'🪐',n:'宇宙うんこ',r:'LR',s:[999,999],k:1.4,d:'宇宙からおちてきた、なぞのうんこ',gold:1},
  {id:'gold',e:'💩',n:'伝説の金のうんこ',r:'LR',s:[77,77],k:1.4,d:'つった人に、すごいしあわせがくる',gold:1}];
-const F_RATE={N:34,R:32,SR:20,SSR:9.4,UR:4,LR:0.6};
+const F_RATE={N:34,R:32,SR:20,SSR:9.1,UR:4,LR:0.9};
 const F_COIN={N:3,R:8,SR:15,SSR:40,UR:80,LR:150},F_MEDAL={SSR:3,UR:10,LR:30};
 const F_COL={N:'#c8c8e8',R:'#7fd0ff',SR:'#ff8de8',SSR:'#ffd86b',UR:'#7fffd4',LR:'#ff6bd5'};
 const fv=$('fishv'),fcv=$('fishCv'),fctx=fcv.getContext('2d');const W=360,H=470;
@@ -4516,7 +4536,7 @@ function fCatch(){const f=F.fish,B=fBook(),isNew=!B[f.id];B[f.id]=B[f.id]||{n:0,
   const md=F_MEDAL[f.r]|0;if(md){SAVE.medals=(SAVE.medals|0)+md;rw.push('+'+md+'メダル')}
   if(f.r==='LR'&&EVO_IMG[myChr]&&!evoOn(myChr)){SAVE.evoP=SAVE.evoP||{};SAVE.evoP[myChr]=(SAVE.evoP[myChr]|0)+1;rw.push('💎'+charOf(myChr).name+'の進化のかけら+1')}
   if(['SR','SSR','UR','LR'].includes(f.r)){try{addAff(myChr,1);baseShard()}catch(e){}}
-  const all=FISH.every(x=>B[x.id]);if(all&&!SAVE.fishDone){SAVE.fishDone=1;SAVE.coins=(SAVE.coins|0)+500;rw.push('📖ずかんコンプリート！+500コイン')}
+  const all=FISH.every(x=>B[x.id]);if(all&&!SAVE.fishAll){SAVE.fishAll=1;SAVE.coins=(SAVE.coins|0)+3000;rw.push('📖ずかんコンプリート！！ +3000コイン');setTimeout(()=>toast('🎉 うんこ釣りずかん コンプリート！ +3000コイン 🎉'),900)}
   saveNow();updateWallet();
   $('fishEm').textContent=f.e;$('fishEm').className='fem'+(f.gold?' gold':'');$('fishRar').textContent=f.r;$('fishRar').style.background=F_COL[f.r];$('fishNm').textContent=f.n+(isNew?'  NEW!':'');
   $('fishSz').textContent=(f.size>=100?(f.size/100).toFixed(1)+'m':f.size+'cm')+(B[f.id].max===f.size&&B[f.id].n>1?' 🏆じこベスト！':'')+'　'+f.d;$('fishRw').textContent=rw.join('　');
@@ -4568,10 +4588,10 @@ function fOpen(){fv.hidden=false;document.body.classList.add('bomopen');fNew();f
 function fClose(){fv.hidden=true;document.body.classList.remove('bomopen');cancelAnimationFrame(fraf);F=null;fHold=false;const z=document.querySelector('.fzov');if(z)z.remove();drawPicker();drawKise();updateWallet()}
 function fZukan(){const B=fBook();const w=document.createElement('div');w.className='fzov';const bx=document.createElement('div');bx.className='fzbox';
   const n=FISH.filter(f=>B[f.id]).length;const h=document.createElement('h3');h.textContent='📖 うんこ釣りずかん　'+n+' / '+FISH.length;bx.appendChild(h);
-  const g=document.createElement('div');g.className='fzgrid';for(const f of FISH){const d=document.createElement('div');const got=B[f.id];d.className='fzc'+(got?'':' no');d.style.setProperty('--rc',F_COL[f.r]);
+  const g=document.createElement('div');g.className='fzgrid';const RO={N:0,R:1,SR:2,SSR:3,UR:4,LR:5};for(const f of [...FISH].sort((a,b)=>RO[a.r]-RO[b.r])){const d=document.createElement('div');const got=B[f.id];d.className='fzc'+(got?'':' no');d.style.setProperty('--rc',F_COL[f.r]);
     const e=document.createElement('div');e.className='fze'+(f.gold&&got?' gold':'');e.textContent=got?f.e:'？';const r=document.createElement('i');r.textContent=f.r;const nm=document.createElement('span');nm.textContent=got?f.n:'？？？';
     const m=document.createElement('small');m.textContent=got?('×'+got.n+'　さいだい '+(got.max>=100?(got.max/100).toFixed(1)+'m':got.max+'cm')):'まだつれていない';d.append(r,e,nm,m);g.appendChild(d)}
-  bx.appendChild(g);const p=document.createElement('p');p.textContent=SAVE.fishDone?'コンプリートおめでとう！':'ぜんぶつるとボーナス500コイン！';bx.appendChild(p);
+  bx.appendChild(g);const p=document.createElement('p');p.textContent=SAVE.fishAll?'🎉 コンプリートおめでとう！':'ぜんぶ（'+FISH.length+'しゅるい）つるとボーナス3000コイン！';bx.appendChild(p);
   const c=document.createElement('button');c.className='main';c.textContent='とじる';c.addEventListener('click',()=>w.remove());bx.appendChild(c);w.appendChild(bx);document.body.appendChild(w)}
 $('fishBtn').addEventListener('click',fOpen);$('fishQuit').addEventListener('click',fClose);$('fishBook').addEventListener('click',fZukan);$('fishAgain').addEventListener('click',()=>fPress(true));
 {const b=$('fishAct');b.addEventListener('pointerdown',e=>{e.preventDefault();try{b.setPointerCapture(e.pointerId)}catch(_){}fPress(true)});
