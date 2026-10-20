@@ -1241,10 +1241,10 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
     </div>
     <div class="panel">
       <h3 class="sec rib"><span>キャラの一覧</span></h3>
-      <p class="hint">カギつきはガチャで手に入るよ。えらんでいるキャラをもう一度タップするとステータスが見られるよ</p>
+      <p class="hint">カギつきはガチャで手に入るよ。タップでえらぶと、そのキャラのステータスが大きく出るよ</p>
       <div class="picker" id="picker"></div>
       <div class="kisebox">
-        <div class="kisehead"><span class="ktitle">そうび（パワーアップ）</span><button class="sub small zoomopen" id="zOpen">大きく見る</button></div>
+        <div class="kisehead"><span class="ktitle">そうび（パワーアップ）</span><button class="sub small zoomopen" id="kStatBtn">📊 ステータス</button><button id="zOpen" hidden></button></div>
         <div class="kise gk"><span class="ksub">服装</span><div class="krow" id="gsRow"></div></div>
         <div class="kise gk"><span class="ksub">持ち物</span><div class="krow" id="giRow"></div></div>
         <div class="kstat" id="kStat"></div>
@@ -2523,7 +2523,7 @@ for(const c of CHARS){
   const b=document.createElement('button');b.type='button';b.setAttribute('aria-pressed',String(c.id===myChr));
   const cv=document.createElement('canvas');const lab=document.createElement('span');lab.textContent=c.name;
   b.append(cv,lab);$('picker').appendChild(b);pickBtns.push([b,cv,c.id]);
-  b.addEventListener('click',()=>{if(owns(c.id)&&c.id===myChr){openStatus(c.id);return}if(!owns(c.id)){toast(CHAR_R[c.id]==='SECRET'?'シークレットキャラ！ガチャで出るかも…？':CHAR_R[c.id]==='LR'?'伝説のレジェンドキャラ！出る確率はたったの0.03%…！':'ガチャで手に入れよう！');return}myChr=c.id;lsSet('unko-chr',myChr);drawPicker();drawKise()});
+  b.addEventListener('click',()=>{if(owns(c.id)&&c.id===myChr){openStatus(c.id);return}if(!owns(c.id)){toast(CHAR_R[c.id]==='SECRET'?'シークレットキャラ！ガチャで出るかも…？':CHAR_R[c.id]==='LR'?'伝説のレジェンドキャラ！出る確率はたったの0.03%…！':'ガチャで手に入れよう！');return}myChr=c.id;lsSet('unko-chr',myChr);drawPicker();drawKise();try{openStatus(c.id)}catch(e){}});
 }
 function drawPicker(){dpr=Math.min(2,window.devicePixelRatio||1);pickBtns.forEach(([b,cv,id])=>{const own=owns(id);b.classList.toggle('locked',!own);b.setAttribute('aria-pressed',String(id===myChr));
   let lk=b.querySelector('.lock');if(!own&&!lk){lk=document.createElement('span');lk.className='lock';lk.textContent=(CHAR_R[id]||'R');b.appendChild(lk)}else if(own&&lk)lk.remove();
@@ -2640,7 +2640,7 @@ function drawZoom(){if($('zoomv').hidden)return;const c=charOf(myChr),sp=SPECIAL
   $('zSp').replaceChildren();if(sp){const b=document.createElement('b');b.textContent='必殺技「'+sp.name+'」';$('zSp').append(b,document.createElement('br'),sp.desc)}
   if(it){const d=document.createElement('div');d.className='zeq';d.textContent='そうび中：'+it.n+'（'+it.r+'）';$('zSp').appendChild(d)}
   $('zSay').textContent=affLv(myChr)>=5?AFF_LINE:lineText(myChr,'idle');$('zFace').setAttribute('aria-pressed',String(zMode==='face'));$('zBody').setAttribute('aria-pressed',String(zMode==='body'))}
-$('zOpen').addEventListener('click',()=>{$('zoomv').hidden=false;drawKise();drawZoom()});
+$('zOpen').addEventListener('click',()=>{$('zoomv').hidden=false;drawKise();drawZoom()});$('kStatBtn').addEventListener('click',()=>openStatus(myChr));
 $('zStage').addEventListener('click',()=>{zMode=zMode==='face'?'body':'face';drawZoom()});
 $('zClose').addEventListener('click',()=>{$('zoomv').hidden=true});
 $('zoomv').addEventListener('click',e=>{if(e.target===$('zoomv'))$('zoomv').hidden=true});
