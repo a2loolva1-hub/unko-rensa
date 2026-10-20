@@ -63,6 +63,13 @@ body.ingame .arena{touch-action:none}
 .fzc.no{opacity:.55;border-style:dashed}.fzc i{position:absolute;top:3px;left:5px;font-style:normal;font-size:10px;font-weight:900;color:var(--rc)}
 .fze{font-size:32px;line-height:1.1;color:#000}.fzc.no .fze{color:rgba(255,255,255,.6);font-weight:900}
 .fzc span{font-size:10px;font-weight:800;line-height:1.2}.fzc small{font-size:9px;opacity:.8}
+.svpanel .svbox{display:grid;gap:8px;padding:12px;margin-top:8px;border-radius:16px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.18)}
+.svpanel .svbox b{color:#ffd86b;font-size:15px}.svpanel .svbox .note{margin:0}
+.svpanel textarea{width:100%;box-sizing:border-box;font-size:12px;border-radius:10px;padding:8px;background:rgba(0,0,0,.35);color:#fff;border:1.5px solid rgba(255,255,255,.3);word-break:break-all}
+.svpanel summary{cursor:pointer;font-weight:900;color:#ffd86b}
+.svpanel #svOut{display:grid;gap:6px}.svpanel #svOut[hidden]{display:none}
+.svinfo{margin:0;padding:8px 10px;border-radius:12px;background:rgba(127,255,154,.12);border:1.5px solid rgba(127,255,154,.5);font-weight:800;font-size:13px;color:#dfffe6}
+.svinfo.warn{background:rgba(255,90,120,.15);border-color:rgba(255,120,140,.7);color:#ffe0e6}
 #opLoad{position:absolute;left:50%;bottom:calc(40px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(72vw,320px);z-index:3;text-align:center;color:#fff;font:800 14px/1.5 system-ui,sans-serif;text-shadow:0 0 6px #ff5ad9,0 2px 0 #3a0e52;transition:opacity .4s;background:rgba(20,8,50,.62);padding:8px 14px 10px;border-radius:18px;box-sizing:border-box}
 #opLoad .ldtrack{position:relative;height:16px;margin-top:6px;border-radius:999px;background:rgba(20,8,50,.6);border:2px solid #fff;overflow:hidden;box-shadow:0 0 14px rgba(255,90,217,.7)}
 #ldBar{height:100%;width:3%;border-radius:999px;background:linear-gradient(90deg,#ff5ad9,#ffd86b,#62f2ff);transition:width .35s ease}
@@ -1355,6 +1362,26 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
           <button class="main" id="fishBtn">あそぶ ▶</button>
         </div>
       </div>
+    </div>
+    <div class="panel svpanel">
+      <h3 class="sec rib"><span>💾 セーブ・引きつぎ</span></h3>
+      <p class="svinfo" id="svInfo"></p>
+      <div class="svbox">
+        <b>📋 引きつぎコード</b>
+        <p class="note">コードをLINEやメモにはっておけば、データが消えても、べつのスマホでも続きから遊べるよ（デコ絵はふくまれません）</p>
+        <button class="main" id="svMake">コードを作ってコピー</button>
+        <div id="svOut" hidden><textarea id="svCode" rows="3" readonly aria-label="引きつぎコード"></textarea><button class="sub small" id="svCopy">もう一度コピー</button></div>
+      </div>
+      <div class="svbox">
+        <b>📁 まるごとファイルにセーブ</b>
+        <p class="note">デコ絵やアルバムもふくめて、ぜんぶをファイルにのこすよ（iPhoneは「"ファイル"に保存」をえらんでね）</p>
+        <div class="row2"><button class="sub" id="svFile">ファイルにセーブ</button><button class="sub" id="svFileBtn">ファイルから戻す</button></div>
+        <input type="file" id="svFileIn" accept=".json,application/json" hidden>
+      </div>
+      <details class="svbox"><summary>🔄 コードで引きつぐ（続きから遊ぶ）</summary>
+        <textarea id="svIn" rows="3" placeholder="UNKO1- ではじまるコードをはりつけてね" aria-label="引きつぎコードを入力"></textarea>
+        <button class="main" id="svLoad">このコードで引きつぐ</button>
+      </details>
     </div>
   </section>
 
@@ -4667,6 +4694,43 @@ fcv.addEventListener('pointerdown',e=>{if(!F||F.st==='done')return;e.preventDefa
 for(const ev of ['pointerup','pointercancel'])fcv.addEventListener(ev,()=>{if(F)fPress(false)});
 addEventListener('resize',()=>{if(F)fFit()});
 window.__fish={get F(){return F},fPress,FISH};
+}
+
+// ---------- セーブ・引きつぎ ----------
+{
+const SV_KEYS=['unko-save','unko-chr','unko-name','unko-hc','unko-lv','unko-room','unko-oniroom'];
+const SV_BIG=['unko-art','unko-album'];
+const SV_SALT='unko-rensa-hikitsugi-2026';
+function svHash(s){let h=0x811c9dc5;s=SV_SALT+s;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0}return h.toString(16).padStart(8,'0')}
+function svCollect(big){const d={v:1,t:Date.now(),k:{}};for(const k of SV_KEYS.concat(big?SV_BIG:[])){const v=lsGet(k);if(v!=null)d.k[k]=v}return d}
+const u8b64=u8=>{let s='';for(let i=0;i<u8.length;i+=0x8000)s+=String.fromCharCode.apply(null,u8.subarray(i,i+0x8000));return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')};
+const b64u8=t=>{t=t.replace(/-/g,'+').replace(/_/g,'/');while(t.length%4)t+='=';return Uint8Array.from(atob(t),c=>c.charCodeAt(0))};
+async function svZip(str){const u=new TextEncoder().encode(str);if(!window.CompressionStream)return 'J'+u8b64(u);const cs=new Blob([u]).stream().pipeThrough(new CompressionStream('gzip'));return 'Z'+u8b64(new Uint8Array(await new Response(cs).arrayBuffer()))}
+async function svUnzip(t){const m=t[0],u=b64u8(t.slice(1));if(m==='J')return new TextDecoder().decode(u);if(!window.DecompressionStream)throw new Error('zip');const ds=new Blob([u]).stream().pipeThrough(new DecompressionStream('gzip'));return await new Response(ds).text()}
+async function svMakeCode(){const body=await svZip(JSON.stringify(svCollect(false)));return 'UNKO1-'+body+'-'+svHash(body)}
+async function svReadCode(code){code=(code||'').replace(/\s+/g,'');const m=code.match(/^UNKO1-([JZ][A-Za-z0-9_-]+)-([0-9a-f]{8})$/);if(!m)throw new Error('form');if(svHash(m[1])!==m[2])throw new Error('hash');const d=JSON.parse(await svUnzip(m[1]));if(!d||!d.k||!d.k['unko-save'])throw new Error('form');return d}
+function svSummary(d){let s={};try{s=JSON.parse(d.k['unko-save'])||{}}catch(e){}const n=(s.chars||[]).length+8;const dt=new Date(d.t||0);return 'キャラ'+n+'人・コイン'+(s.coins|0)+'・メダル'+(s.medals|0)+'（'+(dt.getMonth()+1)+'/'+dt.getDate()+' '+dt.getHours()+':'+String(dt.getMinutes()).padStart(2,'0')+' のデータ）'}
+function svApply(d){if(!confirm('このデータで引きつぐ？\n'+svSummary(d)+'\n\nいまのデータは上書きされます。'))return;
+  try{for(const k of SV_KEYS.concat(SV_BIG))if(k in d.k)localStorage.setItem(k,d.k[k])}catch(e){toast('保存できる場所がいっぱいです…');return}
+  toast('引きつぎできたよ！よみこみなおします');setTimeout(()=>location.reload(),900)}
+function svMark(){SAVE.lastBackup=Date.now();saveNow();svInfo()}
+function svInfo(){const el=$('svInfo');if(!el)return;const t=SAVE.lastBackup;if(!t){el.textContent='まだセーブしていないよ。だいじなデータを守るために、ときどきセーブしてね！';el.className='svinfo warn';return}
+  const d=Math.floor((Date.now()-t)/864e5),dt=new Date(t);el.textContent='さいごのセーブ：'+(dt.getMonth()+1)+'/'+dt.getDate()+(d>=7?'（'+d+'日前！そろそろセーブしよう）':d>0?'（'+d+'日前）':'（きょう）');el.className='svinfo'+(d>=7?' warn':'')}
+const copyT=async(t,ta)=>{try{await navigator.clipboard.writeText(t);toast('コピーしたよ！LINEやメモにはりつけてね')}catch(e){ta.focus();ta.select();toast('えらんだので「コピー」してね')}};
+$('svMake').addEventListener('click',async()=>{try{const c=await svMakeCode();const ta=$('svCode');ta.value=c;$('svOut').hidden=false;svMark();copyT(c,ta)}catch(e){toast('コードを作れませんでした')}});
+$('svCopy').addEventListener('click',()=>copyT($('svCode').value,$('svCode')));
+$('svLoad').addEventListener('click',async()=>{const t=$('svIn').value;if(!t.trim()){toast('引きつぎコードをはりつけてね');return}
+  try{svApply(await svReadCode(t))}catch(e){toast(e.message==='hash'?'コードがこわれているみたい…もう一度コピーしてね':e.message==='zip'?'このブラウザでは読めないコードです（Safariを新しくしてね）':'引きつぎコードが正しくないみたい')}});
+$('svFile').addEventListener('click',async()=>{try{const d=svCollect(true);const body=JSON.stringify(d);const txt=JSON.stringify({unko:1,h:svHash(body),d:body});
+  const now=new Date(),nm='unko-save-'+now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'.json';
+  const file=new File([txt],nm,{type:'application/json'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:'うんこ連鎖のセーブ'});svMark();return}catch(e){if(e&&e.name==='AbortError')return}}
+  const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=nm;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);svMark();toast('ファイルにセーブしたよ')}catch(e){toast('ファイルを作れませんでした')}});
+$('svFileIn').addEventListener('change',async e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;
+  try{const o=JSON.parse(await f.text());if(!o||o.unko!==1||svHash(o.d)!==o.h)throw new Error('hash');const d=JSON.parse(o.d);if(!d.k||!d.k['unko-save'])throw new Error('form');svApply(d)}catch(err){toast('このファイルは読めないみたい…')}});
+$('svFileBtn').addEventListener('click',()=>$('svFileIn').click());
+svInfo();
+setTimeout(()=>{try{const t=SAVE.lastBackup;if(!t||Date.now()-t>7*864e5)if((SAVE.chars||[]).length>=3)toast('💾 しばらくセーブしていないよ！メニューのいちばん下でセーブしてね')}catch(e){}},4000);
 }
 
 try{__ld(100);document.getElementById('opening').classList.add('ready')}catch(e){}
