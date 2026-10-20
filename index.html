@@ -1926,18 +1926,32 @@ const CHARS=[
   {id:'l1',name:'銀河の猫天使'},
 ];
 // ---------- minigame types ----------
-const MG_T={spd:{e:'💨',n:'スピード',c:'#62f2ff',bom:'足が速い（くつ+1）',oni:'走るのが速い',maze:'歩くのが速い'},
- pow:{e:'💪',n:'パワー',c:'#ff7a5a',bom:'爆風が長い（とうがらし+1）',oni:'ダッシュが長く・すぐ使える',maze:'ゴールのコインが多い'},
- grd:{e:'🛡️',n:'ガード',c:'#7fff9a',bom:'バリアで1回ふせぐ',oni:'バリアで1回タッチをふせぐ',maze:'くらやみでもよく見える'},
- mag:{e:'🔮',n:'まほう',c:'#d07aff',bom:'うんこを1こ多くおける',oni:'👟アイテムの効果が長い',maze:'さいしょにゴールへの道が光る'}};
+const MG_T={spd:{e:'💨',n:'スピード',c:'#62f2ff',bom:'足が速い',oni:'走るのが速い',maze:'歩くのが速い'},
+ pow:{e:'💪',n:'パワー',c:'#ff7a5a',bom:'爆風が長い',oni:'ダッシュが長く・すぐ使える',maze:'ゴールのコインが多い'},
+ grd:{e:'🛡️',n:'ガード',c:'#7fff9a',bom:'バリアでふせぐ',oni:'バリアでタッチをふせぐ',maze:'くらやみでもよく見える'},
+ mag:{e:'🔮',n:'まほう',c:'#d07aff',bom:'うんこを多くおける',oni:'👟アイテムの効果が長い',maze:'さいしょにゴールへの道が光る'}};
 const MG_OF={ninja:'spd',gal:'spd',b03:'spd',b08:'spd',g16:'spd',g18:'spd',g19:'spd',g20:'spd',s2:'spd',u2:'spd',
  unko:'pow',maou:'pow',b01:'pow',b05:'pow',b09:'pow',g12:'pow',s3:'pow',u1:'pow',u4:'pow',
  baby:'grd',oyaji:'grd',b04:'grd',b06:'grd',g15:'grd',g17:'grd',s4:'grd',
  girl:'mag',boy:'mag',b02:'mag',b07:'mag',b10:'mag',g11:'mag',g13:'mag',g14:'mag',s1:'mag',u3:'mag',u5:'mag',l1:'mag'};
 function mgType(id){return MG_OF[id]||'mag'}
-function mgPow(id){if(evoOn&&evoGod(id))return 5;let r=CHAR_R[id];if(evoOn&&evoOn(id)&&!['SECRET','LR','UR'].includes(r))r='SSR';return r==='LR'||r==='SECRET'?3:r==='UR'||r==='SSR'?2:1}
-function mgLabel(id){const t=MG_T[mgType(id)],p=mgPow(id);return t.e+t.n+'タイプ'+(p>1?' '+'★'.repeat(p):'')}
-function mgMsg(id,game){const t=MG_T[mgType(id)];return t.e+t.n+'：'+t[game]+(mgPow(id)>1?'（パワー'+'★'.repeat(mgPow(id))+'）':'')}
+const MG_SUB={girl:'spd',boy:'grd',oyaji:'pow',unko:'grd',maou:'mag',gal:'mag',ninja:'pow',baby:'mag',
+ b01:'grd',b02:'grd',b03:'mag',b04:'pow',b05:'spd',b06:'mag',b07:'spd',b08:'pow',b09:'grd',b10:'pow',
+ g11:'spd',g12:'grd',g13:'spd',g14:'pow',g15:'mag',g16:'pow',g17:'mag',g18:'pow',g19:'mag',g20:'grd',
+ u1:'grd',u2:'pow',u3:'grd',u4:'spd',u5:'spd',s1:'spd',s2:'mag',s3:'mag',s4:'mag',l1:'spd'};
+// [main, sub, main(evolved), sub(evolved)]
+const MG_TAB={'':[1,0,3,1],R:[1,0,3,1],SR:[2,0,3,1],SSR:[3,1,4,2],UR:[4,2,5,2],SECRET:[4,2,5,3],LR:[5,3,6,6]};
+function mgRow(id){return MG_TAB[CHAR_R[id]||(BASE_CHARS.includes(id)?'':'R')]||MG_TAB.R}
+function mgEvo(id){try{return evoOn(id)}catch(e){return false}}
+function mgGod(id){return CHAR_R[id]==='LR'&&mgEvo(id)}
+function mgPow(id){const t=mgRow(id);return mgEvo(id)?t[2]:t[0]}
+function mgSubPow(id){if(!MG_SUB[id])return 0;const t=mgRow(id);return mgEvo(id)?t[3]:t[1]}
+function mgP(id,type){if(mgGod(id))return 6;if(mgType(id)===type)return mgPow(id);if(MG_SUB[id]===type)return mgSubPow(id);return 0}
+function mgStars(p){return p>=6?'★MAX':'★'.repeat(p)}
+function mgDesc(id,g){if(mgGod(id))return 'ぜんぶのとくいが最大！';const m=MG_T[mgType(id)][g],sp=mgSubPow(id);return m+(sp?' ＋'+MG_T[MG_SUB[id]][g]:'')}
+function mgDescHTML(id,br){const L=[['ボンバー','bom'],['鬼ごっこ','oni'],['迷路','maze']].map(([n,g])=>n+'：'+mgDesc(id,g));return br?L.join('<br>'):L.map(x=>'<span>'+x+'</span>').join('')}
+function mgLabel(id){if(mgGod(id))return '🌌ぜんぶのタイプ ★MAX';const t=MG_T[mgType(id)];let s=t.e+t.n+'タイプ '+mgStars(mgPow(id));const sp=mgSubPow(id);if(sp){const u=MG_T[MG_SUB[id]];s+=' ＋サブ'+u.e+mgStars(sp)}return s}
+function mgMsg(id,game){if(mgGod(id))return '🌌 ぜんぶのとくいが最大！（★MAX）';const t=MG_T[mgType(id)];return t.e+t.n+'：'+mgDesc(id,game)+'（'+mgStars(mgPow(id))+'）'}
 const charOf=id=>CHARS.find(c=>c.id===id)||CHARS[0];
 const CHAR_IMG=Object.assign({},__D[0]);
 const CHAR_FULL=Object.assign({},__D[1]);
@@ -2535,7 +2549,7 @@ function drawKise(){
 for(const id of new Set([...(SAVE.evo||[]),...Object.keys(ARTS)]))applyEvo(id);
 drawPicker();drawKise();
 function drawHero(){const id=myChr,c=charOf(id);const img=$('heroImg');if(!img)return;const src=CHAR_FULL[id]||CHAR_FULL.girl;if(img.dataset.src!==src){img.src=src;img.dataset.src=src}
-  $('heroName').textContent=c.name;{const t=MG_T[mgType(id)],m=$('heroMg');m.style.setProperty('--mc',t.c);m.innerHTML='<b>'+mgLabel(id)+'</b><span>ボンバー：'+t.bom+'</span><span>鬼ごっこ：'+t.oni+'</span><span>迷路：'+t.maze+'</span>'}{const rv0=evoOn(id)&&['','R','SR'].includes(CHAR_R[id]||'')?'SSR':(CHAR_R[id]||'');const n={'':1,R:2,SR:3,SSR:4,UR:5,SECRET:5,LR:5}[rv0]||1;$('heroStars').textContent='★'.repeat(n);$('heroStars').className='herostars s'+n}const r=CHAR_R[id]||(BASE_CHARS.includes(id)?'':'R');const rv=evoOn(id)&&['','R','SR'].includes(r)?'SSR':r;$('heroRar').textContent=rv==='SECRET'?'SECRET':rv;$('heroRar').hidden=!rv;$('hero').dataset.r=rv||'base';
+  $('heroName').textContent=c.name;{const t=MG_T[mgType(id)],m=$('heroMg');m.style.setProperty('--mc',t.c);m.innerHTML='<b>'+mgLabel(id)+'</b>'+mgDescHTML(id)}{const rv0=evoOn(id)&&['','R','SR'].includes(CHAR_R[id]||'')?'SSR':(CHAR_R[id]||'');const n={'':1,R:2,SR:3,SSR:4,UR:5,SECRET:5,LR:5}[rv0]||1;$('heroStars').textContent='★'.repeat(n);$('heroStars').className='herostars s'+n}const r=CHAR_R[id]||(BASE_CHARS.includes(id)?'':'R');const rv=evoOn(id)&&['','R','SR'].includes(r)?'SSR':r;$('heroRar').textContent=rv==='SECRET'?'SECRET':rv;$('heroRar').hidden=!rv;$('hero').dataset.r=rv||'base';
   const lk=myLook(),it=lk.item&&GEAR_BY[lk.item];$('heroItem').hidden=!(it&&!it.pet);$('heroPet').hidden=!(it&&it.pet);if(it){const el=it.pet?$('heroPet'):$('heroItem');el.src=GEAR_IMG[lk.item];el.style.setProperty('--gc',RCOL[it.r]||'#fff')}
   if($('hero').dataset.chr!==id){$('hero').dataset.chr=id;heroLine('idle');const cd=$('heroCard');cd.classList.remove('pop');void cd.offsetWidth;cd.classList.add('pop')}}
 function heroLine(e){const t=lineText(myChr,e)||lineText(myChr,'idle');const s=$('heroSay');s.textContent=t;s.hidden=!t;s.classList.remove('show');void s.offsetWidth;s.classList.add('show')}
@@ -3480,7 +3494,7 @@ function bNew(){
   const cols=['#ffd86b','#62f2ff','#ff5ad9','#7fff9a'];
   const st=lookStats(myLook());
   const ps=[myChr].concat(others).map((chr,k)=>({k,chr,cpu:k>0,x:starts[k][0],y:starts[k][1],tx:starts[k][0],ty:starts[k][1],mv:false,
-    spd:3.4+(k>0&&lv>=3?0.4:0)+(mgType(chr)==='spd'?0.6*mgPow(chr):0),bombs:1+(k===0&&st.start?1:0)+(mgType(chr)==='mag'?Math.min(2,mgPow(chr)):0),used:0,fire:2+(mgType(chr)==='pow'?Math.min(2,mgPow(chr)):0),alive:true,dieT:0,shield:(k===0&&st.pet?1:0)+(mgType(chr)==='grd'?(mgPow(chr)>=2?2:1):0),inv:0,think:0,col:cols[k],
+    spd:3.4+(k>0&&lv>=3?0.4:0)+0.3*mgP(chr,'spd'),bombs:1+(k===0&&st.start?1:0)+Math.min(3,Math.ceil(mgP(chr,'mag')/2)),used:0,fire:2+Math.min(3,Math.ceil(mgP(chr,'pow')/2)),alive:true,dieT:0,shield:(k===0&&st.pet?1:0)+(g=>g>=5?3:g>=2?2:g?1:0)(mgP(chr,'grd')),inv:0,think:0,col:cols[k],
     img:bToken(chr,k===0?myLook():null,cols[k])}));
   B={g,hid,it:new Array(BW*BH).fill(0),fl:new Array(BW*BH).fill(0),bombs:[],ps,lv,t:150,over:null,endT:0,msg:{text:mgMsg(myChr,'bom'),t:3.2},start:2.2};
   bHud();
@@ -3911,7 +3925,7 @@ function mNew(lv){const L=lv||mazeLv();const cw=Math.min(15,5+L),ch=Math.min(21,
   const ends=[];for(let i=1;i<g.length;i++){if(i===goal)continue;const n=[1,2,4,8].filter(b=>g[i]&b).length;if(n===1&&d[i]>3)ends.push(i)}
   ends.sort(()=>Math.random()-0.5);const stars=new Set(ends.slice(0,3));
   while(stars.size<3){const i=1+Math.floor(Math.random()*(g.length-1));if(i!==goal)stars.add(i)}
-  M={hintT:mgType(myChr)==='mag'?2+1.5*mgPow(myChr):0,hint:(()=>{const prev=new Map([[0,-1]]),q=[0];while(q.length){const i=q.shift();if(i===goal)break;const x=i%cw,y=(i/cw)|0;for(const [dx,dy,b] of Object.values(MD))if(g[i]&b){const j=(y+dy)*cw+x+dx;if(!prev.has(j)){prev.set(j,i);q.push(j)}}}const out=[];let k=goal;while(k>0&&prev.has(k)){out.push(k);k=prev.get(k)}return out})(),L,cw,ch,g,goal,stars,got:0,x:0,y:0,px:0,py:0,mv:false,t:0,dark:L>=5,trail:new Set([0]),done:false,start:1.4,face:'right',img:null,msg:null};
+  M={hintT:mgP(myChr,'mag')?2+1.2*mgP(myChr,'mag'):0,hint:(()=>{const prev=new Map([[0,-1]]),q=[0];while(q.length){const i=q.shift();if(i===goal)break;const x=i%cw,y=(i/cw)|0;for(const [dx,dy,b] of Object.values(MD))if(g[i]&b){const j=(y+dy)*cw+x+dx;if(!prev.has(j)){prev.set(j,i);q.push(j)}}}const out=[];let k=goal;while(k>0&&prev.has(k)){out.push(k);k=prev.get(k)}return out})(),L,cw,ch,g,goal,stars,got:0,x:0,y:0,px:0,py:0,mv:false,t:0,dark:L>=5,trail:new Set([0]),done:false,start:1.4,face:'right',img:null,msg:null};
   const im=new Image();im.onload=()=>{if(M)M.img=im};im.src=CHAR_IMG[myChr]||CHAR_IMG.girl;
   $('mazeLv').textContent='レベル '+L+(M.dark?'（くらやみ）':'');$('mazeStar').textContent='⭐ 0/3';$('mazeRes').hidden=true;mFit()}
 function mFit(){if(!M)return;const vw=Math.min(window.innerWidth,560)-24;const top=$('mazeTop').offsetHeight+$('mazeCtl').offsetHeight+44;const vh=window.innerHeight-top-(parseFloat(getComputedStyle(document.documentElement).paddingTop)||0);
@@ -3925,7 +3939,7 @@ function tryMove(){if(M.mv||M.done||M.start>0)return;let dirs=[];
 function arrive(){const i=M.y*M.cw+M.x;M.trail.add(i);
   if(M.stars.has(i)){M.stars.delete(i);M.got++;$('mazeStar').textContent='⭐ '+M.got+'/3';M.msg={text:'スター ゲット！',t:1}}
   if(i===M.goal){M.done=true;M.endT=0;setTimeout(mResult,900)}}
-function mResult(){if(!M)return;const L=M.L,coins=Math.round((10+L*5+M.got*10)*(1+lookStats(myLook()).coin/100)*(mgType(myChr)==='pow'?1+0.2*mgPow(myChr):1));addCoins(coins);
+function mResult(){if(!M)return;const L=M.L,coins=Math.round((10+L*5+M.got*10)*(1+lookStats(myLook()).coin/100)*(1+0.15*mgP(myChr,'pow')));addCoins(coins);
   if(L>=mazeLv())SAVE.mazeLv=L+1;try{baseShard()}catch(e){}const best=SAVE.mazeBest=SAVE.mazeBest||{};const t=Math.round(M.t*10)/10;if(!best[L]||t<best[L])best[L]=t;saveNow();
   $('mazeResT').textContent='トイレにまにあった！';$('mazeResD').textContent='タイム '+t+'秒　⭐'+M.got+'/3';$('mazeResC').textContent='+'+coins+' コイン';$('mazeRes').hidden=false}
 function rr(x,y,w,h,r){mctx.beginPath();if(mctx.roundRect)mctx.roundRect(x,y,w,h,r);else mctx.rect(x,y,w,h)}
@@ -3949,7 +3963,7 @@ function mDraw(now){const c=mcell,ctx=mctx,{cw,ch,g}=M;ctx.clearRect(0,0,cw*c,ch
   ctx.save();ctx.beginPath();ctx.arc(px,py-bob,s/2,0,7);ctx.fillStyle='#fff';ctx.shadowColor='rgba(0,0,0,.35)';ctx.shadowBlur=6;ctx.fill();ctx.shadowBlur=0;ctx.clip();
   if(M.img){ctx.translate(px,py-bob);if(M.face==='left')ctx.scale(-1,1);ctx.drawImage(M.img,-s/2,-s/2,s,s)}ctx.restore();
   ctx.beginPath();ctx.arc(px,py-bob,s/2,0,7);ctx.lineWidth=2.5;ctx.strokeStyle='#ff5ad9';ctx.stroke();
-  if(M.dark&&!M.done){ctx.save();const R=c*2.8*(mgType(myChr)==='grd'?1+0.35*mgPow(myChr):1);const gr=ctx.createRadialGradient(px,py,R*0.55,px,py,R);gr.addColorStop(0,'rgba(10,4,30,0)');gr.addColorStop(1,'rgba(10,4,30,.96)');ctx.fillStyle=gr;ctx.fillRect(0,0,cw*c,ch*c);ctx.restore();
+  if(M.dark&&!M.done){ctx.save();const R=c*2.8*(1+0.25*mgP(myChr,'grd'));const gr=ctx.createRadialGradient(px,py,R*0.55,px,py,R);gr.addColorStop(0,'rgba(10,4,30,0)');gr.addColorStop(1,'rgba(10,4,30,.96)');ctx.fillStyle=gr;ctx.fillRect(0,0,cw*c,ch*c);ctx.restore();
     const gx=(M.goal%cw+.5)*c,gy=((M.goal/cw|0)+.5)*c;ctx.save();ctx.globalAlpha=.5+Math.sin(now/200)*.3;emoji('✨',gx,gy,c*0.8);ctx.restore()}
   const msg=M.start>0?(M.start>0.6?'トイレまでいそげ〜！':'スタート！'):M.done?($('mazeRes').hidden?'まにあった〜！':''):M.msg?M.msg.text:'';
   if(msg){const fs=Math.min(c*cw*0.085,40);ctx.save();ctx.font='bold '+Math.round(fs)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.lineWidth=fs*0.22;ctx.strokeStyle='#5a1a6a';ctx.lineJoin='round';ctx.strokeText(msg,c*cw/2,c*ch/2);ctx.fillStyle='#fff';ctx.fillText(msg,c*cw/2,c*ch/2);ctx.restore()}
@@ -3957,7 +3971,7 @@ function mDraw(now){const c=mcell,ctx=mctx,{cw,ch,g}=M;ctx.clearRect(0,0,cw*c,ch
 function mLoop(now){mraf=requestAnimationFrame(mLoop);const dt=Math.min(0.05,(now-(mlast||now))/1000);mlast=now;if(!M)return;
   if(M.start>0)M.start-=dt;else if(!M.done)M.t+=dt;if(M.hintT>0&&M.start<=0)M.hintT-=dt;
   if(M.msg){M.msg.t-=dt;if(M.msg.t<=0)M.msg=null}
-  if(M.mv){M.mt+=dt*8*(mgType(myChr)==='spd'?1+0.25*mgPow(myChr):1);if(M.mt>=1){M.mv=false;arrive()}}
+  if(M.mv){M.mt+=dt*8*(1+0.15*mgP(myChr,'spd'));if(M.mt>=1){M.mv=false;arrive()}}
   if(!M.mv)tryMove();mDraw(now)}
 function mOpen(){lsSet('unko-name',nameIn.value.trim());mv.hidden=false;document.body.classList.add('bomopen');mNew();mlast=0;cancelAnimationFrame(mraf);mraf=requestAnimationFrame(mLoop)}
 function mClose(){mv.hidden=true;document.body.classList.remove('bomopen');cancelAnimationFrame(mraf);M=null;mHold=mKey=mFinger=null;drawPicker();drawKise();updateWallet()}
@@ -4224,7 +4238,7 @@ function oNew(){const S=OSET(),lv=S.lv,stg=STAGES2.find(t=>t.id===S.stage)||STAG
   const others=CHARS.map(c=>c.id).filter(id=>id!==myChr&&CHAR_R[id]!=='SECRET').sort(()=>Math.random()-.5).slice(0,3);
   const cols=['#ffd86b','#62f2ff','#ff5ad9','#7fff9a'],sp=[[60,60],[300,60],[60,460],[300,460]].map(([x,y])=>freeSpot(map,x,y));
   const st=lookStats(myLook());
-  const ps=[myChr].concat(others).map((chr,k)=>({k,chr,cpu:k>0,x:sp[k][0],y:sp[k][1],vx:0,vy:0,spd:(k===0?150*(1+(st.sp||0)/200):[120,135,148,160][lv])*(mgType(chr)==='spd'?1+0.08*mgPow(chr):1),bar:mgType(chr)==='grd'?mgPow(chr)>=3?2:1:0,
+  const ps=[myChr].concat(others).map((chr,k)=>({k,chr,cpu:k>0,x:sp[k][0],y:sp[k][1],vx:0,vy:0,spd:(k===0?150*(1+(st.sp||0)/200):[120,135,148,160][lv])*(1+0.06*mgP(chr,'spd')),bar:(g=>g>=5?3:g>=3?2:g?1:0)(mgP(chr,'grd')),
     oniT:0,imm:0,dash:0,dashCd:0,boost:0,img:oTok(chr,cols[k]),col:cols[k],wx:0,wy:0,think:0,stun:0}));
   const oni=1+Math.floor(Math.random()*3);
   O={lv,map,stg,ps,oni,t:S.time,start:2.4,over:false,endT:0,items:[],itemT:5,msg:{text:charOf(ps[oni].chr).name+'がオニ！にげろ〜！',t:2.4},tags:0,shake:0};setTimeout(()=>{if(O&&O.start<=0.1&&!O.msg)O.msg={text:mgMsg(myChr,'oni'),t:2.2}},2500);
@@ -4244,7 +4258,7 @@ function oAi(p,dt){const oni=O.ps[O.oni],lv=O.lv;p.think-=dt;
         if(d>170)s=(Math.random()-.5)*100+Math.min(edge,60);for(const it of O.items){if(Math.hypot(it.x-nx,it.y-ny)<60)s+=40}
         if(s>bs){bs=s;bx=vx;by=vy}}p.wx=bx;p.wy=by}}
   const m=Math.hypot(p.wx,p.wy);if(m>0.01){p.vx=p.wx/m;p.vy=p.wy/m}
-  if(lv>=2&&p.dashCd<=0){const d=Math.hypot(oni.x-p.x,oni.y-p.y);if((O.oni===p.k&&d<70)||(O.oni!==p.k&&d<55)){{const pw=mgType(p.chr)==='pow'?mgPow(p.chr):0;p.dash=.35+pw*.1;p.dashCd=Math.max(1.6,3.5-pw*.5)}}}}
+  if(lv>=2&&p.dashCd<=0){const d=Math.hypot(oni.x-p.x,oni.y-p.y);if((O.oni===p.k&&d<70)||(O.oni!==p.k&&d<55)){{const pw=mgP(p.chr,'pow')*.7;p.dash=.35+pw*.1;p.dashCd=Math.max(1.6,3.5-pw*.5)}}}}
 function oStep(dt){if(O.online){window.__oniNet.nStep(dt);return}if(O.start>0){O.start-=dt;if(O.msg)O.msg.t-=dt;return}
   if(!O.over){O.t-=dt;if(O.t<=0){O.t=0;oEnd()}}
   for(const p of O.ps){p.imm=Math.max(0,p.imm-dt);p.dash=Math.max(0,p.dash-dt);p.dashCd=Math.max(0,p.dashCd-dt);p.boost=Math.max(0,p.boost-dt);p.stun=Math.max(0,p.stun-dt);
@@ -4257,7 +4271,7 @@ function oStep(dt){if(O.online){window.__oniNet.nStep(dt);return}if(O.start>0){O
   if(!O.over){const o=O.ps[O.oni];if(o.stun<=0)for(const q of O.ps){if(q===o||q.imm>0)continue;if(Math.hypot(q.x-o.x,q.y-o.y)<PR*1.9){if(q.bar>0){q.bar--;q.imm=1.5;o.stun=.6;O.msg={text:'🛡️ '+(q.k===0?'バリアでふせいだ！':charOf(q.chr).name+'のバリア！'),t:1.1};break}
       o.imm=1.6;q.stun=.8;O.oni=q.k;O.tags++;O.shake=.3;O.msg={text:q.k===0?'タッチされた！にげて〜！':o.k===0?'タッチ！にげろ〜！':charOf(q.chr).name+'がオニ！',t:1.2};oHud();break}}
     O.itemT-=dt;if(O.itemT<=0&&O.items.length<2){O.itemT=6+Math.random()*4;for(let n=0;n<20;n++){const x=30+Math.random()*(OW-60),y=30+Math.random()*(OH-60);if(!blocked(x,y)){O.items.push({x,y,t:9});break}}}
-    for(const it of [...O.items]){it.t-=dt;if(it.t<=0){O.items.splice(O.items.indexOf(it),1);continue}for(const p of O.ps)if(Math.hypot(p.x-it.x,p.y-it.y)<PR+12){p.boost=3.5*(mgType(p.chr)==='mag'?1+0.5*mgPow(p.chr):1);O.items.splice(O.items.indexOf(it),1);if(!p.cpu)O.msg={text:'👟 スピードアップ！',t:1};break}}}
+    for(const it of [...O.items]){it.t-=dt;if(it.t<=0){O.items.splice(O.items.indexOf(it),1);continue}for(const p of O.ps)if(Math.hypot(p.x-it.x,p.y-it.y)<PR+12){p.boost=3.5*(1+0.35*mgP(p.chr,'mag'));O.items.splice(O.items.indexOf(it),1);if(!p.cpu)O.msg={text:'👟 スピードアップ！',t:1};break}}}
   if(O.msg){O.msg.t-=dt;if(O.msg.t<=0)O.msg=null}O.shake=Math.max(0,O.shake-dt);
   if(O.over){O.endT+=dt;if(O.endT>1.2&&$('oniRes').hidden)oResult()}
   $('oniTime').textContent=Math.ceil(O.t)+'秒';$('oniDash').classList.toggle('cd',O.ps[0].dashCd>0)}
@@ -4295,7 +4309,7 @@ function oGo(){$('oniSet').hidden=true;oNew();oFit();olast=0;cancelAnimationFram
 function oClose(){if(window.__oniLeave)window.__oniLeave();ov.hidden=true;document.body.classList.remove('bomopen');cancelAnimationFrame(oraf);O=null;oStick={x:0,y:0,on:false};$('oniKnob').style.transform='';drawPicker();drawKise();updateWallet()}
 $('oniBtn').addEventListener('click',oOpen);$('oniQuit').addEventListener('click',oClose);$('oniBack').addEventListener('click',oClose);
 $('oniAgain').addEventListener('click',()=>{if(O&&O.online){cancelAnimationFrame(oraf);O=null;$('oniRes').hidden=true;$('oniSet').hidden=false;const n=window.__oniNet.N;if(n){n.st='lobby';n.run=null;n.hostRun=null}oSetUI();return}oNew();oFit()});$('oniGo').addEventListener('click',oGo);$('oniModeCpu').addEventListener('click',()=>{OSET().net=false;saveNow();oSetUI()});$('oniModeNet').addEventListener('click',()=>{OSET().net=true;saveNow();oSetUI()});$('oniSetBack').addEventListener('click',oClose);$('oniChange').addEventListener('click',()=>{cancelAnimationFrame(oraf);if(O&&O.online){const n=window.__oniNet.N;if(n){n.st='lobby';n.run=null;n.hostRun=null}}O=null;$('oniRes').hidden=true;$('oniSet').hidden=false;oSetUI()});window.addEventListener('resize',()=>{if(O&&!ov.hidden)oFit()});
-$('oniDash').addEventListener('pointerdown',e=>{e.preventDefault();if(!O||O.start>0||O.over)return;const p=O.ps[O.online?0:0];if(p.dashCd>0)return;const pw=mgType(p.chr)==='pow'?mgPow(p.chr):0;p.dash=.35+pw*.1;p.dashCd=Math.max(1.4,3-pw*.5)})
+$('oniDash').addEventListener('pointerdown',e=>{e.preventDefault();if(!O||O.start>0||O.over)return;const p=O.ps[O.online?0:0];if(p.dashCd>0)return;const pw=mgP(p.chr,'pow')*.7;p.dash=.35+pw*.1;p.dashCd=Math.max(1.4,3-pw*.5)})
 {const st=$('oniStick'),kn=$('oniKnob');let pid=null,cx=0,cy=0;const R=50;
   const upd=e=>{const dx=e.clientX-cx,dy=e.clientY-cy,d=Math.hypot(dx,dy),k=d>R?R/d:1;kn.style.transform='translate('+dx*k+'px,'+dy*k+'px)';oStick.x=dx*k/R;oStick.y=dy*k/R};
   st.addEventListener('pointerdown',e=>{e.preventDefault();pid=e.pointerId;const r=st.querySelector('.bsbase').getBoundingClientRect();cx=r.left+r.width/2;cy=r.top+r.height/2;st.classList.add('on');try{st.setPointerCapture(pid)}catch(_){}upd(e)});
@@ -4336,12 +4350,12 @@ function nOnPeers(){if(!N)return;const now=performance.now();
   if(!$('oniLobby').hidden)nLobbyUI()}
 function nHostStart(){if(!amHost())return;const ps=nPeers();if(ps.length<2)return;const S=OSET();
   N.run={id:Date.now().toString(36),stage:S.stage,time:S.time,lv:S.lv,players:ps.map(p=>p.peer),names:ps.map(p=>p.presence.name),chrs:ps.map(p=>p.presence.chr),oni:ps[1+Math.floor(Math.random()*(ps.length-1))].peer,rt:S.time,cd:3,ot:{},imm:{},bar:{},tags:0,st:'play'};
-  for(let i=0;i<ps.length;i++){const c=ps[i].presence.chr;N.run.bar[ps[i].peer]=mgType(c)==='grd'?(mgPow(c)>=3?2:1):0}
+  for(let i=0;i<ps.length;i++){const c=ps[i].presence.chr;N.run.bar[ps[i].peer]=(g=>g>=5?3:g>=3?2:g?1:0)(mgP(c,'grd'))}
   nStart(N.run);nPub(true)}
 function nStart(r){N.runId=r.id;N.st='play';const stg=STAGES2.find(t=>t.id===r.stage)||STAGES2[2],map=stg.m;
   const cols=['#ffd86b','#62f2ff','#ff5ad9','#7fff9a'],sp=[[60,60],[300,460],[300,60],[60,460]].map(([x,y])=>freeSpot(map,x,y));
   const myK=r.players.indexOf(N.me);
-  const ps=r.players.map((peer,k)=>{const chr=r.chrs[k]||'girl';return{k,peer,chr,cpu:false,remote:peer!==N.me,name:r.names[k],x:sp[k][0],y:sp[k][1],vx:0,vy:0,spd:150*(mgType(chr)==='spd'?1+0.08*mgPow(chr):1),oniT:0,imm:0,dash:0,dashCd:0,boost:0,img:oTok(chr,cols[k]),col:cols[k],stun:0,bar:0}});
+  const ps=r.players.map((peer,k)=>{const chr=r.chrs[k]||'girl';return{k,peer,chr,cpu:false,remote:peer!==N.me,name:r.names[k],x:sp[k][0],y:sp[k][1],vx:0,vy:0,spd:150*(1+0.06*mgP(chr,'spd')),oniT:0,imm:0,dash:0,dashCd:0,boost:0,img:oTok(chr,cols[k]),col:cols[k],stun:0,bar:0}});
   O={online:true,myK,lv:r.lv,map,stg,ps,oni:Math.max(0,r.players.indexOf(r.oni)),t:r.time,start:r.cd,over:false,endT:0,items:[],itemT:1e9,msg:{text:'オンライン鬼ごっこ！',t:2.5},tags:0,shake:0};
   if(O.ps[0]&&myK>0){const me=O.ps[myK];O.ps.splice(myK,1);O.ps.unshift(me);O.ps.forEach((p,i)=>p.k=i);O.myK=0;O.oni=O.ps.findIndex(p=>p.peer===r.oni)}
   $('oniSet').hidden=true;$('oniRes').hidden=true;oHud();oFit();olast=0;cancelAnimationFrame(oraf);oraf=requestAnimationFrame(oLoop)}
@@ -4396,7 +4410,7 @@ function openStatus(id){statId=id;const v=$('statv');v.hidden=false;const c=char
   $('statHex').innerHTML=svg;
   const nb=$('statNums');nb.replaceChildren();for(const a of ST_AX){const d=document.createElement('div');d.className='snum';d.innerHTML='<span>'+a[2]+a[1]+'</span><i><b style="width:'+S[a[0]]+'%;background:'+col+'"></b></i><em>'+S[a[0]]+'</em>';nb.appendChild(d)}
   const sp=SPECIAL[id];$('statSp').textContent=sp?sp.name+'：'+sp.desc:'なし';
-  $('statMg').innerHTML='ボンバー：'+t.bom+'<br>鬼ごっこ：'+t.oni+'<br>迷路：'+t.maze;
+  $('statMg').innerHTML=mgDescHTML(id,1);
   const q=eqOf(id),eq=[q.skin,q.item].filter(Boolean).map(x=>GEAR_BY[x]&&GEAR_BY[x].n).filter(Boolean);$('statEq').textContent=eq.length?eq.join('・'):'まだ何もつけていないよ（そうびで強くなる！）';
   $('statUse').hidden=id===myChr||!owns(id)}
 function statMove(d){const ids=CHARS.map(c=>c.id).filter(owns);let i=ids.indexOf(statId);i=(i+d+ids.length)%ids.length;openStatus(ids[i])}
