@@ -782,6 +782,19 @@ h1{white-space:nowrap;font-size:clamp(28px,8.6vw,46px)!important;-webkit-text-st
 .mgchip b{font-size:14px;color:var(--mc,#fff);text-shadow:0 0 6px rgba(0,0,0,.6)}
 .mgdot{position:absolute;left:3px;bottom:22px;z-index:3;font-size:12px;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.6))}
 
+.cstab3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:560px;width:100%;margin:0 auto;flex:0 0 auto}
+.cstab3 button{padding:9px 4px;border-radius:14px;border:2px solid rgba(255,255,255,.35);background:rgba(28,10,68,.85);color:#fff;font-weight:900;font-size:13px;font-family:inherit;white-space:nowrap}
+.cstab3 button.on{background:linear-gradient(180deg,#ff8de8,#c43aa8);border-color:#ffd86b;box-shadow:0 0 12px rgba(255,90,217,.6)}
+.cspanel{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px}
+.cspanel[hidden]{display:none!important}
+.csscroll{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;max-width:560px;width:100%;margin:0 auto;display:block}
+.csv .statv{position:static!important;inset:auto;z-index:auto;background:none!important;padding:0!important;display:block!important;overflow:visible}
+.csv .statx{display:none!important}.csv .statcard{margin:0 auto;max-width:100%}
+.csv #kStatBtn{display:none!important}
+.csgnote{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 10px;margin-bottom:8px;border-radius:14px;background:rgba(255,216,107,.15);border:2px solid rgba(255,216,107,.6);color:#fff;font-weight:800;font-size:13px}
+.csgnote img{width:38px;height:38px;border-radius:50%;border:2px solid #fff;object-fit:cover}.csgnote button{margin-left:auto}
+.herobig{width:min(100%,360px);font-size:clamp(15px,4.4vw,18px)!important;padding:12px 14px!important;border-radius:999px!important;background:linear-gradient(90deg,#ff5ad9,#c46ae0,#62a8ff)!important;border:3px solid #ffd86b!important;box-shadow:0 4px 0 #6a1a8a,0 0 16px rgba(255,90,217,.6)!important;animation:herobig 2.4s ease-in-out infinite;display:flex;align-items:center;justify-content:center;gap:6px;margin:0 auto}
+.herobig span{font-size:1.2em}@keyframes herobig{50%{box-shadow:0 4px 0 #6a1a8a,0 0 26px rgba(255,216,107,.9)}}
 .csv{position:fixed;inset:0;z-index:58;display:flex;flex-direction:column;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 8px) 10px calc(env(safe-area-inset-bottom,0px) + 8px);background:radial-gradient(120% 60% at 50% 0%,rgba(255,90,217,.25),transparent 60%),linear-gradient(180deg,#2e1468,#13062f)}
 .cshead{display:flex;align-items:center;justify-content:space-between;gap:8px;max-width:560px;width:100%;margin:0 auto;flex:0 0 auto}
 .cshead h2{margin:0;font-family:var(--display);color:#ffd86b;font-size:20px}
@@ -1244,7 +1257,7 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
         <div class="herosay" id="heroSay"></div></div>
       <div class="herostars" id="heroStars"></div><div class="heroname"><span class="herorar" id="heroRar"></span><b id="heroName"></b></div>
       <div class="mgchip" id="heroMg"></div>
-      <div class="herobtns"><button class="sub small" id="heroPick">キャラをかえる</button><button class="sub small" id="heroKise">そうび</button><button class="sub small" id="heroStat">📊 ステータス</button></div>
+      <div class="herobtns"><button class="main herobig" id="heroPick"><span>👑</span>キャラ・ステータス・そうび</button><button hidden id="heroKise"></button><button hidden id="heroStat"></button></div>
     </div>
     <div class="panel today">
       <h3 class="sec rib"><span>★ きょうのボーナス ★</span></h3>
@@ -1259,19 +1272,6 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
       <h3 class="sec rib"><span>おたのしみルーム</span></h3>
       <button class="evnote" id="hubEvent" hidden></button>
       <div class="hub"><button class="hubt" id="decoOpen"><span>🎨</span>デコスタジオ</button><button class="hubt" id="hub_pet"><span>🐣</span>ペットのおせわ</button><button class="hubt" id="hub_room"><span>🏠</span>マイルーム</button><button class="hubt" id="hub_coord" hidden><span>👗</span>コーデたいけつ</button><button class="hubt" id="hub_cafe"><span>🍰</span>ケーキやさん</button><button class="hubt" id="hub_letter"><span>💌</span>おてがみ</button><button class="hubt" id="hub_show" hidden><span>🌟</span>ショー</button><button class="hubt" id="storyOpen"><span>👹</span>ボスに挑戦</button></div>
-    </div>
-    <div class="panel">
-      <h3 class="sec rib"><span>キャラのそうび</span></h3>
-      <div class="kisebox">
-        <div class="kisehead"><span class="ktitle">そうび（パワーアップ）</span><button class="sub small zoomopen" id="kStatBtn">📊 ステータス</button><button id="zOpen" hidden></button></div>
-        <div class="kise gk"><span class="ksub">服装</span><div class="krow" id="gsRow"></div></div>
-        <div class="kise gk"><span class="ksub">持ち物</span><div class="krow" id="giRow"></div></div>
-        <div class="kstat" id="kStat"></div>
-        <div class="evobox" id="kEvo"></div>
-        <div class="artbox" id="kArt" hidden></div>
-        <div class="kise extra" id="cosWrap"><span class="ksub">エフェクト</span><div class="krow" id="cosRow"></div></div>
-        <div class="kise extra" id="accWrap"><span class="ksub">バッジ</span><div class="krow" id="accRow"></div></div>
-      </div>
     </div>
     <div class="panel">
       <h3 class="sec rib"><span>あそぶ</span></h3>
@@ -1400,12 +1400,14 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
     <div class="keys">← → 移動 ／ ↓ 落とす ／ Z・X（↑）回転 ／ F 流す ／ 1・2・3 アイテム ／ C 必殺</div>
   </main>
   <div class="csv" id="csv" hidden role="dialog" aria-label="キャラえらび">
-    <div class="cshead"><button class="sub small" id="csClose">◀ もどる</button><h2>キャラえらび</h2><span class="cscount" id="csCount"></span></div>
+    <div class="cshead"><button class="sub small" id="csClose">◀ もどる</button><h2>👑 マイキャラ</h2><span class="cscount" id="csCount"></span></div>
+    <div class="cstab3" id="csTab3"><button type="button" data-t="sel">👥 えらぶ</button><button type="button" data-t="stat">📊 ステータス</button><button type="button" data-t="gear">🎽 そうび・進化</button></div>
+    <div class="cspanel" id="csPSel">
     <div class="cspre" id="csPre"><img id="csImg" alt=""><div class="csinfo"><span class="herorar" id="csRar"></span><b id="csName"></b><span class="cstype" id="csType"></span><span class="cssay" id="csSay"></span><p id="csSp"></p><div class="csbtns"><button class="main" id="csUse">このキャラにする！</button><button class="sub small" id="csStat">📊 ステータスを見る</button></div></div></div>
     <div class="cstabs" id="csTabs"></div>
     <div class="csgrid" id="csGrid"><div class="picker" id="picker"></div></div>
-  </div>
-  <div class="statv" id="statv" hidden role="dialog" aria-label="ステータス"><div class="statcard">
+    </div>
+    <div class="cspanel csscroll" id="csPStat" hidden><div class="statv" id="statv" hidden role="dialog" aria-label="ステータス"><div class="statcard">
     <button class="sub small statx" id="statClose">✕ とじる</button>
     <div class="stathead"><img id="statImg" alt=""><div><span class="herorar" id="statRar"></span><b id="statName"></b><span class="stattype" id="statType"></span></div></div>
     <svg id="statHex" viewBox="0 0 300 270" aria-label="ステータスの六角形"></svg>
@@ -1414,7 +1416,18 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
     <div class="statbox"><b>🎮 ミニゲームのとくい</b><span id="statMg"></span></div>
     <div class="statbox"><b>🎒 そうび</b><span id="statEq"></span></div>
     <div class="statnav"><button class="sub small" id="statPrev">◀ まえ</button><button class="main small" id="statUse">このキャラにする</button><button class="sub small" id="statNext">つぎ ▶</button></div>
-  </div></div>
+  </div></div></div>
+    <div class="cspanel csscroll" id="csPGear" hidden><div class="csgnote" id="csGearNote"></div><div class="kisebox">
+        <div class="kisehead"><span class="ktitle">そうび（パワーアップ）</span><button class="sub small zoomopen" id="kStatBtn">📊 ステータス</button><button id="zOpen" hidden></button></div>
+        <div class="kise gk"><span class="ksub">服装</span><div class="krow" id="gsRow"></div></div>
+        <div class="kise gk"><span class="ksub">持ち物</span><div class="krow" id="giRow"></div></div>
+        <div class="kstat" id="kStat"></div>
+        <div class="evobox" id="kEvo"></div>
+        <div class="artbox" id="kArt" hidden></div>
+        <div class="kise extra" id="cosWrap"><span class="ksub">エフェクト</span><div class="krow" id="cosRow"></div></div>
+        <div class="kise extra" id="accWrap"><span class="ksub">バッジ</span><div class="krow" id="accRow"></div></div>
+      </div></div>
+  </div>
   <div class="bomv oniv" id="oniv" hidden role="dialog" aria-label="うんこ鬼ごっこ">
     <div class="bomtop" id="oniTop"><button class="sub small" id="oniQuit">◀ やめる</button><span class="oniwho" id="oniWho"></span><span class="bomtime" id="oniTime">90秒</span></div>
     <div class="bomstage"><canvas id="oniCv"></canvas>
@@ -2631,13 +2644,23 @@ function csPick(id){csSel=id;const c=charOf(id);const pre=$('csPre');pre.classLi
   let say='';try{say=lineText(id,'idle')||''}catch(e){}$('csSay').textContent=say;$('csSay').hidden=!say;
   const sp=SPECIAL[id];$('csSp').textContent=sp?'必殺技「'+sp.name+'」'+sp.desc:'';
   const u=$('csUse');u.disabled=id===myChr;u.textContent=id===myChr?'✓ いまえらんでいるよ':'このキャラにする！';csMark()}
-function csOpen(){$('csv').hidden=false;document.body.classList.add('bomopen');drawPicker();csPick(myChr);
+function csOpen(tab){$('csv').hidden=false;document.body.classList.add('bomopen');drawPicker();csPick(myChr);
   const tb=$('csTabs');tb.replaceChildren();for(const [k,n] of CS_TABS){const b=document.createElement('button');b.type='button';b.className='chip'+(csTab===k?' on':'');b.textContent=n;b.addEventListener('click',()=>{csTab=k;[...tb.children].forEach(x=>x.classList.toggle('on',x===b));csMark();$('csGrid').scrollTop=0});tb.appendChild(b)}
-  csMark();setTimeout(()=>{const s=pickBtns.find(p=>p[2]===csSel);if(s&&!s[0].classList.contains('csoff'))s[0].scrollIntoView({block:'center'})},30)}
+  csMark();csTabGo(typeof tab==='string'?tab:'sel');setTimeout(()=>{const s=pickBtns.find(p=>p[2]===csSel);if(s&&!s[0].classList.contains('csoff')&&csTabCur==='sel')s[0].scrollIntoView({block:'center'})},30)}
+let csTabCur='sel';
+function csApply(){if(!csSel||csSel===myChr||!owns(csSel))return false;myChr=csSel;lsSet('unko-chr',myChr);drawPicker();drawKise();toast(charOf(myChr).name+' にしたよ！');return true}
+function csGearNote(){const n=$('csGearNote');n.replaceChildren();const im=document.createElement('img');im.src=CHAR_IMG[myChr];im.alt='';const t=document.createElement('span');t.textContent='「'+charOf(myChr).name+'」のそうび・進化';n.append(im,t);
+  if(csSel&&csSel!==myChr&&owns(csSel)){const b=document.createElement('button');b.type='button';b.className='main small';b.textContent=charOf(csSel).name+'にかえる';b.addEventListener('click',()=>{csApply();csPick(myChr);csGearNote()});n.appendChild(b)}}
+function csTabGo(t){csTabCur=t;for(const [k,id] of [['sel','csPSel'],['stat','csPStat'],['gear','csPGear']])$(id).hidden=k!==t;document.querySelectorAll('#csTab3 button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  if(t==='stat')openStatus(csSel||myChr);if(t==='gear'){drawKise();csGearNote()}const sc=$(t==='sel'?'csGrid':t==='stat'?'csPStat':'csPGear');if(sc)sc.scrollTop=0}
+document.querySelectorAll('#csTab3 button').forEach(b=>b.addEventListener('click',()=>csTabGo(b.dataset.t)));
 function csClose(){$('csv').hidden=true;document.body.classList.remove('bomopen')}
 $('heroPick').addEventListener('click',csOpen);$('csClose').addEventListener('click',csClose);
-$('csUse').addEventListener('click',()=>{if(!csSel||csSel===myChr)return;myChr=csSel;lsSet('unko-chr',myChr);drawPicker();drawKise();toast(charOf(myChr).name+' にしたよ！');csClose();window.scrollTo({top:0,behavior:'smooth'})});
-$('csStat').addEventListener('click',()=>{if(csSel)openStatus(csSel)});
+$('csUse').addEventListener('click',()=>{if(csApply()){csClose();window.scrollTo({top:0,behavior:'smooth'})}});
+$('statUse').addEventListener('click',()=>{if(!$('csv').hidden){csSel=statId;csPick(statId)}});
+for(const k of ['statPrev','statNext'])$(k).addEventListener('click',()=>{if(!$('csv').hidden){csSel=statId;csMark()}});
+$('statv').addEventListener('click',e=>{if(!$('csv').hidden&&e.target.id==='statv')e.stopImmediatePropagation()},true);
+$('csStat').addEventListener('click',()=>csTabGo('stat'));
 {const _dp2=drawPicker;drawPicker=function(){_dp2();try{if(!$('csv').hidden)csMark()}catch(e){}}}
 $('heroKise').addEventListener('click',()=>{$('zOpen').click()});
 $('heroStat').addEventListener('click',()=>openStatus(myChr));
