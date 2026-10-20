@@ -719,6 +719,13 @@ h1{white-space:nowrap;font-size:clamp(28px,8.6vw,46px)!important;-webkit-text-st
 .ostage{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:14px;border:2px solid rgba(255,255,255,.5);color:#3a1a4a}
 .ostage canvas{width:72px;height:104px;border-radius:6px;background:rgba(255,255,255,.35)}
 .ostage b{font-size:13px}.ostage.on{border-color:#ffd86b;box-shadow:0 0 0 3px #ffd86b,0 0 14px rgba(255,216,107,.9)}
+.omode{display:grid!important;grid-template-columns:1fr 1fr}.omode .chip{justify-content:center;font-size:13px!important;padding:10px 4px!important}
+.onibox{display:grid;gap:8px;padding:12px;border-radius:14px;background:rgba(98,242,255,.1);border:1.5px solid rgba(98,242,255,.5)}
+.onibox .fl input{font-size:16px}
+.onps{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.onp{display:flex;align-items:center;gap:6px;padding:6px;border-radius:12px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800}
+.onp img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid #fff}.onp.empty{opacity:.45;justify-content:center;min-height:46px}
+.owait{text-align:center;color:#ffe9a8!important;font-weight:800}
 .oniwho{flex:1;text-align:center;font-weight:900;font-size:13px;color:#fff;background:rgba(10,4,40,.6);padding:5px 8px;border-radius:999px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .oniwho.me{background:#ff3a5a;animation:pop .7s ease infinite}
 .onidash{background:radial-gradient(circle at 35% 30%,#bff6ff,#2aa8d8)!important}
@@ -730,6 +737,24 @@ h1{white-space:nowrap;font-size:clamp(28px,8.6vw,46px)!important;-webkit-text-st
 .mgchip{display:grid;gap:2px;justify-items:center;padding:6px 14px;border-radius:14px;background:rgba(10,4,40,.65);border:2px solid var(--mc,#fff);box-shadow:0 0 10px var(--mc,#fff);font-size:11px;color:#e8dcff;font-weight:800;max-width:92%}
 .mgchip b{font-size:14px;color:var(--mc,#fff);text-shadow:0 0 6px rgba(0,0,0,.6)}
 .mgdot{position:absolute;left:3px;bottom:22px;z-index:3;font-size:12px;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.6))}
+
+.statv{position:fixed;inset:0;z-index:85;background:rgba(10,4,32,.85);display:flex;align-items:center;justify-content:center;padding:12px;overflow-y:auto}
+.statcard{position:relative;width:100%;max-width:420px;max-height:100%;overflow-y:auto;display:grid;gap:8px;padding:16px 14px;border-radius:22px;color:#fff;
+  background:radial-gradient(120% 50% at 50% 0%,rgba(255,90,217,.3),transparent 60%),linear-gradient(180deg,#3a1478,#160636);box-shadow:0 0 0 2px #e8b84a,0 0 0 4px #5a2a0a,0 0 0 5.5px #ffe08a,0 12px 30px rgba(0,0,0,.6)}
+.statx{justify-self:end}
+.stathead{display:flex;align-items:center;gap:12px}.stathead img{width:76px;height:76px;border-radius:16px;border:3px solid #ffd86b;object-fit:cover}
+.stathead div{display:grid;gap:4px;justify-items:start}.stathead b{font-family:var(--display);font-size:22px}
+.stattype{font-size:12px;font-weight:900;padding:2px 10px;border-radius:999px;border:2px solid var(--mc);color:var(--mc)}
+#statHex{width:100%;max-width:340px;justify-self:center}
+.hexfill{animation:hexIn .6s cubic-bezier(.2,1.4,.4,1);transform-origin:150px 140px}
+@keyframes hexIn{from{transform:scale(.2);opacity:0}}
+.statnums{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px}
+.snum{display:grid;grid-template-columns:5.5em 1fr 2em;align-items:center;gap:6px;font-size:12px;font-weight:800}
+.snum i{height:8px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}.snum i b{display:block;height:100%;border-radius:999px}
+.snum em{font-style:normal;text-align:right;color:#ffd86b}
+.statbox{display:grid;gap:3px;padding:8px 10px;border-radius:12px;background:rgba(10,4,30,.55);border:1px solid rgba(255,216,107,.4);font-size:12px;line-height:1.5}
+.statbox b{color:#ffd86b;font-size:13px}
+.statnav{display:grid;grid-template-columns:auto 1fr auto;gap:8px}
 @keyframes zhop{50%{transform:translateY(-8px)}}
 .zoomov{position:fixed;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(8,3,28,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .zcard{position:relative;width:min(100%,420px);max-height:100%;overflow-y:auto;display:grid;justify-items:center;gap:8px;padding:14px;border-radius:20px;background:linear-gradient(180deg,#4a1446,#1a0626);box-shadow:0 0 0 2px #b77a14,0 0 0 4px #ffe08a,0 0 30px rgba(255,216,107,.6)}
@@ -1136,7 +1161,7 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
         <div class="herosay" id="heroSay"></div></div>
       <div class="herostars" id="heroStars"></div><div class="heroname"><span class="herorar" id="heroRar"></span><b id="heroName"></b></div>
       <div class="mgchip" id="heroMg"></div>
-      <div class="herobtns"><button class="sub small" id="heroPick">キャラをかえる</button><button class="sub small" id="heroKise">そうび</button><button class="sub small" id="heroVoice">▶ ボイス</button></div>
+      <div class="herobtns"><button class="sub small" id="heroPick">キャラをかえる</button><button class="sub small" id="heroKise">そうび</button><button class="sub small" id="heroStat">📊 ステータス</button></div>
     </div>
     <div class="panel today">
       <h3 class="sec rib"><span>★ きょうのボーナス ★</span></h3>
@@ -1158,7 +1183,7 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
     </div>
     <div class="panel">
       <h3 class="sec rib"><span>キャラの一覧</span></h3>
-      <p class="hint">カギつきはガチャで手に入るよ。長押しで大きく見られるよ</p>
+      <p class="hint">カギつきはガチャで手に入るよ。えらんでいるキャラをもう一度タップするとステータスが見られるよ</p>
       <div class="picker" id="picker"></div>
       <div class="kisebox">
         <div class="kisehead"><span class="ktitle">そうび（パワーアップ）</span><button class="sub small zoomopen" id="zOpen">大きく見る</button></div>
@@ -1238,7 +1263,7 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
           <button class="main cpu" id="bomBtn">あそぶ ▶</button>
         </div>
         <div class="mode moni">
-          <div class="mhead"><span class="mtitle">うんこ鬼ごっこ</span><span class="mtag">時間・ステージがえらべる</span></div>
+          <div class="mhead"><span class="mtitle">うんこ鬼ごっこ</span><span class="mtag">CPU・オンライン最大4人</span></div>
           <p class="note">💩を持ったオニにタッチされたら、こんどはキミがオニ！オニの時間がいちばん短い人が勝ち</p>
           <button class="main" id="oniBtn">あそぶ ▶</button>
         </div>
@@ -1292,10 +1317,25 @@ body.ingame .arena:not(.land){min-height:calc(100svh - env(safe-area-inset-top,0
     </div>
     <div class="keys">← → 移動 ／ ↓ 落とす ／ Z・X（↑）回転 ／ F 流す ／ 1・2・3 アイテム ／ C 必殺</div>
   </main>
+  <div class="statv" id="statv" hidden role="dialog" aria-label="ステータス"><div class="statcard">
+    <button class="sub small statx" id="statClose">✕ とじる</button>
+    <div class="stathead"><img id="statImg" alt=""><div><span class="herorar" id="statRar"></span><b id="statName"></b><span class="stattype" id="statType"></span></div></div>
+    <svg id="statHex" viewBox="0 0 300 270" aria-label="ステータスの六角形"></svg>
+    <div class="statnums" id="statNums"></div>
+    <div class="statbox"><b>⚡ 必殺技</b><span id="statSp"></span></div>
+    <div class="statbox"><b>🎮 ミニゲームのとくい</b><span id="statMg"></span></div>
+    <div class="statbox"><b>🎒 そうび</b><span id="statEq"></span></div>
+    <div class="statnav"><button class="sub small" id="statPrev">◀ まえ</button><button class="main small" id="statUse">このキャラにする</button><button class="sub small" id="statNext">つぎ ▶</button></div>
+  </div></div>
   <div class="bomv oniv" id="oniv" hidden role="dialog" aria-label="うんこ鬼ごっこ">
     <div class="bomtop" id="oniTop"><button class="sub small" id="oniQuit">◀ やめる</button><span class="oniwho" id="oniWho"></span><span class="bomtime" id="oniTime">90秒</span></div>
     <div class="bomstage"><canvas id="oniCv"></canvas>
       <div class="oniset" id="oniSet" hidden><button class="sub small osback" id="oniSetBack">◀ もどる</button><div class="ostitle">💩 うんこ鬼ごっこ</div>
+        <div class="dpacks omode"><button type="button" class="chip" id="oniModeCpu">🤖 CPUとあそぶ</button><button type="button" class="chip" id="oniModeNet">🌐 ともだちと（最大4人）</button></div>
+        <div class="onibox" id="oniNetBox" hidden>
+          <div id="oniJoinBox"><label class="fl">ルーム名（英数字・みんなで同じにしてね）<input id="oniRoom" maxlength="16" autocomplete="off" inputmode="latin" placeholder="unko123"></label><button class="main" id="oniJoin">ルームに入る</button></div>
+          <div id="oniLobby" hidden><div class="onps" id="oniPlayers"></div><p class="note" id="oniNetNote"></p><button class="main bigact" id="oniNetGo" hidden>みんなでスタート！</button><p class="note owait" id="oniNetWait"></p><button class="sub small" id="oniNetLeave">ルームを出る</button></div>
+        </div>
         <div class="oslbl">むずかしさ</div><div class="dpacks" id="oniLvs"></div>
         <div class="oslbl">ステージ</div><div class="ostages" id="oniStages"></div>
         <div class="oslbl">じかん</div><div class="dpacks" id="oniTimes"></div>
@@ -2368,7 +2408,7 @@ for(const c of CHARS){
   const b=document.createElement('button');b.type='button';b.setAttribute('aria-pressed',String(c.id===myChr));
   const cv=document.createElement('canvas');const lab=document.createElement('span');lab.textContent=c.name;
   b.append(cv,lab);$('picker').appendChild(b);pickBtns.push([b,cv,c.id]);
-  b.addEventListener('click',()=>{if(!owns(c.id)){toast(CHAR_R[c.id]==='SECRET'?'シークレットキャラ！ガチャで出るかも…？':CHAR_R[c.id]==='LR'?'伝説のレジェンドキャラ！出る確率はたったの0.03%…！':'ガチャで手に入れよう！');return}myChr=c.id;lsSet('unko-chr',myChr);drawPicker();drawKise()});
+  b.addEventListener('click',()=>{if(owns(c.id)&&c.id===myChr){openStatus(c.id);return}if(!owns(c.id)){toast(CHAR_R[c.id]==='SECRET'?'シークレットキャラ！ガチャで出るかも…？':CHAR_R[c.id]==='LR'?'伝説のレジェンドキャラ！出る確率はたったの0.03%…！':'ガチャで手に入れよう！');return}myChr=c.id;lsSet('unko-chr',myChr);drawPicker();drawKise()});
 }
 function drawPicker(){dpr=Math.min(2,window.devicePixelRatio||1);pickBtns.forEach(([b,cv,id])=>{const own=owns(id);b.classList.toggle('locked',!own);b.setAttribute('aria-pressed',String(id===myChr));
   let lk=b.querySelector('.lock');if(!own&&!lk){lk=document.createElement('span');lk.className='lock';lk.textContent=(CHAR_R[id]||'R');b.appendChild(lk)}else if(own&&lk)lk.remove();
@@ -2440,7 +2480,7 @@ function heroLine(e){const t=lineText(myChr,e)||lineText(myChr,'idle');const s=$
 $('heroCard').addEventListener('click',()=>{const cd=$('heroCard');cd.classList.remove('jump');void cd.offsetWidth;cd.classList.add('jump');heroLine(['chain','big','win','wait'][Math.floor(Math.random()*4)])});
 $('heroPick').addEventListener('click',()=>$('picker').scrollIntoView({behavior:'smooth',block:'center'}));
 $('heroKise').addEventListener('click',()=>{$('zOpen').click()});
-$('heroVoice').addEventListener('click',()=>{$('heroCard').click()});
+$('heroStat').addEventListener('click',()=>openStatus(myChr));
 try{drawHero()}catch(e){}
 // ---------- peek (hover on desktop, long-press on phones) ----------
 function showPeek(id,el,look){
@@ -4074,7 +4114,7 @@ const STAGES2=[
  {id:'ghost',n:'おばけやしき',lv:3,e:'👻',bg:['#5a4a7a','#3a2a5a'],m:[[60,70,24,120],[276,70,24,120],[130,140,100,24],[60,260,100,24],[200,260,100,24],[130,370,100,24],[60,330,24,120],[276,330,24,120]]},
  {id:'castle',n:'うんこ城',lv:3,e:'🏰',bg:['#c8a070','#9a7040'],m:[[40,100,280,20],[40,100,20,110],[300,100,20,110],[120,190,120,20],[170,210,20,70],[40,320,120,20],[200,320,120,20],[120,420,120,20]]}];
 const TIMES=[60,90,120,180];
-function oSetUI(){const S=OSET();const mk=(id,list,cur,lab,fn)=>{const b=$(id);b.replaceChildren();for(const v of list){const x=document.createElement('button');x.type='button';x.className='chip'+(v===cur?' on':'');x.innerHTML=lab(v);x.addEventListener('click',()=>{fn(v);saveNow();oSetUI()});b.appendChild(x)}};
+function oSetUI(){const S=OSET();{const on=!!S.net;$('oniModeCpu').classList.toggle('on',!on);$('oniModeNet').classList.toggle('on',on);$('oniNetBox').hidden=!on;$('oniGo').hidden=on}const mk=(id,list,cur,lab,fn)=>{const b=$(id);b.replaceChildren();for(const v of list){const x=document.createElement('button');x.type='button';x.className='chip'+(v===cur?' on':'');x.innerHTML=lab(v);x.addEventListener('click',()=>{fn(v);saveNow();oSetUI()});b.appendChild(x)}};
   mk('oniLvs',[0,1,2,3],S.lv,v=>LVN[v],v=>{S.lv=v;const f=STAGES2.find(t=>t.lv===v);if(!STAGES2.some(t=>t.id===S.stage&&t.lv===v))S.stage=f.id});
   const box=$('oniStages');box.replaceChildren();for(const t of STAGES2.filter(t=>t.lv===S.lv)){const x=document.createElement('button');x.type='button';x.className='ostage'+(t.id===S.stage?' on':'');x.style.background='linear-gradient(180deg,'+t.bg[0]+','+t.bg[1]+')';
     const c=document.createElement('canvas');c.width=72;c.height=104;const k=c.getContext('2d');k.scale(.2,.2);k.fillStyle='#8a5a2a';for(const r of t.m)k.fillRect(r[0],r[1],r[2],r[3]);
@@ -4112,7 +4152,7 @@ function oAi(p,dt){const oni=O.ps[O.oni],lv=O.lv;p.think-=dt;
         if(s>bs){bs=s;bx=vx;by=vy}}p.wx=bx;p.wy=by}}
   const m=Math.hypot(p.wx,p.wy);if(m>0.01){p.vx=p.wx/m;p.vy=p.wy/m}
   if(lv>=2&&p.dashCd<=0){const d=Math.hypot(oni.x-p.x,oni.y-p.y);if((O.oni===p.k&&d<70)||(O.oni!==p.k&&d<55)){{const pw=mgType(p.chr)==='pow'?mgPow(p.chr):0;p.dash=.35+pw*.1;p.dashCd=Math.max(1.6,3.5-pw*.5)}}}}
-function oStep(dt){if(O.start>0){O.start-=dt;if(O.msg)O.msg.t-=dt;return}
+function oStep(dt){if(O.online){window.__oniNet.nStep(dt);return}if(O.start>0){O.start-=dt;if(O.msg)O.msg.t-=dt;return}
   if(!O.over){O.t-=dt;if(O.t<=0){O.t=0;oEnd()}}
   for(const p of O.ps){p.imm=Math.max(0,p.imm-dt);p.dash=Math.max(0,p.dash-dt);p.dashCd=Math.max(0,p.dashCd-dt);p.boost=Math.max(0,p.boost-dt);p.stun=Math.max(0,p.stun-dt);
     if(O.over)continue;
@@ -4130,12 +4170,12 @@ function oStep(dt){if(O.start>0){O.start-=dt;if(O.msg)O.msg.t-=dt;return}
   $('oniTime').textContent=Math.ceil(O.t)+'秒';$('oniDash').classList.toggle('cd',O.ps[0].dashCd>0)}
 function oEnd(){if(O.over)return;O.over=true;O.msg={text:'タイムアップ！',t:2}}
 function oResult(){const rank=[...O.ps].sort((a,b)=>a.oniT-b.oniT);const pl=rank.indexOf(O.ps[0])+1;const lastOni=O.oni===0;
-  let n=[60,35,20,10][pl-1]+O.lv*10;if(lastOni)n=Math.max(5,n-15);n=Math.round(n*(1+lookStats(myLook()).coin/100));addCoins(n);try{addAff(myChr,pl===1?2:1)}catch(e){}
+  let n=[60,35,20,10][pl-1]+O.lv*10;if(O.online)n=[80,45,25,15][pl-1];if(lastOni)n=Math.max(5,n-15);n=Math.round(n*(1+lookStats(myLook()).coin/100));addCoins(n);try{addAff(myChr,pl===1?2:1)}catch(e){}
   $('oniResT').textContent=pl===1?'1位！にげきった！':pl+'位';$('oniResT').className='bomrt '+(pl===1?'win':pl===4?'lose':'');
   const box=$('oniRank');box.replaceChildren();rank.forEach((p,i)=>{const r=document.createElement('div');r.className='orow'+(p.k===0?' me':'');const c=document.createElement('canvas');c.width=c.height=96;c.getContext('2d').drawImage(p.img,0,0);
-    const s=document.createElement('span');s.textContent=(i+1)+'位 '+(p.k===0?'あなた':charOf(p.chr).name);const t=document.createElement('b');t.textContent='オニ '+p.oniT.toFixed(1)+'秒';r.append(c,s,t);box.appendChild(r)});
+    const s=document.createElement('span');s.textContent=(i+1)+'位 '+(p.k===0?'あなた':(O.online?(p.name||charOf(p.chr).name):charOf(p.chr).name));const t=document.createElement('b');t.textContent='オニ '+p.oniT.toFixed(1)+'秒';r.append(c,s,t);box.appendChild(r)});
   $('oniResC').textContent='+'+n+' コイン';$('oniRes').hidden=false}
-function oHud(){const o=O.ps[O.oni];$('oniWho').textContent=o.k===0?'💩 あなたがオニ！タッチしよう':'💩 オニ：'+charOf(o.chr).name;$('oniWho').classList.toggle('me',o.k===0)}
+function oHud(){const o=O.ps[O.oni];$('oniWho').textContent=o.k===0?'💩 あなたがオニ！タッチしよう':'💩 オニ：'+(O.online&&o.name?o.name:charOf(o.chr).name);$('oniWho').classList.toggle('me',o.k===0)}
 function rr(c,x,y,w,h,r){c.beginPath();if(c.roundRect)c.roundRect(x,y,w,h,r);else c.rect(x,y,w,h)}
 function oDraw(now){const c=octx;c.save();c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,ocv.width,ocv.height);c.restore();c.save();c.scale(oscale,oscale);
   if(O.shake>0)c.translate((Math.random()-.5)*8*O.shake,(Math.random()-.5)*8*O.shake);
@@ -4151,7 +4191,7 @@ function oDraw(now){const c=octx;c.save();c.setTransform(1,0,0,1,0,0);c.clearRec
     if(p.boost>0||p.dash>0){c.save();c.globalAlpha=.5;c.strokeStyle='#fff';c.lineWidth=3;for(let k=1;k<4;k++){c.beginPath();c.moveTo(p.x-p.vx*(10+k*7),p.y-p.vy*(10+k*7)-bob);c.lineTo(p.x-p.vx*(16+k*7),p.y-p.vy*(16+k*7)-bob);c.stroke()}c.restore()}
     c.save();if(p.imm>0&&Math.floor(now/90)%2)c.globalAlpha=.45;if(p.stun>0)c.globalAlpha=.6;c.drawImage(p.img,p.x-PR-2,p.y-PR-2-bob,PR*2+4,PR*2+4);c.restore();
     if(oni){c.fillStyle='#000';c.font='24px system-ui,"Apple Color Emoji",sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('💩',p.x,p.y-PR-14-bob+Math.sin(now/150)*2)}
-    if(!p.cpu){c.fillStyle='#fff';c.strokeStyle='#5a1a6a';c.lineWidth=3;c.font='bold 11px sans-serif';c.textAlign='center';const ty=p.y+PR+12;c.strokeText('YOU',p.x,ty);c.fillText('YOU',p.x,ty)}
+    if(!p.cpu||p.remote){const lb=p.remote?(p.name||'').slice(0,6):'YOU';c.fillStyle=p.remote?'#fff6c8':'#fff';c.strokeStyle='#5a1a6a';c.lineWidth=3;c.font='bold 11px sans-serif';c.textAlign='center';const ty=p.y+PR+12;c.strokeText(lb,p.x,ty);c.fillText(lb,p.x,ty)}
     if(p.bar>0){c.strokeStyle='rgba(127,255,154,.85)';c.lineWidth=2.5;c.beginPath();c.arc(p.x,p.y-bob,PR+5,0,7);c.stroke()}if(p.stun>0){c.fillStyle='#000';c.font='14px system-ui,"Apple Color Emoji",sans-serif';c.fillText('💫',p.x+PR,p.y-PR)}}
   const msg=O.start>0?(O.start>1?(O.msg?O.msg.text:''):'スタート！'):O.msg?O.msg.text:'';
   if(msg){c.font='bold 24px sans-serif';c.textAlign='center';c.textBaseline='middle';c.lineWidth=6;c.strokeStyle='#5a1a6a';c.lineJoin='round';c.strokeText(msg,OW/2,OH/2);c.fillStyle='#fff';c.fillText(msg,OW/2,OH/2)}
@@ -4159,10 +4199,10 @@ function oDraw(now){const c=octx;c.save();c.setTransform(1,0,0,1,0,0);c.clearRec
 function oLoop(now){oraf=requestAnimationFrame(oLoop);const dt=Math.min(.05,(now-(olast||now))/1000);olast=now;if(!O)return;oStep(dt);oDraw(now)}
 function oOpen(){lsSet('unko-name',nameIn.value.trim());ov.hidden=false;document.body.classList.add('bomopen');O=null;$('oniSet').hidden=false;$('oniRes').hidden=true;oSetUI();ctx2size(ocv,octx,Math.floor(OW*.5),Math.floor(OH*.5))}
 function oGo(){$('oniSet').hidden=true;oNew();oFit();olast=0;cancelAnimationFrame(oraf);oraf=requestAnimationFrame(oLoop)}
-function oClose(){ov.hidden=true;document.body.classList.remove('bomopen');cancelAnimationFrame(oraf);O=null;oStick={x:0,y:0,on:false};$('oniKnob').style.transform='';drawPicker();drawKise();updateWallet()}
+function oClose(){if(window.__oniLeave)window.__oniLeave();ov.hidden=true;document.body.classList.remove('bomopen');cancelAnimationFrame(oraf);O=null;oStick={x:0,y:0,on:false};$('oniKnob').style.transform='';drawPicker();drawKise();updateWallet()}
 $('oniBtn').addEventListener('click',oOpen);$('oniQuit').addEventListener('click',oClose);$('oniBack').addEventListener('click',oClose);
-$('oniAgain').addEventListener('click',()=>{oNew();oFit()});$('oniGo').addEventListener('click',oGo);$('oniSetBack').addEventListener('click',oClose);$('oniChange').addEventListener('click',()=>{cancelAnimationFrame(oraf);O=null;$('oniRes').hidden=true;$('oniSet').hidden=false;oSetUI()});window.addEventListener('resize',()=>{if(O&&!ov.hidden)oFit()});
-$('oniDash').addEventListener('pointerdown',e=>{e.preventDefault();if(!O||O.start>0||O.over)return;const p=O.ps[0];if(p.dashCd>0)return;const pw=mgType(p.chr)==='pow'?mgPow(p.chr):0;p.dash=.35+pw*.1;p.dashCd=Math.max(1.4,3-pw*.5)})
+$('oniAgain').addEventListener('click',()=>{if(O&&O.online){cancelAnimationFrame(oraf);O=null;$('oniRes').hidden=true;$('oniSet').hidden=false;const n=window.__oniNet.N;if(n){n.st='lobby';n.run=null;n.hostRun=null}oSetUI();return}oNew();oFit()});$('oniGo').addEventListener('click',oGo);$('oniModeCpu').addEventListener('click',()=>{OSET().net=false;saveNow();oSetUI()});$('oniModeNet').addEventListener('click',()=>{OSET().net=true;saveNow();oSetUI()});$('oniSetBack').addEventListener('click',oClose);$('oniChange').addEventListener('click',()=>{cancelAnimationFrame(oraf);if(O&&O.online){const n=window.__oniNet.N;if(n){n.st='lobby';n.run=null;n.hostRun=null}}O=null;$('oniRes').hidden=true;$('oniSet').hidden=false;oSetUI()});window.addEventListener('resize',()=>{if(O&&!ov.hidden)oFit()});
+$('oniDash').addEventListener('pointerdown',e=>{e.preventDefault();if(!O||O.start>0||O.over)return;const p=O.ps[O.online?0:0];if(p.dashCd>0)return;const pw=mgType(p.chr)==='pow'?mgPow(p.chr):0;p.dash=.35+pw*.1;p.dashCd=Math.max(1.4,3-pw*.5)})
 {const st=$('oniStick'),kn=$('oniKnob');let pid=null,cx=0,cy=0;const R=50;
   const upd=e=>{const dx=e.clientX-cx,dy=e.clientY-cy,d=Math.hypot(dx,dy),k=d>R?R/d:1;kn.style.transform='translate('+dx*k+'px,'+dy*k+'px)';oStick.x=dx*k/R;oStick.y=dy*k/R};
   st.addEventListener('pointerdown',e=>{e.preventDefault();pid=e.pointerId;const r=st.querySelector('.bsbase').getBoundingClientRect();cx=r.left+r.width/2;cy=r.top+r.height/2;st.classList.add('on');try{st.setPointerCapture(pid)}catch(_){}upd(e)});
@@ -4171,8 +4211,105 @@ $('oniDash').addEventListener('pointerdown',e=>{e.preventDefault();if(!O||O.star
 const OK={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]},held=new Set();
 window.addEventListener('keydown',e=>{if(ov.hidden||!O)return;if(OK[e.key]){held.add(e.key);e.preventDefault();e.stopPropagation()}else if(e.key===' '){e.preventDefault();$('oniDash').dispatchEvent(new PointerEvent('pointerdown'))}let x=0,y=0;for(const k of held){x+=OK[k][0];y+=OK[k][1]}oStick.x=x;oStick.y=y},true);
 window.addEventListener('keyup',e=>{if(ov.hidden)return;held.delete(e.key);let x=0,y=0;for(const k of held){x+=OK[k][0];y+=OK[k][1]}oStick.x=x;oStick.y=y},true);
+// ===== online oni (up to 4) =====
+let N=null; // {rm,code,me,peers,run,lastPub,st,runId,pos:Map}
+const ONI_MAX=4;
+function nPeers(){if(!N)return[];return (N.peers||[]).filter(p=>p.presence&&p.presence.g==='oni').sort((a,b)=>a.peer<b.peer?-1:1).slice(0,ONI_MAX)}
+function nHost(){const ps=nPeers();return ps[0]||null}
+function amHost(){const h=nHost();return !!(h&&N&&h.peer===N.me)}
+function nPub(force){if(!N||!N.rm)return;const now=performance.now();if(!force&&now-(N.lastPub||0)<70)return;N.lastPub=now;
+  const me=O&&O.online?O.ps[O.myK]:null;
+  N.rm.presence({g:'oni',name:(nameIn.value.trim()||'プレイヤー').slice(0,10),chr:myChr,st:N.st,x:me?Math.round(me.x):0,y:me?Math.round(me.y):0,vx:me?+me.vx.toFixed(2):0,vy:me?+me.vy.toFixed(2):0,dash:me&&me.dash>0?1:0,run:amHost()?N.run:null}).catch(()=>{})}
+function nLobbyUI(){const box=$('oniPlayers');if(!box)return;box.replaceChildren();const ps=nPeers();
+  for(let i=0;i<ONI_MAX;i++){const p=ps[i];const d=document.createElement('div');d.className='onp'+(p?'':' empty');
+    if(p){const im=document.createElement('img');im.src=CHAR_IMG[p.presence.chr]||CHAR_IMG.girl;im.alt='';const n=document.createElement('span');n.textContent=(p.presence.name||'?')+(p.peer===N.me?'（あなた）':'')+(i===0?' 👑':'');d.append(im,n)}
+    else{const n=document.createElement('span');n.textContent='まっています…';d.appendChild(n)}box.appendChild(d)}
+  const host=amHost();$('oniNetGo').hidden=!host;$('oniNetGo').disabled=ps.length<2;$('oniNetWait').hidden=host;
+  $('oniNetWait').textContent=ps.length<2?'ともだちが入るのをまっています…':'👑ホストがスタートするのをまっています…';
+  $('oniNetNote').textContent=host?'あなたがホスト（👑）。ステージ・じかん・むずかしさはあなたの設定で遊びます':'ステージ・じかんはホストの設定になります'}
+async function nJoin(){const code=$('oniRoom').value.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,16);if(!code){toast('ルーム名を英数字で入れてね');return}
+  if(!lobby){toast('この表示ではオンラインに接続できません');return}
+  $('oniJoin').disabled=true;try{const rm=await lobby.join('unkooni-'+code);N={rm,code,me:null,peers:[],run:null,st:'lobby',runId:null,pos:new Map()};
+    rm.onPeers(ch=>{if(!N)return;N.peers=ch.peers;const mine=ch.peers.find(p=>p.sameTab);if(mine)N.me=mine.peer;nOnPeers()});
+    try{lsSet('unko-oniroom',code)}catch(e){}$('oniJoinBox').hidden=true;$('oniLobby').hidden=false;nPub(true);nLobbyUI()}
+  catch(e){toast('ルームに入れませんでした')}$('oniJoin').disabled=false}
+function nLeave(){if(N&&N.rm){try{N.rm.leave()}catch(e){}}N=null;$('oniJoinBox').hidden=false;$('oniLobby').hidden=true}
+window.__oniLeave=nLeave;
+function nOnPeers(){if(!N)return;const now=performance.now();
+  for(const p of N.peers){if(p.sameTab||!p.presence||p.presence.g!=='oni')continue;const q=p.presence,o=N.pos.get(p.peer);if(!o||o.x!==q.x||o.y!==q.y)N.pos.set(p.peer,{x:q.x,y:q.y,vx:q.vx,vy:q.vy,t:now,dash:q.dash})}
+  const h=nHost();
+  if(h&&!amHost()&&h.presence.run){const r=h.presence.run;N.hostRun=r;if(r.id!==N.runId&&r.players&&r.players.includes(N.me)&&r.st!=='over')nStart(r)}
+  if(h&&amHost()&&!N.run&&N.hostRun&&N.st==='play')N.run=N.hostRun; // host handover
+  if(!$('oniLobby').hidden)nLobbyUI()}
+function nHostStart(){if(!amHost())return;const ps=nPeers();if(ps.length<2)return;const S=OSET();
+  N.run={id:Date.now().toString(36),stage:S.stage,time:S.time,lv:S.lv,players:ps.map(p=>p.peer),names:ps.map(p=>p.presence.name),chrs:ps.map(p=>p.presence.chr),oni:ps[1+Math.floor(Math.random()*(ps.length-1))].peer,rt:S.time,cd:3,ot:{},imm:{},bar:{},tags:0,st:'play'};
+  for(let i=0;i<ps.length;i++){const c=ps[i].presence.chr;N.run.bar[ps[i].peer]=mgType(c)==='grd'?(mgPow(c)>=3?2:1):0}
+  nStart(N.run);nPub(true)}
+function nStart(r){N.runId=r.id;N.st='play';const stg=STAGES2.find(t=>t.id===r.stage)||STAGES2[2],map=stg.m;
+  const cols=['#ffd86b','#62f2ff','#ff5ad9','#7fff9a'],sp=[[60,60],[300,460],[300,60],[60,460]].map(([x,y])=>freeSpot(map,x,y));
+  const myK=r.players.indexOf(N.me);
+  const ps=r.players.map((peer,k)=>{const chr=r.chrs[k]||'girl';return{k,peer,chr,cpu:false,remote:peer!==N.me,name:r.names[k],x:sp[k][0],y:sp[k][1],vx:0,vy:0,spd:150*(mgType(chr)==='spd'?1+0.08*mgPow(chr):1),oniT:0,imm:0,dash:0,dashCd:0,boost:0,img:oTok(chr,cols[k]),col:cols[k],stun:0,bar:0}});
+  O={online:true,myK,lv:r.lv,map,stg,ps,oni:Math.max(0,r.players.indexOf(r.oni)),t:r.time,start:r.cd,over:false,endT:0,items:[],itemT:1e9,msg:{text:'オンライン鬼ごっこ！',t:2.5},tags:0,shake:0};
+  if(O.ps[0]&&myK>0){const me=O.ps[myK];O.ps.splice(myK,1);O.ps.unshift(me);O.ps.forEach((p,i)=>p.k=i);O.myK=0;O.oni=O.ps.findIndex(p=>p.peer===r.oni)}
+  $('oniSet').hidden=true;$('oniRes').hidden=true;oHud();oFit();olast=0;cancelAnimationFrame(oraf);oraf=requestAnimationFrame(oLoop)}
+function nStep(dt){const r=amHost()?N.run:(N.hostRun||N.run);if(!r)return;const me=O.ps[0],host=amHost();
+  if(host){if(r.cd>0)r.cd=Math.max(0,r.cd-dt);else if(r.st==='play'){r.rt=Math.max(0,r.rt-dt);r.ot[r.oni]=(r.ot[r.oni]||0)+dt;for(const k in r.imm)r.imm[k]=Math.max(0,r.imm[k]-dt);
+      const op=O.ps.find(p=>p.peer===r.oni);if(op&&!(r.stunUntil&&r.stunUntil[r.oni]>performance.now()))for(const q of O.ps){if(q===op||(r.imm[q.peer]||0)>0)continue;
+        if(Math.hypot(q.x-op.x,q.y-op.y)<PR*1.9){if((r.bar[q.peer]||0)>0){r.bar[q.peer]--;r.imm[q.peer]=1.5;r.lastBar=[q.peer,Date.now()];break}
+          r.imm[op.peer]=1.6;r.oni=q.peer;r.tags++;r.lastTag=[op.peer,q.peer,Date.now()];break}}
+      if(r.rt<=0){r.st='over'}}}
+  O.start=r.cd;O.t=r.rt;
+  const ni=O.ps.findIndex(p=>p.peer===r.oni);if(ni>=0&&ni!==O.oni){const was=O.oni;O.oni=ni;O.tags++;O.shake=.3;const q=O.ps[ni];if(q===me){me.stun=.8;O.msg={text:'タッチされた！にげて〜！',t:1.2}}else if(O.ps[was]===me)O.msg={text:'タッチ！にげろ〜！',t:1.2};else O.msg={text:(q.name||'?')+'がオニ！',t:1.2};oHud()}
+  if(r.lastBar&&r.lastBar[1]!==N.seenBar){N.seenBar=r.lastBar[1];const q=O.ps.find(p=>p.peer===r.lastBar[0]);if(q)O.msg={text:'🛡️ '+(q===me?'バリアでふせいだ！':(q.name||'')+'のバリア！'),t:1.1}}
+  for(const p of O.ps){p.imm=r.imm[p.peer]||0;p.bar=r.bar[p.peer]||0;p.oniT=r.ot[p.peer]||0;p.stun=Math.max(0,p.stun-dt);p.dash=Math.max(0,p.dash-dt);p.dashCd=Math.max(0,p.dashCd-dt)}
+  if(r.cd<=0&&r.st==='play'&&me.stun<=0){const m=Math.hypot(oStick.x,oStick.y);if(m>.15){me.vx=oStick.x/Math.max(1,m);me.vy=oStick.y/Math.max(1,m)}else{me.vx=me.vy=0}
+    const sp=me.spd*(O.oni===0?1.08:1)*(me.dash>0?2.1:1);me.x+=me.vx*sp*dt;me.y+=me.vy*sp*dt;me.x=Math.max(PR,Math.min(OW-PR,me.x));me.y=Math.max(PR,Math.min(OH-PR,me.y));for(const rc of O.map)hitRect(me,rc)}
+  const now=performance.now();
+  for(const p of O.ps){if(!p.remote)continue;const s=N.pos.get(p.peer);if(!s)continue;const age=Math.min(.25,(now-s.t)/1000);const tx=s.x+s.vx*150*age,ty=s.y+s.vy*150*age;
+    p.x+=(Math.max(PR,Math.min(OW-PR,tx))-p.x)*Math.min(1,dt*12);p.y+=(Math.max(PR,Math.min(OH-PR,ty))-p.y)*Math.min(1,dt*12);p.vx=s.vx;p.vy=s.vy;p.dash=s.dash?.1:0}
+  if(O.msg){O.msg.t-=dt;if(O.msg.t<=0)O.msg=null}O.shake=Math.max(0,O.shake-dt);
+  $('oniTime').textContent=Math.ceil(O.t)+'秒';$('oniDash').classList.toggle('cd',me.dashCd>0);
+  if(r.st==='over'&&!O.over){O.over=true;O.msg={text:'タイムアップ！',t:2}}
+  if(O.over){O.endT+=dt;if(O.endT>1.2&&$('oniRes').hidden)oResult()}
+  nPub(false);
+  if(!host&&nPeers().every(p=>p.peer!==(nHost()||{}).peer)){} }
+window.__oniNet={get N(){return N},nStep,nJoin,nLeave,nHostStart};
+$('oniJoin').addEventListener('click',nJoin);$('oniNetGo').addEventListener('click',nHostStart);$('oniNetLeave').addEventListener('click',nLeave);
+try{const r=lsGet('unko-oniroom');if(r)$('oniRoom').value=r}catch(e){}
 }
 
+
+// ---------- status hexagon ----------
+const ST_AX=[['atk','こうげき','💥'],['def','まもり','🛡️'],['spd','スピード','💨'],['mag','まほう','🔮'],['sp','ひっさつ','⚡'],['aff','なかよし','💖']];
+const TYPE_PRO={pow:[88,55,50,40],grd:[45,90,45,55],spd:[55,45,90,45],mag:[45,50,50,90]};
+const RAR_K={'':.55,R:.6,SR:.7,SSR:.8,UR:.9,SECRET:.96,LR:1};
+function charStats(id){const t=mgType(id),pro=TYPE_PRO[t]||TYPE_PRO.mag;let r=CHAR_R[id]||(BASE_CHARS.includes(id)?'':'R');let k=RAR_K[r]||.6;if(evoOn(id))k=Math.max(k,.8)+.05;
+  const lk=id===myChr?myLook():(()=>{const q=eqOf(id);return{skin:q.skin,item:q.item}})();let gs={atk:0,def:0,sp:0};try{const s0=myChr;const st=lookStats(lk);gs=st;if(st.evo&&!evoOn(id)){gs=Object.assign({},st,{atk:st.atk-10,sp:st.sp-10,def:st.def-10})}}catch(e){}
+  const sp=SPECIAL[id];const cost=sp?(sp.fx==='auto'?60:sp.cost):100;const spBase=Math.max(35,Math.min(100,100-(cost-40)*0.75));
+  const cl=v=>Math.max(8,Math.min(100,Math.round(v)));let aff=1;try{aff=affLv(id)}catch(e){}
+  const f=v=>v*k*.8+40*k;return{atk:cl(f(pro[0])+(gs.atk||0)*.6),def:cl(f(pro[1])+(gs.def||0)*.6),spd:cl(f(pro[2])),mag:cl(f(pro[3])),sp:cl(spBase*(.6+k*.4)+(gs.sp||0)*.5),aff:cl(aff/5*100)}}
+function rankOf(v){return v>=90?'S':v>=75?'A':v>=55?'B':v>=35?'C':'D'}
+let statId=null;
+function openStatus(id){statId=id;const v=$('statv');v.hidden=false;const c=charOf(id),t=MG_T[mgType(id)];
+  $('statImg').src=CHAR_IMG[id];$('statName').textContent=c.name;let r=CHAR_R[id]||(BASE_CHARS.includes(id)?'':'R');if(evoOn(id)&&['','R','SR'].includes(r))r='SSR';$('statRar').textContent=r==='SECRET'?'SECRET':r||'はじめから';$('statRar').className='herorar sr-'+(r||'base');
+  $('statType').textContent=mgLabel(id);$('statType').style.setProperty('--mc',t.c);
+  const S=charStats(id),cx=150,cy=140,R=96,col=t.c;const pt=(i,s)=>{const a=-Math.PI/2+i*Math.PI/3;return[cx+Math.cos(a)*R*s,cy+Math.sin(a)*R*s]};
+  let svg='';for(let l=5;l>=1;l--){svg+='<polygon points="'+[0,1,2,3,4,5].map(i=>pt(i,l/5).join(',')).join(' ')+'" fill="'+(l%2?'rgba(255,255,255,.07)':'rgba(255,255,255,.03)')+'" stroke="rgba(255,255,255,.25)" stroke-width="1"/>'}
+  for(let i=0;i<6;i++){const p=pt(i,1);svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0]+'" y2="'+p[1]+'" stroke="rgba(255,255,255,.2)"/>'}
+  const vals=ST_AX.map(a=>S[a[0]]/100);
+  svg+='<polygon class="hexfill" points="'+vals.map((s,i)=>pt(i,s).join(',')).join(' ')+'" fill="'+col+'" fill-opacity=".45" stroke="'+col+'" stroke-width="3" stroke-linejoin="round"/>';
+  vals.forEach((s,i)=>{const p=pt(i,s);svg+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="#fff" stroke="'+col+'" stroke-width="2"/>'});
+  ST_AX.forEach((a,i)=>{const p=pt(i,1.22);const rk=rankOf(S[a[0]]);svg+='<text x="'+p[0]+'" y="'+(p[1]-4)+'" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">'+a[2]+a[1]+'</text><text x="'+p[0]+'" y="'+(p[1]+13)+'" text-anchor="middle" font-size="15" font-weight="900" fill="'+({S:'#ffd86b',A:'#ff8de8',B:'#62f2ff',C:'#a8ffb8',D:'#c8c8e8'}[rk])+'">'+rk+'</text>'});
+  $('statHex').innerHTML=svg;
+  const nb=$('statNums');nb.replaceChildren();for(const a of ST_AX){const d=document.createElement('div');d.className='snum';d.innerHTML='<span>'+a[2]+a[1]+'</span><i><b style="width:'+S[a[0]]+'%;background:'+col+'"></b></i><em>'+S[a[0]]+'</em>';nb.appendChild(d)}
+  const sp=SPECIAL[id];$('statSp').textContent=sp?sp.name+'：'+sp.desc:'なし';
+  $('statMg').innerHTML='ボンバー：'+t.bom+'<br>鬼ごっこ：'+t.oni+'<br>迷路：'+t.maze;
+  const q=eqOf(id),eq=[q.skin,q.item].filter(Boolean).map(x=>GEAR_BY[x]&&GEAR_BY[x].n).filter(Boolean);$('statEq').textContent=eq.length?eq.join('・'):'まだ何もつけていないよ（そうびで強くなる！）';
+  $('statUse').hidden=id===myChr||!owns(id)}
+function statMove(d){const ids=CHARS.map(c=>c.id).filter(owns);let i=ids.indexOf(statId);i=(i+d+ids.length)%ids.length;openStatus(ids[i])}
+$('statClose').addEventListener('click',()=>{$('statv').hidden=true});$('statv').addEventListener('click',e=>{if(e.target.id==='statv')$('statv').hidden=true});
+$('statPrev').addEventListener('click',()=>statMove(-1));$('statNext').addEventListener('click',()=>statMove(1));
+$('statUse').addEventListener('click',()=>{myChr=statId;lsSet('unko-chr',myChr);drawPicker();drawKise();openStatus(statId);toast(charOf(statId).name+'にしたよ！')});
 })();
 </script>
 
